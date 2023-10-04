@@ -1,0 +1,120 @@
+version: '3.7'
+
+services:
+######################################################
+# TRE LAYER
+######################################################
+
+  tre-ui:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${verTUI}
+    container_name: treUI
+    restart: always
+    networks:
+      - tre-net
+    ports:
+      - 8989:80
+    depends_on:
+      - tre-api
+    environment:
+      - TreAPISettings__Address=http://treAPI
+      - DareAPISettings__Address=http://treAPI
+      - KeyCloakSettings__TokenExpiredAddress=http://localhost:5001/Account/LoginAfterTokenExpired
+      - Serilog__SeqServerUrl=http://seq-tre:5341
+
+  tre-api:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${verTAPI}
+    container_name: treAPI
+    restart: always
+    networks:
+      - tre-net
+    ports:
+      - 8072:80
+    depends_on:
+      postgresql_tre:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - RabbitMQ__HostAddress=rabbitmq-tre
+      - Serilog__SeqServerUrl=http://seq-tre:5341
+      - DARE-API__Address=${submissionurl}
+
+######################################################
+# POSTGRES
+######################################################
+  postgresql_tre:
+    image: docker.io/bitnami/postgresql:latest
+    container_name: postgres-tre
+    restart: always
+    environment:
+#      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=${PGLOGIN}
+      - POSTGRESQL_DATABASE=DARE-Control
+      - POSTGRESQL_PASSWORD=${PGPASSWORD}
+    networks:
+      - tre-net
+    ports:
+      - "5433:5432"
+    volumes:
+#      - 'postgresql_data:/bitnami/postgresql'
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
+  
+######################################################
+# SEQ / Serilog
+######################################################      
+  seq-tre:
+    image: datalust/seq:latest
+    container_name: seq-tre
+    restart: always
+    networks:
+      - tre-net
+    ports:
+      - 5342:80
+    volumes:
+      - seq_data2:/data
+    environment:
+      - ACCEPT_EULA=Y
+
+######################################################
+# Rabbit MQ
+######################################################
+
+  rabbitmq-tre:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq-tre'
+    hostname: rabbitmq-tre
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbitdata2:/var/lib/rabbitmq/
+        - rabbitlogs2:/var/log/rabbitmq
+    networks:
+      - sub-net
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+######################################################
+# VOLUME
+######################################################
+volumes:
+    postgresql_data2:
+      driver: local
+    seq_data2:
+      driver: local
+    rabbitdata2:
+      driver: local
+    rabbitlogs2:
+      driver: local      
+
+######################################################
+# networks
+######################################################      
+networks:
+  tre-net:
+    driver: bridge
+     
