@@ -11,7 +11,7 @@ services:
     image: nginx:latest
     container_name: nginx_tre
     ports:
-      - 8888:80
+      - 8890:80
     networks:
       - tre-net
     depends_on:
