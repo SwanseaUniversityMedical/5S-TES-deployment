@@ -1,6 +1,25 @@
 version: '3.7'
 
 services:
+
+
+######################################################
+# TRE Proxy
+######################################################
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_tre
+    ports:
+      - 8888:80
+    networks:
+      - tre-net
+    depends_on:
+      - tre-api
+      - tre-ui
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+
 ######################################################
 # TRE LAYER
 ######################################################
@@ -91,7 +110,7 @@ services:
         - rabbitdata2:/var/lib/rabbitmq/
         - rabbitlogs2:/var/log/rabbitmq
     networks:
-      - sub-net
+      - tre-net
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
