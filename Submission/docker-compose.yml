@@ -3,6 +3,23 @@ version: '3.7'
 services:
 
 ######################################################
+# TRE Proxy
+######################################################
+
+  nginx-submission:
+    image: nginx:latest
+    container_name: nginx_submission
+    ports:
+      - 8888:80
+    networks:
+      - tre-net
+    depends_on:
+      - control
+      - control-api
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+
+######################################################
 # SUBMISSION LAYER
 ######################################################
 

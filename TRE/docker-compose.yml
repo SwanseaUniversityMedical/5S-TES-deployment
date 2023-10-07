@@ -7,7 +7,7 @@ services:
 # TRE Proxy
 ######################################################
 
-  nginx:
+  nginx-tre:
     image: nginx:latest
     container_name: nginx_tre
     ports:
