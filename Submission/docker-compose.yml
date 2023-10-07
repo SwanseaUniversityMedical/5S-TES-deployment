@@ -12,7 +12,7 @@ services:
     ports:
       - 8888:80
     networks:
-      - tre-net
+      - sub-net
     depends_on:
       - control
       - control-api
