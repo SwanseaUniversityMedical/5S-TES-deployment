@@ -56,10 +56,10 @@ services:
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - DARE-API__Address=${submissionurl}
-      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__Proxy=true
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy=${proxybypass}
-      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__Proxy=true
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=${proxybypass}
 
