@@ -38,7 +38,7 @@ services:
       - TreAPISettings__Address=http://treAPI
       - DareAPISettings__Address=http://treAPI
       - Serilog__SeqServerUrl=http://seq-tre:5341
-      - TreKeyCloakSettings__Proxy=true
+      - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy=""    
       - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
@@ -61,13 +61,13 @@ services:
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - DARE-API__Address=${submissionurl}
-      - TreKeyCloakSettings__Proxy=true
+      - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy=${proxybypass}
       - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - SubmissionKeyCloakSettings__Proxy=true
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=${proxybypass}
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
