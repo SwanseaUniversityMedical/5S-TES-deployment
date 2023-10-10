@@ -37,7 +37,6 @@ services:
     environment:
       - TreAPISettings__Address=http://treAPI
       - DareAPISettings__Address=http://treAPI
-      - KeyCloakSettings__TokenExpiredAddress=http://localhost:5001/Account/LoginAfterTokenExpired
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Proxy=true
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
