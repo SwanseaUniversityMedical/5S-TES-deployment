@@ -40,12 +40,12 @@ services:
       - DareAPISettings__Address=http://submissionAPI:80
       - DareAPISettings_HelpAddress=http://localhost:5034
       - FormIOSettings__UseInternal=true
-      - TreKeyCloakSettings__Proxy=${useproxy}
-      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy=""    
-      - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy=""    
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
 
   control-api:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${verAPI}
@@ -66,12 +66,12 @@ services:
       - RabbitMQ__HostAddress=rabbitmq     
       - Serilog__SeqServerUrl=http://seq:5341
       - MinioSettings__Url=Minio:9000
-      - TreKeyCloakSettings__Proxy=${useproxy}
-      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy=""    
-      - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy=""    
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
 
 ######################################################
 # POSTGRES
