@@ -43,7 +43,7 @@ services:
       - FormIOSettings__UseInternal=true
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy=""    
+      - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"    
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
@@ -69,7 +69,7 @@ services:
       - MinioSettings__Url=Minio:9000
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy=""    
+      - SubmissionKeyCloakSettings__BypassProxy="Minio,seq"    
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
