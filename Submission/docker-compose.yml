@@ -10,7 +10,7 @@ services:
     image: nginx:latest
     container_name: nginx_submission
     ports:
-      - 8888:80
+      - 9999:80
     networks:
       - sub-net
     depends_on:
@@ -31,6 +31,7 @@ services:
       - sub-net
     ports:
       - 7220:80
+      - 8888:80
     depends_on:
       - control-api
     environment:
