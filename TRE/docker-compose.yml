@@ -40,7 +40,7 @@ services:
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Proxy=true
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy=${proxybypass}      
+      - TreKeyCloakSettings__BypassProxy=""    
       - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
