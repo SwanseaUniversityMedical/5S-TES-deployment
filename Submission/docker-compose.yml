@@ -148,12 +148,12 @@ services:
     restart: always
     command: server /data --console-address ":9001"
     environment:
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KeyCloakURL}
-      - MINIO_IDENTITY_OPENID_CLIENT_ID=${KeyCloakMinioClientId}
-      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${KeyCloakMinioClientSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=KEYLOAK
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=https://auth2.ukserp.ac.uk/realms/Dare-Control/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
+      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=MfjRrZJn6vL48MgCyoRn6H8Rr7sv02i0
+      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
       - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
     networks:
