@@ -157,6 +157,9 @@ services:
       - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
       - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
+      - no_proxy=192.168.*.*,172.17.*.*,localhost,0.0.0.0                                                                                                  
+      - http_proxy=http://192.168.10.15:8080                                                                                                               
+      - https_proxy=http://192.168.10.15:8080
     networks:
       - sub-net
     volumes:
