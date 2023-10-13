@@ -143,7 +143,7 @@ services:
 # MINIO
 ######################################################      
   minio:
-    image: quay.io/minio/minio
+    image: quay.io/minio/minio:RELEASE.2023-10-07T15-07-38Z
     container_name: minio
     restart: always
     command: server /data --console-address ":9001"
