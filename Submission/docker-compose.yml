@@ -73,7 +73,7 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - Testdata=false
+      - Testdata=true
 
 ######################################################
 # POSTGRES
