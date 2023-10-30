@@ -77,6 +77,12 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
+      - MinioSubSettings__Url = "minioIn:9000"
+      - MinioSubSettings__AccessKey = "minio"
+      - MinioSubSettings__SecretKey = "minio123"
+      - MinioSubSettings__BucketName = "testbucket"
+      - MinioSubSettings__AdminConsole = "minioIn:9001"
+
       
 
 ######################################################
@@ -120,8 +126,6 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
       
-      
-      
   postgresql-hasura-query:
     image: docker.io/bitnami/postgresql:latest
     container_name: postgresql-hasura-query
@@ -141,7 +145,33 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
   
-  
+######################################################
+# MINIOIn
+######################################################      
+  minioIn:
+    image: quay.io/minio/minio:RELEASE.2023-10-07T15-07-38Z
+    container_name: minio
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=minio123
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=https://auth2.ukserp.ac.uk/realms/Dare-Control/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
+      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=MfjRrZJn6vL48MgCyoRn6H8Rr7sv02i0
+      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
+      - MINIO_IDENTITY_OPENID_SCOPES=openid
+      - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
+      - no_proxy=192.168.*.*,172.17.*.*,localhost,0.0.0.0                                                                                                  
+      - http_proxy=http://192.168.10.15:8080                                                                                                               
+      - https_proxy=http://192.168.10.15:8080
+    networks:
+      - tre-net
+    volumes:
+      - minio_data:/data
+    ports:
+      - 9000:9000
+      - 9001:9001 
   
 ######################################################
 # SEQ / Serilog
