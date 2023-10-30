@@ -39,7 +39,7 @@ services:
       - Serilog__SeqServerUrl=http://seq:5341
       - KeyCloakSettings__Proxy=false
       - DareAPISettings__Address=http://submissionAPI:80
-      - DareAPISettings_HelpAddress=http://localhost:5034
+      - DareAPISettings_HelpAddress=http://submissionAPI:5034
       - FormIOSettings__UseInternal=true
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
