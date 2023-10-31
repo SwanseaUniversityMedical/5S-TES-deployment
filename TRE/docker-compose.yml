@@ -35,8 +35,6 @@ services:
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__Address=http://treAPI
-      - DareAPISettings__Address=http://treAPI
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -61,7 +59,6 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq-tre:5341
-      - DARE-API__Address=${submissionurl}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy=${proxybypass}
@@ -82,6 +79,8 @@ services:
       - MinioSubSettings__SecretKey = "minio123"
       - MinioSubSettings__BucketName = "testbucket"
       - MinioSubSettings__AdminConsole = "minioIn:9001"
+      - TreAPISettings__Address=http://treAPI:80
+      - DareAPISettings__Address=${submissionurl}
 
       
 
