@@ -75,14 +75,19 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
-      - MinioSubSettings__Url = "minioIn:9000"
+      - MinioTRESettings__Url =minioIn:9000
+      - MinioTRESettings__AccessKey = "minio"
+      - MinioTRESettings__SecretKey = "minio123"
+      - MinioTRESettings__BucketName = "testbucket"
+      - MinioTRESettings__AdminConsole =minioIn:9001
+      - TreAPISettings__Address=http://treAPI:80
+      - DareAPISettings__Address=${submissionurl}
+      - HasuraSettings__HasuraURL=http://hasura-engine:8080
+      - MinioSubSettings__Url=192.168.70.87:9000
       - MinioSubSettings__AccessKey = "minio"
       - MinioSubSettings__SecretKey = "minio123"
       - MinioSubSettings__BucketName = "testbucket"
-      - MinioSubSettings__AdminConsole = "minioIn:9001"
-      - TreAPISettings__Address=http://treAPI:80
-      - DareAPISettings__Address=${submissionurl}
-
+      - MinioSubSettings__AdminConsole =192.168.70.87:9001
       
 
 ######################################################
