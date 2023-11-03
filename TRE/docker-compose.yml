@@ -38,19 +38,16 @@ services:
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__BypassProxy="treapi,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - TreAPISettings__Address=http://treAPI:80
+      - TreAPISettings__Address=http://treapi:80
 
-  tre-api:
+  treapi:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${verTAPI}
-    container_name: treAPI
+    container_name: treapi
     restart: always
-    networks:
-      IPBridgeMiniio:
-        ipv4_address: 172.18.0.2
     networks:
       - tre-net
       - engine-tre
@@ -64,12 +61,14 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq-tre:5341
+      - TreKeyCloakSettings__Authority=https://auth2.ukserp.ac.uk/realms/Dare-TRE
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy=${proxybypass}
       - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__Authority=https://auth2.ukserp.ac.uk/realms/Dare-Control
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=${proxybypass}
@@ -84,7 +83,6 @@ services:
       - MinioTRESettings__SecretKey="minio123"
       - MinioTRESettings__BucketName="testbucket"
       - MinioTRESettings__AdminConsole=host.docker.internal:9001
-      - TreAPISettings__Address=http://treAPI:80
       - DareAPISettings__Address=${submissionurl}
       - HasuraSettings__HasuraURL=http://hasura-engine:8080
       - MinioSubSettings__Url=192.168.70.87:9000
@@ -187,9 +185,6 @@ services:
       - https_proxy=http://192.168.10.15:8080
     networks:
       - tre-net
-    networks:
-      IPBridgeMiniio:
-        ipv4_address: 172.18.0.5
     volumes:
       - minio_data:/data
     ports:
@@ -313,9 +308,3 @@ networks:
     driver: bridge
   engine-tre:
     driver: bridge
-  IPBridgeMiniio:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.0/16
