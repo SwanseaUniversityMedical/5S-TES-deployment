@@ -84,11 +84,11 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
-      - MinioTRESettings__Url=host.docker.internal:9000
+      - MinioTRESettings__Url=minioIn:9000
       - MinioTRESettings__AccessKey=minio
       - MinioTRESettings__SecretKey=minio123
       - MinioTRESettings__BucketName=testbucket
-      - MinioTRESettings__AdminConsole=host.docker.internal:9001
+      - MinioTRESettings__AdminConsole=minioIn:9001
       - DareAPISettings__Address=${submissionurl}
       - HasuraSettings__HasuraURL=http://hasura-engine:8080
       - MinioSubSettings__Url=192.168.70.87:9000
@@ -96,8 +96,8 @@ services:
       - MinioSubSettings__SecretKey=minio123
       - MinioSubSettings__BucketName=testbucket
       - MinioSubSettings__AdminConsole=192.168.70.87:9001
-      - MinioSubSettings__AWSRegion="us-east-1"
-      - MinioTRESettings__AWSRegion="us-east-1"
+      - MinioSubSettings__AWSRegion=us-east-1
+      - MinioTRESettings__AWSRegion=us-east-1
       
 
 ######################################################
@@ -186,6 +186,7 @@ services:
       - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
       - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
+      - MINIO_REGION=us-east-1
       - no_proxy=192.168.*.*,172.17.*.*,localhost,0.0.0.0                                                                                                  
       - http_proxy=http://192.168.10.15:8080                                                                                                               
       - https_proxy=http://192.168.10.15:8080
