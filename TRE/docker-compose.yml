@@ -98,7 +98,8 @@ services:
       - MinioSubSettings__AdminConsole=192.168.70.87:9001
       - MinioSubSettings__AWSRegion=us-east-1
       - MinioTRESettings__AWSRegion=us-east-1
-      
+      - JobSettings__syncSchedule = 1
+      - JobSettings__scanSchedule = 1
 
 ######################################################
 # POSTGRES
