@@ -84,11 +84,11 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
-      - MinioTRESettings__Url=minioIn:9000
+      - MinioTRESettings__Url=http://minioIn:9000
       - MinioTRESettings__AccessKey=minio
       - MinioTRESettings__SecretKey=minio123
       - MinioTRESettings__BucketName=testbucket
-      - MinioTRESettings__AdminConsole=minioIn:9001
+      - MinioTRESettings__AdminConsole=http://minioIn:9001
       - DareAPISettings__Address=${submissionurl}
       - HasuraSettings__HasuraURL=http://hasura-engine:8080
       - MinioSubSettings__Url=192.168.70.87:9000
