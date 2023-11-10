@@ -78,6 +78,7 @@ services:
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
       - Testdata=true
+      - TEMPTES__UesTES=true
 
 ######################################################
 # POSTGRES
