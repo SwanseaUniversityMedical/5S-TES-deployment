@@ -57,7 +57,7 @@ services:
       postgresql_tre:
         condition: service_healthy
     environment:
-      - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Authority=https://auth2.ukserp.ac.uk/realms/Dare-TRE
@@ -77,6 +77,7 @@ services:
       - DataEgressKeyCloakSettings__Authority=https://auth2.ukserp.ac.uk/auth/realms/Data-Egress
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,seq-tre" 
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - MinioTRESettings__Url=http://minioIn:9000
       - MinioTRESettings__AccessKey=minio
@@ -170,6 +171,7 @@ services:
       - JobSettings__syncSchedule = 1
       - JobSettings__scanSchedule = 1
       - AgentSettings__TESKOutputBucketPrefix=http://192.168.70.84:9000/
+      - DataEgressAPISettings__Address=http://DataEgressAPI:80
 
 ######################################################
 # POSTGRES
