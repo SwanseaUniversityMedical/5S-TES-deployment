@@ -142,9 +142,10 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - DataEgressKeyCloakSettings__Authority=https://auth2.ukserp.ac.uk/realms/Dare-Control
+      - DataEgressKeyCloakSettings__Authority=https://auth2.ukserp.ac.uk/auth/realms/Data-Egress
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,seq-tre" 
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
