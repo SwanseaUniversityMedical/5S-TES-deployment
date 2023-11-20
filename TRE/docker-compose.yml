@@ -173,6 +173,8 @@ services:
       - JobSettings__scanSchedule = 1
       - AgentSettings__TESKOutputBucketPrefix=http://192.168.70.84:9000/
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
+      - AgentSettings__URLHasuraToAdd=http://192.168.70.84:8080
 
 ######################################################
 # POSTGRES

@@ -47,6 +47,8 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - URLSettingsFrontEnd__MinioUrl=localhost:9001
+  
 
   submissionAPI:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${verAPI}
