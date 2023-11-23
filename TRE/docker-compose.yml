@@ -171,7 +171,7 @@ services:
       - MinioTRESettings__AWSRegion=us-east-1
       - JobSettings__syncSchedule = 1
       - JobSettings__scanSchedule = 1
-      - AgentSettings__TESKOutputBucketPrefix=http://192.168.70.84:9000/
+      - AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
       - AgentSettings__URLHasuraToAdd=http://192.168.70.84:8080
