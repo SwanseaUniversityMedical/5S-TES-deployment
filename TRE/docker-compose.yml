@@ -79,11 +79,11 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,seq-tre" 
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - MinioTRESettings__Url=http://minioIn:9000
-      - MinioTRESettings__AccessKey=minio
-      - MinioTRESettings__SecretKey=minio123
-      - MinioTRESettings__BucketName=testbucket
-      - MinioTRESettings__AdminConsole=http://minioIn:9001
+      - MinioSettings__Url=http://minioIn:9000
+      - MinioSettings__AccessKey=minio
+      - MinioSettings__SecretKey=minio123
+      - MinioSettings__BucketName=testbucket
+      - MinioSettings__AdminConsole=http://minioIn:9001
       - TreAPISettings__Address=http://treapi:80
       - DataEgressAPISettings__Address=http://192.168.70.84:8100
 
