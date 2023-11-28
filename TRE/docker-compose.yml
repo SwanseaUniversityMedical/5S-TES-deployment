@@ -38,12 +38,42 @@ services:
       - TreAPISettings__Address=http://treAPI
       - DareAPISettings__Address=http://treAPI
       - Serilog__SeqServerUrl=http://seq-tre:5341
+      - TreKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - EgressKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - EgressKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - EgressKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - EgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
+      - EgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - EgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - EgressKeyCloakSettings__Proxy=${useproxy}
+      - EgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - EgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - EgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - EgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - EgressKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${SubmissionKeyCloakRealm}
+      - SubmissionKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${SubmissionKeyCloakRealm}/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${SubmissionKeyCloakRealm}
+      - SubmissionKeyCloakSettings__ClientId=${SubmissionKeyCloakClientId}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionKeyCloakSecret}
+      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
 
   tre-api:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${verTAPI}
