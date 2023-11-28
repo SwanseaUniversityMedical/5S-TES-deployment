@@ -35,8 +35,7 @@ services:
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__Address=http://treAPI
-      - DareAPISettings__Address=http://submissionAPI
+      - TreAPISettings__Address=http://treAPI    
       
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
@@ -111,6 +110,19 @@ services:
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
       - TreName=${TreName}
+      - MinioTRESettings__Url=http://minioTre:9000
+      - MinioTRESettings__AccessKey=${TreMinioAdminUser}
+      - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
+      - MinioTRESettings__AdminConsole=http://minioTre:9001
+      - MinioSubSettings__Url=${submissionMinioUrl}
+      - MinioSubSettings__AccessKey=${SubmissionMinioAdminUser}
+      - MinioSubSettings__SecretKey=${SubmissionMinioAdminPassword}
+      - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
+      - Hutch__APIAddress=${HutchAPIAddress}
+      - Hutch__DbServer=${HutchDbServer}
+      - Hutch__DbName=${HutchDbName}
+      - Hutch__DbPort=${HutchDbPort}
+ 
       
 
 ######################################################
@@ -175,8 +187,28 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
   
-  
-  
+######################################################
+# Minio
+######################################################   
+  minio:
+    image: quay.io/minio/minio
+    restart: always
+    container_name: minioTre
+    command: server /data --console-address ":9001"
+    environment:
+      - MINIO_ROOT_USER=${TreMinioAdminUser}
+      - MINIO_ROOT_PASSWORD=${TreMinioAdminPassword}
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-${TreMinioKeyCloakClientId}
+      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${TreMinioKeyCloakSecret}
+      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
+      - MINIO_IDENTITY_OPENID_SCOPES=openid
+      - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
+    volumes:
+      - minio_data:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
 ######################################################
 # SEQ / Serilog
 ######################################################      
@@ -272,6 +304,8 @@ volumes:
     postgresql_data2:
       driver: local
     seq_data2:
+      driver: local
+    minio_data:
       driver: local
     rabbitdata2:
       driver: local
