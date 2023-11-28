@@ -110,6 +110,7 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
+      - TreName=${TreName}
       
 
 ######################################################
