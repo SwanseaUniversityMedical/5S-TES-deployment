@@ -198,7 +198,7 @@ services:
     environment:
       - MINIO_ROOT_USER=${TreMinioAdminUser}
       - MINIO_ROOT_PASSWORD=${TreMinioAdminPassword}
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
       - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-${TreMinioKeyCloakClientId}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${TreMinioKeyCloakSecret}
       - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
