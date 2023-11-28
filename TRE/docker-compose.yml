@@ -124,6 +124,30 @@ services:
       - Hutch__DbPort=${HutchDbPort}
  
       
+  egress-ui:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${verEUI}
+    container_name: egressUI
+    restart: always
+    networks:
+      - tre-net
+    ports:
+      - 8999:80
+    depends_on:
+      - egress-api
+#    environment:
+#      - TreAPISettings__Address=http://treAPI
+#      - DareAPISettings__Address=http://treAPI
+#      - KeyCloakSettings__TokenExpiredAddress=http://localhost:5001/Account/LoginAfterTokenExpired
+#      - Serilog__SeqServerUrl=http://seq-tre:5341
+
+  egress-api:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${verEAPI}
+    container_name: egressAPI
+    restart: always
+    networks:
+      - tre-net
+    ports:
+      - 8072:80
 
 ######################################################
 # POSTGRES
