@@ -134,11 +134,16 @@ services:
       - 8999:80
     depends_on:
       - egress-api
-#    environment:
-#      - TreAPISettings__Address=http://treAPI
-#      - DareAPISettings__Address=http://treAPI
-#      - KeyCloakSettings__TokenExpiredAddress=http://localhost:5001/Account/LoginAfterTokenExpired
-#      - Serilog__SeqServerUrl=http://seq-tre:5341
+    environment:
+      - DataEgressAPISettings__Address=http://egressAPI
+      - Serilog__SeqServerUrl=http://seq-tre:5341
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - DataEgressKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+     
 
   egress-api:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${verEAPI}
@@ -147,7 +152,7 @@ services:
     networks:
       - tre-net
     ports:
-      - 8072:80
+      - 8073:80
     environment:
       - MinioSettings__Url=http://minioTre:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
