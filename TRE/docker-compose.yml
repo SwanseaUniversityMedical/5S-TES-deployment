@@ -148,6 +148,12 @@ services:
       - tre-net
     ports:
       - 8072:80
+    environment:
+      - MinioSettings__Url=http://minioTre:9000
+      - MinioSettings__AccessKey=${TreMinioAdminUser}
+      - MinioSettings__SecretKey=${TreMinioAdminPassword}
+      - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DARE-Egree;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+
 
 ######################################################
 # POSTGRES
