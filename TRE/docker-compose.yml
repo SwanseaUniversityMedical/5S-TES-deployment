@@ -137,12 +137,17 @@ services:
     environment:
       - DataEgressAPISettings__Address=http://egressAPI
       - Serilog__SeqServerUrl=http://seq-tre:5341
+      - DataEgressKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
      
 
   egress-api:
@@ -154,10 +159,35 @@ services:
     ports:
       - 8073:80
     environment:
+      - TreAPISettings__Address=http://treAPI    
       - MinioSettings__Url=http://minioTre:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
-      - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DARE-Egree;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - MinioSettings__AdminConsole=http://minioTre:9001
+      - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - TreKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
 
 
 ######################################################

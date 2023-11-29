@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Submission",
     "\\TRE"
   ],
-  "SelectedNode": "\\TRE\\.env",
+  "SelectedNode": "\\Submission\\docker-compose.yml",
   "PreviewInSolutionExplorer": false
 }
