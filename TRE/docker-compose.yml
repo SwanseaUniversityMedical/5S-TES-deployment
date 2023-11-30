@@ -122,6 +122,7 @@ services:
       - Hutch__DbServer=${HutchDbServer}
       - Hutch__DbName=${HutchDbName}
       - Hutch__DbPort=${HutchDbPort}
+      - HasuraSettings__HasuraURL=${HasuraURL}
  
       
   egress-ui:
