@@ -38,9 +38,9 @@ services:
       - TreAPISettings__Address=http://treAPI    
       
       - Serilog__SeqServerUrl=http://seq-tre:5341
-      - TreKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
-      - TreKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
-      - TreKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
@@ -138,9 +138,9 @@ services:
     environment:
       - DataEgressAPISettings__Address=http://egressAPI
       - Serilog__SeqServerUrl=http://seq-tre:5341
-      - DataEgressKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
-      - DataEgressKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
@@ -166,9 +166,9 @@ services:
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__AdminConsole=http://minioTre:9001
       - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
-      - TreKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
-      - TreKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
-      - TreKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
