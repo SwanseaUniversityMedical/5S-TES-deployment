@@ -47,9 +47,9 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
      
 
   tre-api:
@@ -79,9 +79,9 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
@@ -147,7 +147,7 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
      
 
@@ -175,9 +175,9 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - TreKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
@@ -187,7 +187,7 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
 
 
