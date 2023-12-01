@@ -319,7 +319,7 @@ services:
 ######################################################      
   hasura-engine:
     image: hasura/graphql-engine
-    container_name: hasura
+    container_name: hasura-engine
     ports:
       - "8080:8080"
     restart: always
@@ -340,6 +340,7 @@ services:
         condition: service_healthy
   hasura-agent:
     image: hasura/graphql-data-connector
+    container_name: hasura-agent
     restart: always
     ports:
       - 8081:8081
