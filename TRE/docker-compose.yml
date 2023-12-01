@@ -319,6 +319,7 @@ services:
 ######################################################      
   hasura-engine:
     image: hasura/graphql-engine
+    container_name: hasura
     ports:
       - "8080:8080"
     restart: always
