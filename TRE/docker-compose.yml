@@ -496,8 +496,7 @@ volumes:
       driver: local           
     postgresql_hasura_query_data:
       driver: local   
-    minio_data:
-       driver: local
+
       
 ######################################################
 # networks
