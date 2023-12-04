@@ -176,7 +176,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"    
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
@@ -192,12 +192,6 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubKeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubKeyCloakClientUIRediretURL}
-      - DataEgressKeyCloakSettings__Proxy=${useproxy}
-      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,seq-tre" 
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
-      - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
@@ -229,7 +223,6 @@ services:
       - Hutch__DbPort=${HutchDbPort}
       - HasuraSettings__HasuraURL=${HasuraURL}
 #      - HasuraSettings__HasuraURL=http://hasura-engine:8080
-      
   egress-ui:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${verEUI}
     container_name: egressUI
