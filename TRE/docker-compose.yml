@@ -137,7 +137,7 @@ services:
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
 
 
-  treapi:
+  tre-api:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${verTAPI}
     container_name: treapi
     restart: always
