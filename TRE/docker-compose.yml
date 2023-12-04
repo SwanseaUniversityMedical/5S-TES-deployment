@@ -21,6 +21,89 @@ services:
       - ./default.conf:/etc/nginx/conf.d/default.conf
 
 ######################################################
+# DataEgress LAYER
+######################################################
+
+  DataEgressUI:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${verEUI}
+    container_name: DataEgressUI
+    restart: always
+    networks:
+      - tre-net
+    ports:
+      - 8100:80
+    depends_on:
+      - DataEgressAPI
+    environment:
+      - Serilog__SeqServerUrl=http://seq-tre:5341
+      - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - DataEgressAPISettings__Address=http://DataEgressAPI:80
+
+  DataEgressAPI:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${verEAPI}
+    container_name: DataEgressAPI
+    restart: always
+    networks:
+      - tre-net
+      - engine-tre
+    ports:
+      - 8101:80
+    depends_on:
+      postgresql_tre:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - RabbitMQ__HostAddress=rabbitmq-tre
+      - Serilog__SeqServerUrl=http://seq-tre:5341
+      - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
+      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      #- SubmissionKeyCloakSettings__Authority=https://auth2.ukserp.ac.uk/realms/Dare-Control
+      #- SubmissionKeyCloakSettings__Proxy=${useproxy}
+      #- SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      #- SubmissionKeyCloakSettings__BypassProxy=${proxybypass}
+      # - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      # - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      #- SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}      
+      - MinioSettings__Url=http://minioIn:9000
+      - MinioSettings__AccessKey=minio
+      - MinioSettings__SecretKey=minio123
+      - MinioSettings__BucketName=testbucket
+      - MinioSettings__AdminConsole=http://minioIn:9001
+      - TreAPISettings__Address=http://treapi:80
+      - DataEgressAPISettings__Address=http://192.168.70.84:8100
+
+######################################################
 # TRE LAYER
 ######################################################
 
@@ -35,8 +118,9 @@ services:
     depends_on:
       - tre-api
     environment:
+
       - TreAPISettings__Address=http://treAPI    
-      
+
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
@@ -46,19 +130,21 @@ services:
       - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
-     
 
-  tre-api:
+
+  treapi:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${verTAPI}
-    container_name: treAPI
+    container_name: treapi
     restart: always
     networks:
       - tre-net
       - engine-tre
+      
     ports:
       - 8072:80
     depends_on:
@@ -90,7 +176,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"    
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
@@ -103,13 +189,22 @@ services:
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubKeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__RedirectURL=${SubKeyCloakClientUIRediretURL}
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
+      - JobSettings__syncSchedule = 1
+      - JobSettings__scanSchedule = 1
+      - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
+      - AgentSettings__URLHasuraToAdd=http://192.168.70.84:8080
       - TreName=${TreName}
+      - AgentSettings__Proxy=true
+      - AgentSettings__ProxyAddresURL=${proxyurl}
+      - AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
+      - AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
       - MinioTRESettings__Url=http://minioTre:9000
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
@@ -118,13 +213,15 @@ services:
       - MinioSubSettings__AccessKey=${SubmissionMinioAdminUser}
       - MinioSubSettings__SecretKey=${SubmissionMinioAdminPassword}
       - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
+      - MinioSubSettings__BucketName=testbucket      
+      - MinioSubSettings__AWSRegion=us-east-1
+      - MinioTRESettings__AWSRegion=us-east-1
       - Hutch__APIAddress=${HutchAPIAddress}
       - Hutch__DbServer=${HutchDbServer}
       - Hutch__DbName=${HutchDbName}
       - Hutch__DbPort=${HutchDbPort}
       - HasuraSettings__HasuraURL=${HasuraURL}
- 
-      
+#      - HasuraSettings__HasuraURL=http://hasura-engine:8080
   egress-ui:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${verEUI}
     container_name: egressUI
@@ -178,9 +275,9 @@ services:
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
-      - DataEgressKeyCloakSettings__Authority=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetaAddress=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
-      - DataEgressKeyCloakSettings__BaseUrl=${KeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
@@ -189,6 +286,7 @@ services:
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+
 
 
 ######################################################
@@ -221,7 +319,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password123
       - POSTGRES_DB=DARE-Control
-      - POSTGRES_DB=myCoolDataDB
     networks:
       - engine-tre
     ports:
@@ -232,17 +329,15 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
       
-      
-      
   postgresql-hasura-query:
     image: docker.io/bitnami/postgresql:latest
     container_name: postgresql-hasura-query
     restart: always
     environment:
 #      - ALLOW_EMPTY_PASSWORD=yes
-      - POSTGRESQL_USERNAME=${PGLOGIN}
-      - POSTGRESQL_DATABASE=hasura_data
-      - POSTGRESQL_PASSWORD=${PGPASSWORD}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password123
+      - POSTGRES_DB=myCoolDataDB
     networks:
       - engine-agent
     ports:
@@ -253,6 +348,16 @@ services:
       - ./data:/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
+       
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8087:8080
+    networks:
+      - engine-agent
+      - engine-tre
+      - tre-net
   
 ######################################################
 # Minio
@@ -265,17 +370,24 @@ services:
     environment:
       - MINIO_ROOT_USER=${TreMinioAdminUser}
       - MINIO_ROOT_PASSWORD=${TreMinioAdminPassword}
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
       - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-${TreMinioKeyCloakClientId}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${TreMinioKeyCloakSecret}
       - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
       - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
+      - MINIO_REGION=us-east-1
+      - no_proxy=192.168.*.*,172.17.*.*,localhost,0.0.0.0                                                                                                  
+      - http_proxy=http://192.168.10.15:8080                                                                                                               
+      - https_proxy=http://192.168.10.15:8080
+    networks:
+      - tre-net
     volumes:
       - minio_data:/data
     ports:
       - 9000:9000
       - 9001:9001
+
 ######################################################
 # SEQ / Serilog
 ######################################################      
@@ -328,8 +440,8 @@ services:
       HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:password123@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"athena":{"uri":"http://hasura-agent:8081/api/v1/athena"},"mariadb":{"uri":"http://hasura-agent:8081/api/v1/mariadb"},"mysql8":{"uri":"http://hasura-agent:8081/api/v1/mysql"},"oracle":{"uri":"http://hasura-agent:8081/api/v1/oracle"},"snowflake":{"uri":"http://hasura-agent:8081/api/v1/snowflake"}}}}'
-      POSTGRSS_LOGIN: 'postgres://postgresql-hasura-query:${PGPASSWORD}@${PGLOGIN}:5432/myCoolDataDB'
-      HASURA_GRAPHQL_AUTH_HOOK: 'http://tre-api:80/api/HasuraAuthentication'
+      POSTGRSS_LOGIN: 'postgres://${PGLOGIN}:${PGLOGIN}@postgresql-hasura-query:5432/myCoolDataDB'
+      HASURA_GRAPHQL_AUTH_HOOK: 'http://treapi:80/api/HasuraAuthentication'
       HASURA_GRAPHQL_ADMIN_SECRET: 'ohCOOl'
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
     networks:
@@ -383,7 +495,9 @@ volumes:
     postgresql_hasura_data:
       driver: local           
     postgresql_hasura_query_data:
-      driver: local      
+      driver: local   
+    minio_data:
+       driver: local
       
 ######################################################
 # networks
@@ -395,4 +509,4 @@ networks:
     driver: bridge
   engine-tre:
     driver: bridge
-     
+
