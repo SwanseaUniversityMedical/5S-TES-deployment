@@ -195,7 +195,6 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
-      - DareAPISettings__Address=${submissionurl}
       - JobSettings__syncSchedule = 1
       - JobSettings__scanSchedule = 1
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
