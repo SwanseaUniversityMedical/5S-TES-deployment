@@ -47,7 +47,8 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
+      - URLSettingsFrontEnd__MinioUrl=s3.trefx.ukserp.ac.uk
+#      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
   
 
   submissionAPI:
