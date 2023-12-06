@@ -48,7 +48,7 @@ services:
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
       - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
-  
+      - URLSettingsFrontEnd__QueryImage=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura:pr-478
 
   submissionAPI:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${verAPI}
