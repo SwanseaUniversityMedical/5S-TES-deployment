@@ -311,14 +311,14 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
       
-  postgres:
+  hasura-postgre-metadata:
     image: postgres
-    container_name: postgres
+    container_name: hasura-postgre-metadata
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password123
-      - POSTGRES_DB=DARE-Control
+      - POSTGRES_USER=${HasuraPostgreMetadataUser}
+      - POSTGRES_PASSWORD=${HasuraPostgreMetadataPass}
+      - POSTGRES_DB=${HasuraPostgreMetadataName}
     networks:
       - engine-tre
     ports:
@@ -327,17 +327,16 @@ services:
       - postgresql_hasura_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
+      test: [ "CMD-SHELL", "pg_isready -q -U ${HasuraPostgreMetadataUser} -d ${HasuraPostgreMetadataUser}" ]
       
   postgresql-hasura-query:
     image: docker.io/bitnami/postgresql:latest
     container_name: postgresql-hasura-query
     restart: always
     environment:
-#      - ALLOW_EMPTY_PASSWORD=yes
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password123
-      - POSTGRES_DB=myCoolDataDB
+      - POSTGRES_USER=${PostgreSQLQueryDbUser}
+      - POSTGRES_PASSWORD=${PostgreSQLQueryDbPass}
+      - POSTGRES_DB=${PostgreSQLQueryDbName}
     networks:
       - engine-agent
     ports:
@@ -347,7 +346,7 @@ services:
       - ./init2.sql:/docker-entrypoint-initdb.d/init.sql
       - ./data:/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
+      test: [ "CMD-SHELL", "pg_isready -q -U ${PostgreSQLQueryDbUser} -d ${PostgreSQLQueryDbUser}" ]
        
   adminer:
     image: adminer
@@ -437,12 +436,12 @@ services:
     restart: always
     environment:
       ## postgres database to store Hasura metadata
-      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://postgres:password123@postgres:5432/postgres
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: 'postgres://${HasuraPostgreMetadataUser}:${HasuraPostgreMetadataPass}@hasura-postgre-metadata:5432/${HasuraPostgreMetadataName}'
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       HASURA_GRAPHQL_METADATA_DEFAULTS: '{"backend_configs":{"dataconnector":{"athena":{"uri":"http://hasura-agent:8081/api/v1/athena"},"mariadb":{"uri":"http://hasura-agent:8081/api/v1/mariadb"},"mysql8":{"uri":"http://hasura-agent:8081/api/v1/mysql"},"oracle":{"uri":"http://hasura-agent:8081/api/v1/oracle"},"snowflake":{"uri":"http://hasura-agent:8081/api/v1/snowflake"}}}}'
-      POSTGRSS_LOGIN: 'postgres://postgres:password123@postgresql-hasura-query:5432/myCoolDataDB'
+      POSTGRSS_LOGIN: 'postgres://${PostgreSQLQueryDbUser}:${PostgreSQLQueryDbPass}@postgresql-hasura-query:5432/${PostgreSQLQueryDbName}'
       HASURA_GRAPHQL_AUTH_HOOK: 'http://treapi:80/api/HasuraAuthentication'
-      HASURA_GRAPHQL_ADMIN_SECRET: 'ohCOOl'
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HasuraPass}
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
     networks:
       - engine-agent
