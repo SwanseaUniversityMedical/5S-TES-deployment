@@ -47,8 +47,16 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
+      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
+      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
       - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
+      
+# AccountManagementURL BaseUrl MetadataAddress Authority
+      
 #      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
   
   submissionAPI:
@@ -80,7 +88,11 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseUrl}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
+      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIClientSecret}
+      
 ######################################################
 # POSTGRES
 ######################################################
