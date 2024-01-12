@@ -37,7 +37,7 @@ services:
     environment:
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
@@ -66,7 +66,7 @@ services:
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
-      - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
@@ -78,7 +78,7 @@ services:
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
@@ -118,19 +118,17 @@ services:
     depends_on:
       - tre-api
     environment:
-
       - TreAPISettings__Address=http://treAPI    
-
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
-      - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-
+      - TreKeyCloakSettings__AccountManagementURL=${AccountManagementURLUI}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
@@ -157,7 +155,7 @@ services:
       - DareAPISettings__Address=${submissionurl}
       - DataEgressAPISettings__Address=https://egressAPI
       - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
-      - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
@@ -169,7 +167,7 @@ services:
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
@@ -181,7 +179,7 @@ services:
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
       - SubmissionKeyCloakSettings__Authority=${SubmissionKeyCloakBaseRealmAddress}${SubmissionKeyCloakRealm}
-      - SubmissionKeyCloakSettings__MetaAddress=${SubmissionKeyCloakBaseRealmAddress}${SubmissionKeyCloakRealm}/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionKeyCloakBaseRealmAddress}${SubmissionKeyCloakRealm}/.well-known/openid-configuration
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionKeyCloakBaseRealmAddress}${SubmissionKeyCloakRealm}
       - SubmissionKeyCloakSettings__ClientId=${SubmissionKeyCloakClientId}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionKeyCloakSecret}
@@ -236,7 +234,7 @@ services:
       - DataEgressAPISettings__Address=http://egressAPI
       - Serilog__SeqServerUrl=http://seq-tre:5341
       - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
@@ -264,7 +262,7 @@ services:
       - MinioSettings__AdminConsole=http://minioTre:9001
       - ConnectionStrings__DefaultConnection=Server=postgres-tre;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
-      - TreKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
@@ -276,7 +274,7 @@ services:
       - TreKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetaAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
