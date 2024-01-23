@@ -128,6 +128,8 @@ services:
       - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
       - TreKeyCloakSettings__AccountManagementURL=${AccountManagementURLUI}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
