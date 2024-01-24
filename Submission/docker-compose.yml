@@ -54,6 +54,8 @@ services:
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
       - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
       
 # AccountManagementURL BaseUrl MetadataAddress Authority
       
