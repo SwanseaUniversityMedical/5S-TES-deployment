@@ -36,17 +36,18 @@ services:
       - DataEgressAPI
     environment:
       - Serilog__SeqServerUrl=http://seq-tre:5341
-      - DataEgressKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
-      - DataEgressKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
-      - DataEgressKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
+      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}${EgressKeyCloakRealm}
       - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
