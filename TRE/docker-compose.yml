@@ -48,6 +48,8 @@ services:
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
 
   DataEgressAPI:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${verEAPI}
