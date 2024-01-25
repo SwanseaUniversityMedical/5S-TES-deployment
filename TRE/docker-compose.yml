@@ -310,7 +310,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgresql_data2:/var/lib/postgresql/data
+      - postgresql_data2:/bitnami/postgresql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
@@ -328,7 +328,7 @@ services:
     ports:
       - 32769:5432
     volumes:
-      - postgresql_hasura_data:/var/lib/postgresql/data
+      - postgresql_hasura_data:/bitnami/postgresql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${HasuraPostgreMetadataUser} -d ${HasuraPostgreMetadataUser}" ]
@@ -346,7 +346,7 @@ services:
     ports:
       - "5435:5432"
     volumes:
-      - postgresql_hasura_query_data:/var/lib/postgresql/data
+      - postgresql_hasura_query_data:/bitnami/postgresql
       - ./init2.sql:/docker-entrypoint-initdb.d/init.sql
       - ./data:/data
     healthcheck:
