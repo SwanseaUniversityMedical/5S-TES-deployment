@@ -112,7 +112,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-#      - 'postgresql_data:/bitnami/postgresql'
+      - 'postgresql_data:/bitnami/postgresql'
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
