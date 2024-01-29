@@ -170,9 +170,9 @@ services:
     command: server /data --console-address ":9001"
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=https://s3web.trefx.ukserp.ac.uk/
-      - MINIO_SERVER_URL=https://s3.trefx.ukserp.ac.uk/
+      - MINIO_ROOT_PASSWORD=${MinioRootPass}      
+      - MINIO_BROWSER_REDIRECT_URL=${MinioBrowser}
+      - MINIO_SERVER_URL=${MinioServerApi}
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfugURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
