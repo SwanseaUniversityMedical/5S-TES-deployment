@@ -160,6 +160,7 @@ services:
       - DareAPISettings__Address=${submissionurl}
       - DataEgressAPISettings__Address=https://egressAPI
       - EnableExternalHangfire=${EnableExternalHangfire}
+      - IgnoreHutchSSL=${IgnoreHutchSSL}
       - TreKeyCloakSettings__Authority=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}/.well-known/openid-configuration
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}${TreKeyCloakRealm}
