@@ -52,7 +52,7 @@ services:
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
-      - SubmissionKeyCloakSettings__UseRedirectURL=true
+      #- SubmissionKeyCloakSettings__UseRedirectURL=true
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
       - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
       - sslcookies=${sslcookies}
