@@ -87,7 +87,7 @@ services:
       - MinioSettings__AdminConsole=http://minioAAA:9001
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="minioAAA,seq"
+      - SubmissionKeyCloakSettings__BypassProxy=minioAAA,seq
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
@@ -95,6 +95,15 @@ services:
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIClientSecret}
+      - SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
+      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
+      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
+      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
+      - SubmissionKeyCloakSettings__Server=${SubmissionServer}
+      - SubmissionKeyCloakSettings__Realm=${SubmissionRealm}
+      - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
+      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
+      - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
       
 ######################################################
 # POSTGRES

@@ -44,7 +44,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre 
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
