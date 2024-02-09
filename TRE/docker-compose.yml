@@ -226,6 +226,7 @@ services:
       - Hutch__DbName=${HutchDbName}
       - Hutch__DbPort=${HutchDbPort}
       - HasuraSettings__HasuraURL=${HasuraURL}
+      - HasuraSettings__HasuraAdminSecret=${HasuraPass}
 #      - HasuraSettings__HasuraURL=http://hasura-engine:8080
   egress-ui:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${verEUI}
