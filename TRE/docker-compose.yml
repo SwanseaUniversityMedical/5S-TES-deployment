@@ -99,8 +99,8 @@ services:
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubKeyCloakClientUIRediretURL}      
       - MinioSettings__Url=http://minioIn:9000
-      - MinioSettings__AccessKey=minio
-      - MinioSettings__SecretKey=minio123
+      - MinioSettings__AccessKey=${TreMinioAdminUser}
+      - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
       - MinioSettings__AdminConsole=http://minioIn:9001
       - TreAPISettings__Address=http://treapi:80
@@ -204,7 +204,7 @@ services:
       - JobSettings__scanSchedule = 1
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
-      - AgentSettings__URLHasuraToAdd=http://192.168.70.131:8080
+      - AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       - AgentSettings__Proxy=true
       - AgentSettings__ProxyAddresURL=${proxyurl}
