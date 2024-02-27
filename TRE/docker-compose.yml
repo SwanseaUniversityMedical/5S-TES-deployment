@@ -211,6 +211,7 @@ services:
       - AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
       - AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
       - MinioTRESettings__Url=http://minioTre:9000
+      - MinioTRESettings__HutchURLOverride=
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
       - MinioTRESettings__AdminConsole=http://minioTre:9001
