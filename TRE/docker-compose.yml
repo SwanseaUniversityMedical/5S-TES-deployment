@@ -293,8 +293,8 @@ services:
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-
-
+      - JobSettings__scanSchedule=${scanSchedule}
+      - JobSettings__syncSchedule=${syncSchedule}
 
 ######################################################
 # POSTGRES
