@@ -202,7 +202,6 @@ services:
       - AgentSettings__UseRabbit=${UseRabbit}
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
-      - EnableExternalHangfire=${EnableExternalHangfire}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
       - AgentSettings__URLHasuraToAdd=${HasuraIP}
