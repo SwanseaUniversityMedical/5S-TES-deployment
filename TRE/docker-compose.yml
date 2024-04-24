@@ -200,8 +200,8 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
       - AgentSettings__UseRabbit=${UseRabbit}
-      - JobSettings__syncSchedule = 1
-      - JobSettings__scanSchedule = 1
+      - JobSettings__scanSchedule=${scanSchedule}
+      - JobSettings__syncSchedule=${syncSchedule}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
       - AgentSettings__URLHasuraToAdd=${HasuraIP}
@@ -293,8 +293,7 @@ services:
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - JobSettings__scanSchedule=${scanSchedule}
-      - JobSettings__syncSchedule=${syncSchedule}
+
 
 ######################################################
 # POSTGRES
