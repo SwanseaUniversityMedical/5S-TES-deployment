@@ -80,6 +80,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
+      - MinioSettings__ProxyAddresURLForExternalFetch=${ProxyAddresURLForExternalFetch}
       - MinioSettings__Url=http://minioAAA:9000
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
