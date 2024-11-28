@@ -234,7 +234,7 @@ services:
 # POSTGRES
 ######################################################
   postgresql_tre:
-    image: docker.io/bitnami/postgresql:latest
+    image: docker.io/bitnami/postgresql:16.6.0
     container_name: postgres-tre
     restart: always
     environment:
@@ -391,7 +391,7 @@ services:
       hasura-agent:
         condition: service_healthy
   hasura-agent:
-    image: hasura/graphql-data-connector
+    image: hasura/graphql-data-connector:v2.33.0
     container_name: hasura-agent
     restart: always
     ports:
