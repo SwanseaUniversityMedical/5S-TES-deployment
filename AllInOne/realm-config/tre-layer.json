@@ -599,6 +599,68 @@
       ],
       "notBefore": 0,
       "groups": []
+    },
+    {
+      "username": "treadmin",
+      "enabled": true,
+      "email": "treadmin@example.com",
+      "firstName": "Tre",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "dare-tre-admin",
+        "default-roles-dare-control"
+      ],
+      "groups": [
+        "/dare-tre-admin"
+      ]
+    },
+    {
+      "username": "treapiadmin",
+      "enabled": true,
+      "email": "treapiadmin@example.com",
+      "firstName": "TreApi",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "dare-tre-admin",
+        "dare-results-admin",
+        "default-roles-dare-control"
+      ],
+      "groups": [
+        "/dare-tre-admin"
+
+      ]
+    },
+    {
+      "username": "resultsadmin",
+      "enabled": true,
+      "email": "resultsadmin@example.com",
+      "firstName": "Results",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "dare-results-admin",
+        "default-roles-dare-control"
+      ]
     }
   ],
   "scopeMappings": [
