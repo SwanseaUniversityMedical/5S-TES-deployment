@@ -1,9 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\AllInOne",
+    "\\AllInOne\\realm-config",
+    "\\Diagram",
     "\\Submission",
     "\\TRE"
   ],
-  "SelectedNode": "\\TRE\\docker-compose.yml",
+  "SelectedNode": "\\AllInOne\\realm-config",
   "PreviewInSolutionExplorer": false
 }

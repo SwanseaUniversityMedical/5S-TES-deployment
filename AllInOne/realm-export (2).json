@@ -18,7 +18,7 @@
           ]
         }
       }
-    ]    
+    ]
   },
   "groups": [
     {
@@ -35,7 +35,7 @@
       }
     }
   ],
-  ,
+
   "users": [
     {
       "username": "treadmin",
@@ -94,7 +94,7 @@
           "temporary": false
         }
       ],
-      "realmRoles": [        
+      "realmRoles": [
         "dare-results-admin",
         "default-roles-dare-control"
       ]
@@ -198,7 +198,7 @@
         "DARE-TRE-API"
       ]
     }
-    
+
   ],
   "clientScopes": [
     {
@@ -304,5 +304,5 @@
     "acr",
     "roles",
     "minio-authorization"
-  ]  
+  ]
 }
