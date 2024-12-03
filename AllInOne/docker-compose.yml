@@ -128,15 +128,15 @@ services:
       KC_LOG_LEVEL: info
       KC_METRICS_ENABLED: true
       KC_HEALTH_ENABLED: true
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       # Admin credentials
   
       
       # Enable client and user configuration during startup
     networks:
       - sub-net 
-    command: start-dev  --import-realm
+    command: start-dev  --import-realm 
     depends_on:
       - postgresql
     ports:
