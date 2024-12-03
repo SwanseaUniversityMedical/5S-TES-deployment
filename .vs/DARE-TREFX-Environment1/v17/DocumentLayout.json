@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\sub-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AllInOne\\realm-config\\sub-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AllInOne\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -15,12 +15,16 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Submission\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\tre-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AllInOne\\realm-config\\tre-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\sub-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AllInOne\\realm-config\\sub-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AllInOne\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\egress-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AllInOne\\realm-config\\egress-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\tre-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:AllInOne\\realm-config\\tre-layer.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\init.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
@@ -66,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -106,40 +110,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "sub-layer.json",
-              "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\sub-layer.json",
-              "RelativeDocumentMoniker": "AllInOne\\realm-config\\sub-layer.json",
-              "ToolTip": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\sub-layer.json",
-              "RelativeToolTip": "AllInOne\\realm-config\\sub-layer.json",
-              "ViewState": "AQIAAIgEAAAAAAAAAAAlwDAEAAA1AAAA",
+              "DocumentIndex": 4,
+              "Title": "egress-layer.json",
+              "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\egress-layer.json",
+              "RelativeDocumentMoniker": "AllInOne\\realm-config\\egress-layer.json",
+              "ToolTip": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\egress-layer.json",
+              "RelativeToolTip": "AllInOne\\realm-config\\egress-layer.json",
+              "ViewState": "AQIAACACAAAAAAAAAAAQwD8CAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-03T11:31:01.343Z",
+              "WhenOpened": "2024-12-03T12:35:54.563Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "sub-layer.json",
+              "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\sub-layer.json",
+              "RelativeDocumentMoniker": "AllInOne\\realm-config\\sub-layer.json",
+              "ToolTip": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\sub-layer.json",
+              "RelativeToolTip": "AllInOne\\realm-config\\sub-layer.json",
+              "ViewState": "AQIAAF4EAAAAAAAAAAAlwHEEAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-03T12:18:20.295Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "tre-layer.json",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\tre-layer.json",
               "RelativeDocumentMoniker": "AllInOne\\realm-config\\tre-layer.json",
               "ToolTip": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\realm-config\\tre-layer.json",
               "RelativeToolTip": "AllInOne\\realm-config\\tre-layer.json",
-              "ViewState": "AQIAAGwCAAAAAAAAAAAYwHICAAAWAAAA",
+              "ViewState": "AQIAAG4CAAAAAAAAAAAQwIsCAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-02T17:19:42.235Z"
+              "WhenOpened": "2024-12-02T17:19:42.235Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": ".env",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\.env",
               "RelativeDocumentMoniker": "AllInOne\\.env",
               "ToolTip": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\.env",
               "RelativeToolTip": "AllInOne\\.env",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAASAAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAABsAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-11-29T11:06:20.103Z"
+              "WhenOpened": "2024-11-29T11:06:20.103Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -149,14 +168,14 @@
               "RelativeDocumentMoniker": "AllInOne\\docker-compose.yml",
               "ToolTip": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\docker-compose.yml",
               "RelativeToolTip": "AllInOne\\docker-compose.yml",
-              "ViewState": "AQIAAH4AAAAAAAAAAAAAAIoAAAAmAAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAAF8AAAAyAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
               "WhenOpened": "2024-11-29T11:05:57.525Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "init.sql",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\init.sql",
               "RelativeDocumentMoniker": "AllInOne\\init.sql",
@@ -167,7 +186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "init.sql",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\TRE\\init.sql",
               "RelativeDocumentMoniker": "TRE\\init.sql",
@@ -178,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "init2.sql",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\TRE\\init2.sql",
               "RelativeDocumentMoniker": "TRE\\init2.sql",
@@ -189,7 +208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "default.conf",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\AllInOne\\default.conf",
               "RelativeDocumentMoniker": "AllInOne\\default.conf",
@@ -201,7 +220,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": ".env",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\TRE\\.env",
               "RelativeDocumentMoniker": "TRE\\.env",
@@ -212,7 +231,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": ".env",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\Submission\\.env",
               "RelativeDocumentMoniker": "Submission\\.env",
@@ -230,13 +249,14 @@
               "RelativeDocumentMoniker": "Submission\\docker-compose.yml",
               "ToolTip": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\Submission\\docker-compose.yml",
               "RelativeToolTip": "Submission\\docker-compose.yml",
-              "ViewState": "AQIAADYAAAAAAAAAAAAAAEQAAAANAAAA",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAADEAAABLAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2023-11-28T15:11:25.765Z"
+              "WhenOpened": "2023-11-28T15:11:25.765Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "default.conf",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\TRE\\default.conf",
               "RelativeDocumentMoniker": "TRE\\default.conf",
@@ -248,7 +268,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "docker-compose.yml",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\TRE\\docker-compose.yml",
               "RelativeDocumentMoniker": "TRE\\docker-compose.yml",
@@ -260,7 +280,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "README.md",
               "DocumentMoniker": "C:\\Users\\jaybee\\Documents\\GitHub\\DARE-TREFX-Environment1\\README.md",
               "RelativeDocumentMoniker": "README.md",
