@@ -40,6 +40,7 @@ services:
     environment:
       - TreAPISettings__Address=http://treAPI    
       - Serilog__SeqServerUrl=http://seq:5341
+      - DemoMode=true
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -71,6 +72,7 @@ services:
       postgresql:
         condition: service_healthy
     environment:
+      - DemoMode=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
@@ -166,6 +168,7 @@ services:
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
+      - DemoMode=true
       - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres_submission;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};"
       - Serilog__SeqServerUrl=http://seq:5341
       - KeyCloakSettings__Proxy=false
@@ -212,6 +215,7 @@ services:
       rabbitmq:
         condition: service_healthy      
     environment:
+      - DemoMode=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
@@ -255,7 +259,6 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${PGLOGIN}
       KC_DB_PASSWORD: ${PGPASSWORD}
-
       KC_HOSTNAME: http://localhost:8085
       KC_HOSTNAME_PORT: 8085
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
