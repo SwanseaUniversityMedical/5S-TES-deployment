@@ -44,18 +44,16 @@ services:
       - DareAPISettings__Address=http://submissionAPI:80
       - DareAPISettings_HelpAddress=http://submissionAPI:80
       - FormIOSettings__UseInternal=true
-      - SubmissionKeyCloakSettings__Proxy=${useproxy}
-      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
-      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
-      - SuppressAntiforgery=${SuppressAntiforgery} 
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
+      - SubmissionKeyCloakSettings__Proxy=false
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=http://localhost:8888/Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__UseRedirectURL=false
+      - SubmissionKeyCloakSettings__RedirectURL=http://localhost:8888/
+      - SubmissionKeyCloakSettings__ClientSecret=1218304e-bf92-4706-83f6-912e0b04ecb9
+      - SubmissionKeyCloakSettings__AccountManagementURL=http://localhost:8085/realms/Dare-Control/account
+      - SubmissionKeyCloakSettings__BaseUrl=http://localhost:8085/realms/Dare-Control
+      - SuppressAntiforgery=false 
+      - SubmissionKeyCloakSettings__MetadataAddress=http://keycloak:8080/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=http://localhost:8085/realms/Dare-Control
       #- SubmissionKeyCloakSettings__UseRedirectURL=true
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
       - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
@@ -129,8 +127,9 @@ services:
       KC_DB_USERNAME: ${PGLOGIN}
       KC_DB_PASSWORD: ${PGPASSWORD}
 
-      #KC_HOSTNAME: localhost
-      #KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME: http://localhost:8085
+      KC_HOSTNAME_PORT: 8085
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
       #KC_HOSTNAME_STRICT: false
       #KC_HOSTNAME_STRICT_HTTPS: false
       KEYCLOAK_FRONTEND_URL: http://localhost:8085/auth
@@ -152,6 +151,7 @@ services:
       - 8085:8080
     volumes:
       - ./realm-config:/opt/keycloak/data/import
+
 
 ######################################################
 # POSTGRES
