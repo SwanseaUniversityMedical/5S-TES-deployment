@@ -3,10 +3,11 @@
     "",
     "\\AllInOne",
     "\\AllInOne\\realm-config",
+    "\\AllInOne\\realm-export",
     "\\Diagram",
     "\\Submission",
     "\\TRE"
   ],
-  "SelectedNode": "\\AllInOne\\realm-config\\sub-layer.json",
+  "SelectedNode": "\\AllInOne\\.env",
   "PreviewInSolutionExplorer": false
 }
