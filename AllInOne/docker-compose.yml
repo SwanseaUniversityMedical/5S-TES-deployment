@@ -76,7 +76,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - DareAPISettings__Address=http://localhost
+      - DareAPISettings__Address=http://submissionAPI
       - DataEgressAPISettings__Address=https://egressAPI
       - EnableExternalHangfire=${EnableExternalHangfire}
       - IgnoreHutchSSL=${IgnoreHutchSSL}
@@ -105,7 +105,7 @@ services:
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyMetadataAddressCloakBaseRealmAddress}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionApiKeyCloakBaseRealmAddress}
       - SubmissionKeyCloakSettings__ClientId=${SubmissionApiKeyCloakClientId}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionApiKeyCloakSecret}
@@ -114,7 +114,7 @@ services:
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionKeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
       - AgentSettings__UseTESK=${UseTESK}
       - AgentSettings__UseHutch=${UseHutch}
@@ -148,6 +148,85 @@ services:
       #- HasuraSettings__HasuraURL=${HasuraURL}
      # - HasuraSettings__HasuraAdminSecret=${HasuraPass} 
 
+######################################################
+# DataEgress LAYER
+######################################################
+
+  DataEgressUI:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
+    container_name: DataEgressUI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 8100:80
+    depends_on:
+      - DataEgressAPI
+    environment:
+      - Serilog__SeqServerUrl=http://seq:5341
+      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
+      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
+      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre 
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
+
+  DataEgressAPI:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
+    container_name: DataEgressAPI
+    restart: always
+    networks:
+      - sub-net      
+    ports:
+      - 8101:80
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - RabbitMQ__HostAddress=rabbitmq-tre
+      - Serilog__SeqServerUrl=http://seq:5341
+      - TreKeyCloakSettings__Authority=${TreAPIKeyCloakAuthority}
+      - TreKeyCloakSettings__MetadataAddress=${TreAPIKeyCloakMetadataAddress}
+      - TreKeyCloakSettings__BaseUrl=${TreAPIKeyCloakBaseRealmAddress}
+      - TreKeyCloakSettings__ClientId=${TreAPIKeyCloakClientId}
+      - TreKeyCloakSettings__ClientSecret=${TreAPIKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=${TreAPIValidAudiences}
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
+      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
+      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressKeyCloakClientID}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
+      - MinioSettings__Url=http://minio2:9000
+      - MinioSettings__AccessKey=${TreMinioAdminUser}
+      - MinioSettings__SecretKey=${TreMinioAdminPassword}
+      - MinioSettings__BucketName=testbucket
+      - MinioSettings__AdminConsole=http://minioIn:9001
+      - TreAPISettings__Address=http://treapi:80
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8100
+
+
 
 ######################################################
 # SUBMISSION LAYER
@@ -169,7 +248,7 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
       - DemoMode=true
-      - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres_submission;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};"
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};"
       - Serilog__SeqServerUrl=http://seq:5341
       - KeyCloakSettings__Proxy=false
       - DareAPISettings__Address=http://submissionAPI:80
@@ -232,11 +311,11 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseUrl}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIClientSecret}
-      - SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
+      #- SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
       - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
       - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
       - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}

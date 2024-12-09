@@ -551,7 +551,7 @@
         }
       ],
       "realmRoles": [
-        "dare-egress-admin",
+        "data-egress-admin",
         "dare-tre-admin",
         "default-roles-data-egress"
       ],
