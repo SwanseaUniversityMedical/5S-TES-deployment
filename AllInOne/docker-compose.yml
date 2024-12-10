@@ -73,6 +73,7 @@ services:
         condition: service_healthy
     environment:
       - DemoMode=true
+      - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
@@ -163,6 +164,7 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
+      - DemoMode=true
       - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
@@ -192,6 +194,8 @@ services:
       postgresql:
         condition: service_healthy
     environment:
+      - DemoMode=true
+      - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
       - RabbitMQ__HostAddress=rabbitmq-tre
       - Serilog__SeqServerUrl=http://seq:5341
