@@ -689,6 +689,34 @@
       ]
     },
     {
+      "username": "minioadmin",
+      "enabled": true,
+      "email": "minioadmin@example.com",
+      "firstName": "Minio",
+      "lastName": "Admin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "dare-control-admin",
+        "dare-tre-agent",
+        "dare-control-company",
+        "dare-tre-admin",
+        "default-roles-dare-control"
+      ],
+      "groups": [
+        "/dare-control-admin",
+        "/dare-control-company",
+        "/dare-tre-admin",
+        "/dare-tre-user",
+        "/dare-control-users"
+      ]
+    },
+    {
       "username": "accessfromtretosubmission",
       "enabled": true,
       "email": "accessfromtretosubmission@example.com",

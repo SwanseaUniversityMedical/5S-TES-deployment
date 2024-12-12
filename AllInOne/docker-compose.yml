@@ -330,12 +330,13 @@ services:
       - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
       - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
       - SubmissionKeyCloakSettings__Server=${SubmissionServer}
+      - SubmissionKeyCloakSettings__Protocol=${SubmissionServerProtocol}
       - SubmissionKeyCloakSettings__Realm=${SubmissionRealm}
       - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
       - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
 
-
+      
 ######################################################
 # Keycloak
 ######################################################
@@ -367,20 +368,20 @@ services:
       # Enable client and user configuration during startup
     networks:
       - sub-net 
-    command: start-dev  --import-realm
+    command: start-dev  --import-realm #--verbose
     depends_on:
       - postgresql
     ports:
       - 8085:8080
     volumes:
       - ./realm-config:/opt/keycloak/data/import
-    # healthcheck:
-    #   # I have not found another way to do this, if you know, then please help: https://devops.stackexchange.com/q/18923/43435
-    #   test: [ 'CMD-SHELL', '[ -f /tmp/HealthCheck.java ] || echo "public class HealthCheck { public static void main(String[] args) throws java.lang.Throwable { System.exit(java.net.HttpURLConnection.HTTP_OK == ((java.net.HttpURLConnection) java.net.URI.create(args[0]).toURL().openConnection()).getResponseCode() ? 0 : 1); } }" > /tmp/HealthCheck.java && java /tmp/HealthCheck.java http://localhost:8085/health/live' ]
-    #   start_period: 10s
-    #   interval: 15s
-    #   retries: 3
-    #   timeout: 5s
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/0.0.0.0/9000; echo -e \"GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q '\"status\": \"UP\"' <&3; exec 3<&- 3>&-"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+      start_interval: 5s
 
 
 ######################################################
@@ -458,7 +459,7 @@ services:
     command: server /data --console-address ":9001"
     depends_on:
       keycloak: 
-        condition: service_started
+        condition: service_healthy
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
