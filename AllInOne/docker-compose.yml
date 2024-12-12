@@ -77,6 +77,8 @@ services:
         condition: service_healthy   
       minio2:
         condition: service_healthy
+      submissionAPI:
+        condition: service_started
     environment:
       - DemoMode=true
       - DemoModeDefaultP=password123
