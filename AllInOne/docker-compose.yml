@@ -72,9 +72,11 @@ services:
       postgresql:
         condition: service_healthy
       keycloak: 
-        condition: service_started 
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy   
+      minio2:
+        condition: service_healthy
     environment:
       - DemoMode=true
       - DemoModeDefaultP=password123
@@ -197,8 +199,10 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
+      minio2:
+        condition: service_healthy
       keycloak: 
-        condition: service_started      
+        condition: service_healthy     
     environment:
       - DemoMode=true
       - DemoModeDefaultP=password123
@@ -252,8 +256,7 @@ services:
       - 7220:80
       - 8888:80
     depends_on:
-      - submissionAPI
-      - keycloak
+      - submissionAPI      
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
@@ -298,11 +301,13 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     depends_on:
       keycloak: 
-        condition: service_started
+        condition: service_healthy
       postgresql:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy      
+        condition: service_healthy  
+      minioAAA:
+        condition: service_healthy
     environment:
       - DemoMode=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
@@ -370,7 +375,8 @@ services:
       - sub-net 
     command: start-dev  --import-realm #--verbose
     depends_on:
-      - postgresql
+      postgresql:
+        condition: service_healthy
     ports:
       - 8085:8080
     volumes:
@@ -481,11 +487,21 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+
   minio2:
     image: quay.io/minio/minio
     mem_limit: 512M
     mem_reservation: 256M
     cpus: 0.1
+    depends_on:
+      keycloak: 
+        condition: service_healthy
     container_name: minio2
     restart: always
     command: server /data --console-address ":9001"
@@ -507,6 +523,12 @@ services:
     ports:
       - 9002:9000
       - 9003:9001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
 ######################################################
 # SEQ / Serilog
 ######################################################

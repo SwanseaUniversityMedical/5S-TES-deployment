@@ -637,6 +637,7 @@
       "realmRoles": [
         "dare-tre-admin",
         "dare-results-admin",
+        "data-egress-admin",
         "default-roles-dare-control"
       ],
       "groups": [
