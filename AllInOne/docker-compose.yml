@@ -7,6 +7,7 @@ services:
 ######################################################
 
   nginx-dare:
+    platform: linux/x86_64
     image: nginx:latest
     container_name: nginx_dare
     ports:
@@ -28,6 +29,7 @@ services:
 ######################################################
 
   tre-ui:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${dareVer}
     container_name: treUI
     restart: always
@@ -59,6 +61,7 @@ services:
 
 
   tre-api:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
     container_name: treapi
     restart: always
@@ -163,6 +166,7 @@ services:
 ######################################################
 
   DataEgressUI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
     container_name: DataEgressUI
     restart: always
@@ -192,6 +196,7 @@ services:
       - httpsRedirect=${httpsRedirect}
 
   DataEgressAPI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
     container_name: DataEgressAPI
     restart: always
@@ -250,6 +255,7 @@ services:
 ######################################################
 
   submissionUI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
     container_name: submissionUI
     restart: always
@@ -292,6 +298,7 @@ services:
 #      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
   
   submissionAPI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
     container_name: submissionAPI
     restart: always
@@ -349,6 +356,7 @@ services:
 # Keycloak
 ######################################################
   keycloak:
+    platform: linux/x86_64
     image: quay.io/keycloak/keycloak:26.0
     container_name: keycloak
     environment:
@@ -397,6 +405,7 @@ services:
 # POSTGRES
 ######################################################
   postgresql:
+    platform: linux/x86_64
     image: docker.io/bitnami/postgresql:latest
     container_name: postgres
     restart: always
@@ -416,6 +425,7 @@ services:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
 
   adminer:
+    platform: linux/x86_64
     image: adminer
     restart: always
     networks:
@@ -440,6 +450,7 @@ services:
 ######################################################
 
   rabbitmq:
+    platform: linux/x86_64
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
     hostname: rabbitmq
@@ -462,6 +473,7 @@ services:
 # MINIO
 ######################################################
   minioAAA:
+    platform: linux/x86_64
     image: quay.io/minio/minio
     container_name: minioAAA
     restart: always
@@ -498,6 +510,7 @@ services:
       start_period: 5s
 
   minio2:
+    platform: linux/x86_64
     image: quay.io/minio/minio
     mem_limit: 512M
     mem_reservation: 256M
@@ -536,6 +549,7 @@ services:
 # SEQ / Serilog
 ######################################################
   seq:
+    platform: linux/x86_64
     image: datalust/seq:latest
     container_name: seq
     restart: always
