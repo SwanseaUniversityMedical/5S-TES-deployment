@@ -7,7 +7,6 @@ services:
 ######################################################
 
   nginx-dare:
-    platform: linux/x86_64
     image: nginx:latest
     container_name: nginx_dare
     ports:
@@ -356,7 +355,6 @@ services:
 # Keycloak
 ######################################################
   keycloak:
-    platform: linux/x86_64
     image: quay.io/keycloak/keycloak:26.0
     container_name: keycloak
     environment:
@@ -425,7 +423,6 @@ services:
       test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
 
   adminer:
-    platform: linux/x86_64
     image: adminer
     restart: always
     networks:
@@ -472,7 +469,6 @@ services:
 # MINIO
 ######################################################
   minioAAA:
-    platform: linux/x86_64
     image: quay.io/minio/minio
     container_name: minioAAA
     restart: always
@@ -509,7 +505,6 @@ services:
       start_period: 5s
 
   minio2:
-    platform: linux/x86_64
     image: quay.io/minio/minio
     mem_limit: 512M
     mem_reservation: 256M
