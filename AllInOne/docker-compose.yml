@@ -28,6 +28,7 @@ services:
 ######################################################
 
   tre-ui:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${dareVer}
     container_name: treUI
     restart: always
@@ -59,6 +60,7 @@ services:
 
 
   tre-api:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
     container_name: treapi
     restart: always
@@ -163,6 +165,7 @@ services:
 ######################################################
 
   DataEgressUI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
     container_name: DataEgressUI
     restart: always
@@ -192,6 +195,7 @@ services:
       - httpsRedirect=${httpsRedirect}
 
   DataEgressAPI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
     container_name: DataEgressAPI
     restart: always
@@ -250,6 +254,7 @@ services:
 ######################################################
 
   submissionUI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
     container_name: submissionUI
     restart: always
@@ -292,6 +297,7 @@ services:
 #      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
   
   submissionAPI:
+    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
     container_name: submissionAPI
     restart: always
@@ -397,6 +403,7 @@ services:
 # POSTGRES
 ######################################################
   postgresql:
+    platform: linux/x86_64
     image: docker.io/bitnami/postgresql:latest
     container_name: postgres
     restart: always
@@ -536,6 +543,7 @@ services:
 # SEQ / Serilog
 ######################################################
   seq:
+    platform: linux/x86_64
     image: datalust/seq:latest
     container_name: seq
     restart: always
