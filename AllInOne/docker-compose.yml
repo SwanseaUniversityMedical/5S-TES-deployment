@@ -105,9 +105,9 @@ services:
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
-      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetaDataAddress}
+      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
-      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientId}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
@@ -118,10 +118,10 @@ services:
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionApiKeyCloakBaseRealmAddress}
-      - SubmissionKeyCloakSettings__ClientId=${SubmissionApiKeyCloakClientId}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionApiKeyCloakSecret}
-      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionApiValidAudiences}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
+      - SubmissionKeyCloakSettings__ClientId=${SubmissionAPIKeyCloakClientId}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
+      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionAPIValidAudiences}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
