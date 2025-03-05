@@ -42,6 +42,7 @@ services:
       - TreAPISettings__Address=http://treAPI    
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=true
+      - KeyCloakDemoMode=true
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -83,6 +84,7 @@ services:
         condition: service_started
     environment:
       - DemoMode=true
+      - KeyCloakDemoMode=true
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
@@ -177,6 +179,7 @@ services:
       - DataEgressAPI
     environment:
       - DemoMode=true
+      - KeyCloakDemoMode=true
       - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
@@ -212,6 +215,7 @@ services:
         condition: service_healthy     
     environment:
       - DemoMode=true
+      - KeyCloakDemoMode=true
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
@@ -269,6 +273,7 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
       - DemoMode=true
+      - KeyCloakDemoMode=true
       - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;"
       - Serilog__SeqServerUrl=http://seq:5341
       - KeyCloakSettings__Proxy=false
@@ -319,6 +324,7 @@ services:
         condition: service_healthy
     environment:
       - DemoMode=true
+      - KeyCloakDemoMode=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
