@@ -13,7 +13,9 @@ services:
       - 9999:80
     networks:
       - sub-net
-    depends_on:     
+    depends_on:  
+      - DataEgressUI
+      - DataEgressAPI
       - tre-ui
       - tre-api
     volumes:
@@ -156,6 +158,95 @@ services:
       #- HasuraSettings__HasuraURL=${HasuraURL}
      # - HasuraSettings__HasuraAdminSecret=${HasuraPass} 
 
+
+######################################################
+# DataEgress LAYER
+######################################################
+
+  DataEgressUI:
+    platform: linux/x86_64
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
+    container_name: DataEgressUI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 8100:80
+    depends_on:
+      - DataEgressAPI
+    environment:
+      - DemoMode=true
+      - KeyCloakDemoMode=true
+      - Serilog__SeqServerUrl=http://seq:5341
+      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
+      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
+      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre 
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
+
+  DataEgressAPI:
+    platform: linux/x86_64
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
+    container_name: DataEgressAPI
+    restart: always
+    networks:
+      - sub-net      
+    ports:
+      - 8101:80
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      minio2:
+        condition: service_healthy
+      keycloak: 
+        condition: service_healthy     
+    environment:
+      - DemoMode=true
+      - KeyCloakDemoMode=true
+      - DemoModeDefaultP=password123
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - RabbitMQ__HostAddress=rabbitmq-tre
+      - Serilog__SeqServerUrl=http://seq:5341
+      - TreKeyCloakSettings__Authority=${TreAPIKeyCloakAuthority}
+      - TreKeyCloakSettings__MetadataAddress=${TreAPIKeyCloakMetadataAddress}
+      - TreKeyCloakSettings__BaseUrl=${TreAPIKeyCloakBaseRealmAddress}
+      - TreKeyCloakSettings__ClientId=${TreAPIKeyCloakClientId}
+      - TreKeyCloakSettings__ClientSecret=${TreAPIKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=${TreAPIValidAudiences}
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
+      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
+      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressKeyCloakClientID}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
+      - MinioSettings__Url=http://minio2:9000
+      - MinioSettings__AccessKey=${TreMinioAdminUser}
+      - MinioSettings__SecretKey=${TreMinioAdminPassword}
+      - MinioSettings__BucketName=testbucket
+      - MinioSettings__AdminConsole=http://minioIn:9001
+      - TreAPISettings__Address=http://treapi:80
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8100
 
       
 ######################################################
