@@ -40,7 +40,7 @@ services:
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;"
       - Serilog__SeqServerUrl=http://seq:5341
@@ -91,7 +91,7 @@ services:
       minioAAA:
         condition: service_healthy
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
@@ -271,42 +271,6 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 5s
-
-  minio2:
-    image: quay.io/minio/minio
-    mem_limit: 512M
-    mem_reservation: 256M
-    cpus: 0.1
-    depends_on:
-      keycloak: 
-        condition: service_healthy
-    container_name: minio2
-    restart: always
-    command: server /data --console-address ":9001"
-    environment:
-      - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9003
-      #- MINIO_SERVER_URL=${MinioServerApi}
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioTreIdentityConfigURL}
-      - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioTreIdentityID}
-      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
-      - MINIO_IDENTITY_OPENID_SCOPES=openid
-      - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=on
-    networks:
-      - sub-net
-    volumes:
-      - minio2_data:/data
-    ports:
-      - 9002:9000
-      - 9003:9001
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s

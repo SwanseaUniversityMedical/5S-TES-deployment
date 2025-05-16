@@ -39,7 +39,7 @@ services:
     environment:
       - TreAPISettings__Address=http://treAPI    
       - Serilog__SeqServerUrl=http://seq:5341
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
@@ -79,7 +79,7 @@ services:
       minio2:
         condition: service_healthy    
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
@@ -175,7 +175,7 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
-      - DemoMode=true
+      - DemoMode=false
       - KeyCloakDemoMode=true
       - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
@@ -366,41 +366,6 @@ services:
 ######################################################
 # MINIO
 ######################################################
-  minioAAA:
-    image: quay.io/minio/minio
-    container_name: minioAAA
-    restart: always
-    command: server /data --console-address ":9001"
-    depends_on:
-      keycloak: 
-        condition: service_healthy
-    environment:
-      - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
-      - MINIO_SERVER_URL=http://localhost:9000
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfigURL}
-      - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
-      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
-      - MINIO_IDENTITY_OPENID_SCOPES=openid
-      - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
-      #- no_proxy=${no_proxy}
-      #- http_proxy=${http_proxy}
-      #- https_proxy=${https_proxy}
-    networks:
-      - sub-net
-    volumes:
-      - minio_data:/data
-    ports:
-      - 9000:9000
-      - 9001:9001
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 5s
 
   minio2:
     image: quay.io/minio/minio
