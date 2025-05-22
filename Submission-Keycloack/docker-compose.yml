@@ -298,7 +298,7 @@ volumes:
     driver: local
   postgresql_kc:
     driver: local
-    minio_data:
+  minio_data:
     driver: local
   seq_data:
     driver: local
