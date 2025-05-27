@@ -261,12 +261,12 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${PGLOGIN}
       KC_DB_PASSWORD: ${PGPASSWORD}
-      KC_HOSTNAME: http://localhost:8085
+      KC_HOSTNAME: ${KeycloakHostName}
       KC_HOSTNAME_PORT: 8085
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
       #KC_HOSTNAME_STRICT: false
       #KC_HOSTNAME_STRICT_HTTPS: false
-      KEYCLOAK_FRONTEND_URL: http://localhost:8085/auth
+      KEYCLOAK_FRONTEND_URL: ${KeycloakHostName}/auth
       KC_LOG_LEVEL: info
       KC_METRICS_ENABLED: true
       KC_HEALTH_ENABLED: true
@@ -381,7 +381,7 @@ services:
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9003
+      - MINIO_BROWSER_REDIRECT_URL=${MinioBrowser}
       #- MINIO_SERVER_URL=${MinioServerApi}
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioTreIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioTreIdentityID}
