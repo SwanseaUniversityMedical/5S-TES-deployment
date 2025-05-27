@@ -132,7 +132,7 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${PGLOGIN}
       KC_DB_PASSWORD: ${PGPASSWORD}
-      KC_HOSTNAME: ${keycloakHostName}
+      KC_HOSTNAME: ${KeycloakHostName}
       KC_HOSTNAME_PORT: 8085
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
       #KC_HOSTNAME_STRICT: false
