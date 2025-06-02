@@ -85,7 +85,7 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - DareAPISettings__Address=http://submissionAPI
+      - DareAPISettings__Address=${SubmissionAPIAddressURL}
       - DataEgressAPISettings__Address=https://egressAPI
       - EnableExternalHangfire=${EnableExternalHangfire}
       - IgnoreHutchSSL=${IgnoreHutchSSL}
@@ -132,7 +132,7 @@ services:
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
-     # - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
+     # - AgentSettings__TESKAPIURL=${TesAPIUrl}
       #- AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       #- AgentSettings__Proxy=true
@@ -367,7 +367,7 @@ services:
 # MINIO
 ######################################################
 
-  minio2:
+  minio:
     image: quay.io/minio/minio
     mem_limit: 512M
     mem_reservation: 256M
@@ -375,7 +375,7 @@ services:
     depends_on:
       keycloak: 
         condition: service_healthy
-    container_name: minio2
+    container_name: minio
     restart: always
     command: server /data --console-address ":9001"
     environment:
@@ -392,7 +392,7 @@ services:
     networks:
       - sub-net
     volumes:
-      - minio2_data:/data
+      - :/data
     ports:
       - 9002:9000
       - 9003:9001
@@ -427,9 +427,7 @@ volumes:
       driver: local
     postgresql_kc:
       driver: local
-    minio_data:
-      driver: local
-    minio2_data:
+    :
       driver: local
     seq_data:
       driver: local
