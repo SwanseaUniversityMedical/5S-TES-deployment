@@ -76,7 +76,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy   
-      minio2:
+      minio:
         condition: service_healthy    
     environment:
       - DemoMode=false
@@ -139,11 +139,11 @@ services:
       #- AgentSettings__ProxyAddresURL=${proxyurl}
       #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
       #- AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
-      - MinioTRESettings__Url=http://minio2:9000
+      - MinioTRESettings__Url=http://minio:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=http://minio2:9001
+      - MinioTRESettings__AdminConsole=http://minio:9001
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
@@ -206,7 +206,7 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      minio2:
+      minio:
         condition: service_healthy
       keycloak: 
         condition: service_healthy     
@@ -240,7 +240,7 @@ services:
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - MinioSettings__Url=http://minio2:9000
+      - MinioSettings__Url=http://minio:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
@@ -392,7 +392,7 @@ services:
     networks:
       - sub-net
     volumes:
-      - :/data
+      - minio:/data
     ports:
       - 9002:9000
       - 9003:9001
@@ -427,7 +427,7 @@ volumes:
       driver: local
     postgresql_kc:
       driver: local
-    :
+    minio_data:
       driver: local
     seq_data:
       driver: local
