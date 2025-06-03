@@ -85,7 +85,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minioAAA:
+      minio:
         condition: service_healthy
     environment:
       - DemoMode=false
@@ -102,7 +102,7 @@ services:
       - MinioSettings__AdminConsole=${submissionMinioAdminConsole}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy=minioAAA,seq
+      - SubmissionKeyCloakSettings__BypassProxy=minio,seq
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
@@ -137,7 +137,7 @@ services:
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
       #KC_HOSTNAME_STRICT: false
       #KC_HOSTNAME_STRICT_HTTPS: false
-      KEYCLOAK_FRONTEND_URL: ${keycloakHostName}/auth
+      KEYCLOAK_FRONTEND_URL: ${KeycloakHostName}/auth
       KC_LOG_LEVEL: info
       KC_METRICS_ENABLED: true
       KC_HEALTH_ENABLED: true
@@ -238,9 +238,9 @@ services:
   ######################################################
   # MINIO
   ######################################################
-  minioAAA:
+  minio:
     image: quay.io/minio/minio
-    container_name: minioAAA
+    container_name: minio
     restart: always
     command: server /data --console-address ":9001"
     depends_on:
@@ -249,8 +249,8 @@ services:
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
-      - MINIO_SERVER_URL=http://localhost:9000
+      - MINIO_BROWSER_REDIRECT_URL=http://${MinioBrowserHost}:9001
+      - MINIO_SERVER_URL=http://${MinioBrowserHost}:9000
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
