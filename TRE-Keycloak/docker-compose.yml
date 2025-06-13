@@ -39,8 +39,8 @@ services:
     environment:
       - TreAPISettings__Address=http://treAPI    
       - Serilog__SeqServerUrl=http://seq:5341
-      - DemoMode=false
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -79,8 +79,8 @@ services:
       minio:
         condition: service_healthy    
     environment:
-      - DemoMode=false
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
@@ -175,8 +175,8 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
-      - DemoMode=false
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
@@ -211,8 +211,8 @@ services:
       keycloak: 
         condition: service_healthy     
     environment:
-      - DemoMode=true
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
