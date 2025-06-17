@@ -132,13 +132,14 @@ services:
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
-     # - AgentSettings__TESKAPIURL=${TesAPIUrl}
+      - AgentSettings__TESKAPIURL=${TesAPIUrl}
+      - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       #- AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       #- AgentSettings__Proxy=true
       #- AgentSettings__ProxyAddresURL=${proxyurl}
       #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
-      #- AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
+      - AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
       - MinioTRESettings__Url=http://minio:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
