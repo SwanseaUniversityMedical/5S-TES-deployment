@@ -139,7 +139,6 @@ services:
       #- AgentSettings__Proxy=true
       #- AgentSettings__ProxyAddresURL=${proxyurl}
       #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
-      - AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
       - MinioTRESettings__Url=http://minio:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
