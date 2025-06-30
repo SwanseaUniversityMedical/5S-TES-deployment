@@ -1,0 +1,15 @@
+[Unit]
+Descrption=Funnel Server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/funnel server run -c /etc/funnel/funnelconfig.yml
+Restart=always
+WorkingDirectory=/var/lib/funnel
+StandardOutput=file:/var/log/funnel.log
+StandardError=file:/var/log/funnel.err
+User=funnel
+Group=funnel
+
+[Install]
+WantedBy=multi-user.target
