@@ -1,0 +1,319 @@
+version: "3.7"
+
+services:
+  ######################################################
+  # TRE Proxy
+  ######################################################
+
+  nginx-dare:
+    image: nginx:latest
+    container_name: nginx_dare
+    ports:
+      - 9999:80
+    networks:
+      - sub-net
+    depends_on:
+      - submissionUI
+      - submissionAPI
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+
+  ######################################################
+  # SUBMISSION LAYER
+  ######################################################
+
+  submissionUI:
+    platform: linux/x86_64
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
+    container_name: submissionUI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 7220:80
+      - 8888:80
+    depends_on:
+      - submissionAPI
+    volumes:
+      - data-protection:/root/.aspnet/DataProtection-Keys
+    environment:
+      - DemoMode=false
+      - KeyCloakDemoMode=true
+      - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;"
+      - Serilog__SeqServerUrl=http://seq:5341
+      - KeyCloakSettings__Proxy=false
+      - DareAPISettings__Address=http://submissionAPI:80
+      - DareAPISettings_HelpAddress=http://submissionAPI:80
+      - FormIOSettings__UseInternal=true
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
+      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
+      - SuppressAntiforgery=${SuppressAntiforgery}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
+      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
+      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
+      - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
+
+  # AccountManagementURL BaseUrl MetadataAddress Authority
+
+  #      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
+
+  submissionAPI:
+    platform: linux/x86_64
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
+    container_name: submissionAPI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 5034:80
+      #- 5044:5034
+    volumes:
+      - data-protection:/root/.aspnet/DataProtection-Keys
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    environment:
+      - DemoMode=false
+      - KeyCloakDemoMode=true
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - RabbitMQ__HostAddress=rabbitmq
+      - Serilog__SeqServerUrl=http://seq:5341
+      #- MinioSettings__ProxyAddressURLForExternalFetch=${ProxyAddressURLForExternalFetch}
+      - MinioSettings__Url=${submissionMinioUrl}
+      - MinioSettings__AccessKey=${MinioRootUser}
+      - MinioSettings__SecretKey=${MinioRootPass}
+      - MinioSettings__BucketName=testbucket
+      - SuppressAntiforgery=${SuppressAntiforgery}
+      - MinioSettings__AdminConsole=${submissionMinioAdminConsole}
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy=minio,seq
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
+      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
+      #- SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
+      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
+      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
+      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
+      - SubmissionKeyCloakSettings__Server=${SubmissionServer}
+      - SubmissionKeyCloakSettings__Protocol=${SubmissionServerProtocol}
+      - SubmissionKeyCloakSettings__Realm=${SubmissionRealm}
+      - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
+      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
+      - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
+
+  ######################################################
+  # Keycloak
+  ######################################################
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: ${PGLOGIN}
+      KC_DB_PASSWORD: ${PGPASSWORD}
+      KC_HOSTNAME: ${KeycloakHostName}
+      KC_HOSTNAME_PORT: 8085
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+      #KC_HOSTNAME_STRICT: false
+      #KC_HOSTNAME_STRICT_HTTPS: false
+      KEYCLOAK_FRONTEND_URL: ${KeycloakHostName}/auth
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_HEALTH_ENABLED: true
+      KEYCLOAK_METRICS_ENABLED: true
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      # Admin credentials
+
+      # Enable client and user configuration during startup
+    networks:
+      - sub-net
+    command: start-dev  --import-realm #--verbose
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - 8085:8080
+    volumes:
+      - ./realm-config:/opt/keycloak/data/import
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "exec 3<>/dev/tcp/0.0.0.0/9000; echo -e \"GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q '\"status\": \"UP\"' <&3; exec 3<&- 3>&-",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 45s
+      #start_interval: 5s
+
+  ######################################################
+  # POSTGRES
+  ######################################################
+  postgresql:
+    platform: linux/x86_64
+    image: docker.io/bitnami/postgresql:latest
+    container_name: postgres
+    restart: always
+    environment:
+      #      - ALLOW_EMPTY_PASSWORD=yes
+      - POSTGRESQL_USERNAME=${PGLOGIN}
+      - POSTGRESQL_DATABASE=DARE-Control
+      - POSTGRESQL_PASSWORD=${PGPASSWORD}
+    networks:
+      - sub-net
+    ports:
+      - "5432:5432"
+    volumes:
+      - "postgresql_data:/bitnami/postgresql"
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}"]
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 8087:8080
+    environment:
+      - ADMINER_DEFAULT_DB_DRIVER=psql
+      - ADMINER_DEFAULT_DB_HOST=postgres
+      - ADMINER_DEFAULT_DB_NAME=postgres
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "nc", "-z", "adminer", "9000"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+
+  ######################################################
+  # Rabbit MQ
+  ######################################################
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: "rabbitmq"
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitdata:/var/lib/rabbitmq/
+      - rabbitlogs:/var/log/rabbitmq
+    networks:
+      - sub-net
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  ######################################################
+  # MINIO
+  ######################################################
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    restart: always
+    command: server /data --console-address ":9001"
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    environment:
+      - MINIO_ROOT_USER=${MinioRootUser}
+      - MINIO_ROOT_PASSWORD=${MinioRootPass}
+      - MINIO_BROWSER_REDIRECT_URL=http://${MinioBrowserHost}:9001
+      - MINIO_SERVER_URL=http://${MinioBrowserHost}:9000
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfigURL}
+      - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
+      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
+      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
+      - MINIO_IDENTITY_OPENID_SCOPES=openid
+      - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
+      #- no_proxy=${no_proxy}
+      #- http_proxy=${http_proxy}
+      #- https_proxy=${https_proxy}
+    networks:
+      - sub-net
+    volumes:
+      - minio_data:/data
+    ports:
+      - 9000:9000
+      - 9001:9001
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+  ######################################################
+  # SEQ / Serilog
+  ######################################################
+  seq:
+    platform: linux/x86_64
+    image: datalust/seq:latest
+    container_name: seq
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 5341:80
+    volumes:
+      - seq_data:/data
+    environment:
+      - ACCEPT_EULA=Y
+
+######################################################
+# VOLUME
+######################################################
+volumes:
+  postgresql_data:
+    driver: local
+  postgresql_kc:
+    driver: local
+  minio_data:
+    driver: local
+  seq_data:
+    driver: local
+  rabbitdata:
+    driver: local
+  rabbitlogs:
+    driver: local
+  keycloak_data:
+    driver: local
+  data-protection:
+    driver: local
+
+######################################################
+# networks
+######################################################
+networks:
+  sub-net:
+    driver: bridge

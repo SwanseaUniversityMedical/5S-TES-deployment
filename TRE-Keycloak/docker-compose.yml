@@ -13,9 +13,7 @@ services:
       - 9999:80
     networks:
       - sub-net
-    depends_on:
-      - submissionUI
-      - submissionAPI
+    depends_on:  
       - DataEgressUI
       - DataEgressAPI
       - tre-ui
@@ -41,8 +39,8 @@ services:
     environment:
       - TreAPISettings__Address=http://treAPI    
       - Serilog__SeqServerUrl=http://seq:5341
-      - DemoMode=true
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -55,9 +53,9 @@ services:
       - httpsRedirect=${httpsRedirect}
       - TreKeyCloakSettings__AccountManagementURL=${TreAccountManagementURLUI}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpiredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
 
 
   tre-api:
@@ -78,18 +76,16 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy   
-      minio2:
-        condition: service_healthy
-      submissionAPI:
-        condition: service_started
+      minio:
+        condition: service_healthy    
     environment:
-      - DemoMode=true
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - DareAPISettings__Address=http://submissionAPI
+      - DareAPISettings__Address=${SubmissionAPIAddressURL}
       - DataEgressAPISettings__Address=https://egressAPI
       - EnableExternalHangfire=${EnableExternalHangfire}
       - IgnoreHutchSSL=${IgnoreHutchSSL}
@@ -103,9 +99,9 @@ services:
       - EnableExternalHangfire=true
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpiredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -115,9 +111,9 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"    
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
@@ -127,7 +123,7 @@ services:
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpiredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
       - AgentSettings__UseTESK=${UseTESK}
@@ -136,18 +132,18 @@ services:
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
-     # - AgentSettings__TESKAPIURL=http://tesk.test-tesk.dk.serp.ac.uk/ga4gh/tes/v1/tasks
+      - AgentSettings__TESKAPIURL=${TesAPIUrl}
+      - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       #- AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       #- AgentSettings__Proxy=true
       #- AgentSettings__ProxyAddresURL=${proxyurl}
       #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
-      #- AgentSettings__TESKOutputBucketPrefix=http://s3.foo.bar.baz/
-      - MinioTRESettings__Url=http://minio2:9000
+      - MinioTRESettings__Url=http://minio:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=http://minio2:9001
+      - MinioTRESettings__AdminConsole=http://minio:9001
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
@@ -161,6 +157,7 @@ services:
       - Hutch__DbPort=${HutchDbPort}
       #- HasuraSettings__HasuraURL=${HasuraURL}
      # - HasuraSettings__HasuraAdminSecret=${HasuraPass} 
+
 
 ######################################################
 # DataEgress LAYER
@@ -178,8 +175,8 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
-      - DemoMode=true
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
@@ -190,9 +187,9 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre 
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
@@ -209,13 +206,13 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      minio2:
+      minio:
         condition: service_healthy
       keycloak: 
         condition: service_healthy     
     environment:
-      - DemoMode=true
-      - KeyCloakDemoMode=true
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
@@ -229,9 +226,9 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpiredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -241,120 +238,15 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - MinioSettings__Url=http://minio2:9000
+      - MinioSettings__Url=http://minio:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
       - MinioSettings__AdminConsole=http://minioIn:9001
       - TreAPISettings__Address=http://treapi:80
       - DataEgressAPISettings__Address=http://DataEgressAPI:8100
-
-
-
-######################################################
-# SUBMISSION LAYER
-######################################################
-
-  submissionUI:
-    platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
-    container_name: submissionUI
-    restart: always
-    networks:
-      - sub-net
-    ports:
-      - 7220:80
-      - 8888:80
-    depends_on:
-      - submissionAPI      
-    volumes:
-      - data-protection:/root/.aspnet/DataProtection-Keys
-    environment:
-      - DemoMode=true
-      - KeyCloakDemoMode=true
-      - CONNECTIONSTRINGS__DEFAULTCONNECTION="Server=postgres;Port=32769;Database=DARE-Control;UserId=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;"
-      - Serilog__SeqServerUrl=http://seq:5341
-      - KeyCloakSettings__Proxy=false
-      - DareAPISettings__Address=http://submissionAPI:80
-      - DareAPISettings_HelpAddress=http://submissionAPI:80
-      - FormIOSettings__UseInternal=true
-      - SubmissionKeyCloakSettings__Proxy=${useproxy}
-      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
-      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
-      - SuppressAntiforgery=${SuppressAntiforgery} 
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
-      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
-      - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
-      - sslcookies=${sslcookies}
-      - httpsRedirect=${httpsRedirect}
-      
-# AccountManagementURL BaseUrl MetadataAddress Authority
-      
-#      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
-  
-  submissionAPI:
-    platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
-    container_name: submissionAPI
-    restart: always
-    networks:
-      - sub-net
-    ports:
-      - 5034:80
-      #- 5044:5034
-    volumes:
-      - data-protection:/root/.aspnet/DataProtection-Keys
-    depends_on:
-      keycloak: 
-        condition: service_healthy
-      postgresql:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy  
-      minioAAA:
-        condition: service_healthy
-    environment:
-      - DemoMode=true
-      - KeyCloakDemoMode=true
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - RabbitMQ__HostAddress=rabbitmq
-      - Serilog__SeqServerUrl=http://seq:5341
-      #- MinioSettings__ProxyAddresURLForExternalFetch=${ProxyAddresURLForExternalFetch}
-      - MinioSettings__Url=http://minioAAA:9000
-      - MinioSettings__AccessKey=${MinioRootUser}
-      - MinioSettings__SecretKey=${MinioRootPass}
-      - MinioSettings__BucketName=testbucket
-      - SuppressAntiforgery=${SuppressAntiforgery}
-      - MinioSettings__AdminConsole=http://minioAAA:9001
-      - SubmissionKeyCloakSettings__Proxy=${useproxy}
-      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy=minioAAA,seq
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
-      #- SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
-      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
-      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
-      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
-      - SubmissionKeyCloakSettings__Server=${SubmissionServer}
-      - SubmissionKeyCloakSettings__Protocol=${SubmissionServerProtocol}
-      - SubmissionKeyCloakSettings__Realm=${SubmissionRealm}
-      - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
-      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
-      - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
 
       
 ######################################################
@@ -369,12 +261,12 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${PGLOGIN}
       KC_DB_PASSWORD: ${PGPASSWORD}
-      KC_HOSTNAME: http://localhost:8085
+      KC_HOSTNAME: ${KeycloakHostName}
       KC_HOSTNAME_PORT: 8085
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
       #KC_HOSTNAME_STRICT: false
       #KC_HOSTNAME_STRICT_HTTPS: false
-      KEYCLOAK_FRONTEND_URL: http://localhost:8085/auth
+      KEYCLOAK_FRONTEND_URL: ${KeycloakHostName}/auth
       KC_LOG_LEVEL: info
       KC_METRICS_ENABLED: true
       KC_HEALTH_ENABLED: true
@@ -402,7 +294,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 45s
-      start_interval: 5s
+      #start_interval: 5s
 
 
 ######################################################
@@ -474,43 +366,8 @@ services:
 ######################################################
 # MINIO
 ######################################################
-  minioAAA:
-    image: quay.io/minio/minio
-    container_name: minioAAA
-    restart: always
-    command: server /data --console-address ":9001"
-    depends_on:
-      keycloak: 
-        condition: service_healthy
-    environment:
-      - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
-      - MINIO_SERVER_URL=http://localhost:9000
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfigURL}
-      - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
-      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
-      - MINIO_IDENTITY_OPENID_SCOPES=openid
-      - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
-      #- no_proxy=${no_proxy}
-      #- http_proxy=${http_proxy}
-      #- https_proxy=${https_proxy}
-    networks:
-      - sub-net
-    volumes:
-      - minio_data:/data
-    ports:
-      - 9000:9000
-      - 9001:9001
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 5s
 
-  minio2:
+  minio:
     image: quay.io/minio/minio
     mem_limit: 512M
     mem_reservation: 256M
@@ -518,13 +375,13 @@ services:
     depends_on:
       keycloak: 
         condition: service_healthy
-    container_name: minio2
+    container_name: minio
     restart: always
     command: server /data --console-address ":9001"
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9003
+      - MINIO_BROWSER_REDIRECT_URL=${MinioBrowser}
       #- MINIO_SERVER_URL=${MinioServerApi}
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioTreIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioTreIdentityID}
@@ -535,7 +392,7 @@ services:
     networks:
       - sub-net
     volumes:
-      - minio2_data:/data
+      - minio_data:/data
     ports:
       - 9002:9000
       - 9003:9001
@@ -571,8 +428,6 @@ volumes:
     postgresql_kc:
       driver: local
     minio_data:
-      driver: local
-    minio2_data:
       driver: local
     seq_data:
       driver: local

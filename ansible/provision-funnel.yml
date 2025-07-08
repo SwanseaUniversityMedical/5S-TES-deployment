@@ -1,0 +1,14 @@
+---
+
+- name: 'provision funnel'
+  hosts: 'funnel'
+  remote_user: 'root'
+  vars_prompt:
+    - name: minio_key
+      prompt: What is the minio key?
+      private: true
+    - name: minio_secret
+      prompt: What is the minio secret?
+      private: true
+  roles: 
+    - 'funnel'
