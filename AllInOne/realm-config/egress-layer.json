@@ -790,20 +790,19 @@
       "clientId": "Data-Egress-API",
       "name": "Data-Egress-API",
       "description": "",
-      "rootUrl": "https://localhost:7130",
-      "adminUrl": "https://localhost:7130",
-      "baseUrl": "https://localhost:7130",
+      "rootUrl": "http://localhost:8101",
+      "adminUrl": "http://localhost:8101",
+      "baseUrl": "http://localhost:8101",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "81c1f071-8c45-49ef-a966-84ca8f420b7e",
       "redirectUris": [
-        "https://localhost:7130*",
-        "*"
+        "http://localhost:8100/*"
       ],
       "webOrigins": [
-        "https://localhost:7130"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -820,7 +819,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1695783273",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "https://localhost:7130",
+        "post.logout.redirect.uris": "+",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -897,8 +896,8 @@
       "clientId": "Data-Egress-UI",
       "name": "Data-Egress-UI",
       "description": "",
-      "rootUrl": "https://localhost:7185",
-      "adminUrl": "https://localhost:7185",
+      "rootUrl": "http://localhost:8100",
+      "adminUrl": "https://localhost:8100",
       "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
@@ -906,13 +905,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "9ffc0844-b6b3-46e4-b9c5-64dc6be4ebd1",
       "redirectUris": [
-        "*",
-        "https://localhost:7185/*",
-        "http://trefx01-controller.uksouth.cloudapp.azure.com:8998/*",
-        "http://trefx01-controller.uksouth.cloudapp.azure.com:8999/*"
+        "http://localhost:8100/*"
       ],
       "webOrigins": [
-        "https://localhost:7185"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,

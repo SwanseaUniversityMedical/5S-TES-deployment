@@ -891,12 +891,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "e9021a57-3f4f-4254-ba27-2cdbb99a2cb5",
       "redirectUris": [
-        "http://trefx01-controller.uksouth.cloudapp.azure.com:8989/",
-        "*"
+        "http://localhost:5034/*"
       ],
       "webOrigins": [
-        "http://localhost:8072/",
-        "http://localhost:5034/"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -913,7 +911,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1686828543",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "http://localhost:5034/",
+        "post.logout.redirect.uris": "+",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -999,7 +997,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "71ee3de3-0e0c-49c8-a0b2-c0e490c90591",
       "redirectUris": [
-        "*"
+        "http://localhost:9003/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -1110,21 +1108,9 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "2de114bc-3599-45f1-9b61-5090c6859dfe",
       "redirectUris": [
-        "http://192.168.70.84*",
-        "https://192.168.70.131:8989/*",
-        "http://localhost:8989/*",
-        "https://192.168.70.97/*",
-        "http://trefx01-controller.uksouth.cloudapp.azure.com:8890/*",
-        "http://trefx01-controller.uksouth.cloudapp.azure.com:8989/*",
-        "http://192.168.70.97:8989*",
-        "https://localhost:7220/*",
-        "http://feda-01.uksouth.cloudapp.azure.com:8989/*",
-        "http://192.168.70.131:8989/*",
-        "https://cardiff.trefx.ukserp.ac.uk/*",
-        "https://localhost:7187/*"
+        "http://localhost:8989/*"
       ],
       "webOrigins": [
-        "*",
         "+"
       ],
       "notBefore": 0,

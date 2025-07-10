@@ -992,10 +992,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "2e60b956-16bc-4dea-8b49-118a8baac5e5",
       "redirectUris": [
-        "*"
+        "http://localhost:5034/*"
       ],
       "webOrigins": [
-        "http://localhost:5034/"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1012,7 +1012,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1686745090",
         "backchannel.logout.session.required": "true",
-        "post.logout.redirect.uris": "http://localhost:5034/",
+        "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -1099,7 +1099,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "8a11bbcd-693a-4549-bda4-3e978fcf4de1",
       "redirectUris": [
-        "*"
+        "http://localhost:9001/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -1156,7 +1156,7 @@
       "clientId": "Dare-Control-UI",
       "name": "Dare-Control-UI",
       "description": "",
-      "rootUrl": "https://submission.trefx.ukserp.ac.uk",
+      "rootUrl": "http://localhost:7220",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -1165,19 +1165,10 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "1218304e-bf92-4706-83f6-912e0b04ecb9",
       "redirectUris": [
-        "https://addib2c.b2clogin.com/addib2c.onmicrosoft.com/oauth2/authresp/*",
-        "https://addib2c.b2clogin.com/addib2c.onmicrosoft.com/oauth2/authresp*",
-        "https://submission.trefx.ukserp.ac.uk/*",
-        "*",
-        "https://localhost:7220/*",
-        "http://192.168.70.72:7220/",
-        "https://submission.dpuk.ukserp.ac.uk/*",
-        "http://192.168.70.72:7220/*"
+        "http://localhost:7220/*"
       ],
       "webOrigins": [
-        "https://submission.trefx.ukserp.ac.uk",
-        "https://submission.dpuk.ukserp.ac.uk",
-        "http://192.168.70.72:7220/"
+        "+"
       ],
       "notBefore": 0,
       "bearerOnly": false,
