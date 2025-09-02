@@ -1,5 +1,6 @@
-# DARE-TREFX-Environment1
-Demo Environment for DARE TRFX Project
+# DARE-TREFX-Environment
+Demo Environment for DARE TRE-FX Project.
+User and Developer Guides can be found in the [documentation](https://docs.federated-analytics.ac.uk/).
 
 
 ## 📁 Project Structure
@@ -16,6 +17,7 @@ Demo Environment for DARE TRFX Project
 └── README.md         
 
 ```
+
 ## All In One
 A Simple Demonstrator instance of the complete stack, intended to be run locally, not intended to be a production deployment.
 ```bash
