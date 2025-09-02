@@ -1,2 +1,0 @@
-CREATE DATABASE hangfire;
-CREATE DATABASE DARE-Control;
