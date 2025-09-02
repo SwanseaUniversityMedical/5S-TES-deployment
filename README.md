@@ -12,8 +12,6 @@ User and Developer Guides can be found in the [documentation](https://docs.feder
 ├── TRE-Keycloak/     # Deploy an instance of the TRE Agent
 ├── Submission-Keycloak/  # Deploy an instance of the Submission Layer
 ├── Diagram/          # Architecture or system diagrams
-├── .vs/              # Visual Studio config (if used)
-├── *.bat / *.sh      # Setup scripts
 └── README.md         
 
 ```
