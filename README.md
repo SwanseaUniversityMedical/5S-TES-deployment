@@ -7,11 +7,11 @@ User and Developer Guides can be found in the [documentation](https://docs.feder
 
 ```bash
 .
-├── AllInOne/         # Demonstration instance of the stack
-├── ansible/          # Ansible script to install funnel 
-├── TRE-Keycloak/     # Deploy an instance of the TRE Agent
-├── Submission-Keycloak/  # Deploy an instance of the Submission Layer
-├── Diagram/          # Architecture or system diagrams
+├── AllInOne/      # Demonstration instance of the stack
+├── ansible/       # Ansible script to install funnel 
+├── Submission/    # Deploy an instance of the Submission Layer
+├── TRE/           # Deploy an instance of the TRE Agent
+├── Diagram/       # Architecture or system diagrams
 └── README.md         
 
 ```
