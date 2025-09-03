@@ -368,7 +368,7 @@ services:
 ######################################################
 
   minio:
-    image: quay.io/minio/minio
+    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
     mem_limit: 512M
     mem_reservation: 256M
     cpus: 0.1
@@ -407,7 +407,7 @@ services:
 ######################################################
   seq:
     platform: linux/x86_64
-    image: datalust/seq:latest
+    image: datalust/seq:2025.1.14095
     container_name: seq
     restart: always
     networks:
