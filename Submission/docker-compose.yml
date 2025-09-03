@@ -179,7 +179,7 @@ services:
     container_name: postgres
     restart: always
     environment:
-      #      - ALLOW_EMPTY_PASSWORD=yes
+      # - ALLOW_EMPTY_PASSWORD=yes
       - POSTGRESQL_USERNAME=${PGLOGIN}
       - POSTGRESQL_DATABASE=DARE-Control
       - POSTGRESQL_PASSWORD=${PGPASSWORD}
@@ -239,7 +239,7 @@ services:
   # MINIO
   ######################################################
   minio:
-    image: quay.io/minio/minio
+    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: minio
     restart: always
     command: server /data --console-address ":9001"
@@ -278,7 +278,7 @@ services:
   ######################################################
   seq:
     platform: linux/x86_64
-    image: datalust/seq:latest
+    image: datalust/seq:2025.1.14095
     container_name: seq
     restart: always
     networks:
