@@ -135,8 +135,8 @@ services:
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
-      #- AgentSettings__TESKAPIURL=${TesAPIUrl}
-      #- AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
+      - AgentSettings__TESKAPIURL=${TesAPIUrl}
+      - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       #- AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       #- AgentSettings__Proxy=true
