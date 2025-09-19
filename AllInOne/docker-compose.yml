@@ -57,7 +57,7 @@ services:
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
 
 
   tre-api:
@@ -82,6 +82,8 @@ services:
         condition: service_healthy
       submissionAPI:
         condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       - Features__DemoAllInOne=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -105,7 +107,7 @@ services:
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -115,9 +117,9 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"    
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
@@ -189,9 +191,9 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre 
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
@@ -230,7 +232,7 @@ services:
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
       - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
       - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
       - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -240,7 +242,7 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - MinioSettings__Url=http://minio2:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
@@ -284,7 +286,7 @@ services:
       - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
       - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
@@ -339,7 +341,7 @@ services:
       - SubmissionKeyCloakSettings__BypassProxy=minioAAA,seq
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
