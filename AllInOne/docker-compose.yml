@@ -29,7 +29,7 @@ services:
 
   tre-ui:
     platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${dareVer}
+    image: harbor.ukserp.ac.uk:443/dare-trefx-nottingham/control-tre-ui:${dareVer}
     container_name: treUI
     restart: always
     networks:
@@ -62,7 +62,7 @@ services:
 
   tre-api:
     platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
+    image: harbor.ukserp.ac.uk:443/dare-trefx-nottingham/control-tre-api:${dareVer}
     container_name: treapi
     restart: always
     networks:
@@ -84,9 +84,11 @@ services:
         condition: service_started
     environment:
       - Features__DemoAllInOne=${DemoMode}
+      - Features__InjectDbCredentials=${InjectDbCredentials}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       - DareAPISettings__Address=http://submissionAPI
@@ -137,11 +139,15 @@ services:
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
+      - AgentSettings__Credentials__Username=${DBUsername}
+      - AgentSettings__Credentials__Password=${DBPassword}
+      - AgentSettings__Credentials__Host=${DBHost}
+      - AgentSettings__Credentials__Database=${DBName}
       #- AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       #- AgentSettings__Proxy=true
       #- AgentSettings__ProxyAddresURL=${proxyurl}
-      #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
+      #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx-nottingham/control-tre-hasura
       - MinioTRESettings__Url=http://minio2:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
@@ -167,7 +173,7 @@ services:
 
   DataEgressUI:
     platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
+    image: harbor.ukserp.ac.uk:443/dare-trefx-nottingham/control-egress-ui:${dareVer}
     container_name: DataEgressUI
     restart: always
     networks:
@@ -198,7 +204,7 @@ services:
 
   DataEgressAPI:
     platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
+    image: harbor.ukserp.ac.uk:443/dare-trefx-nottingham/control-egress-api:${dareVer}
     container_name: DataEgressAPI
     restart: always
     networks:
@@ -258,7 +264,7 @@ services:
 
   submissionUI:
     platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
+    image: harbor.ukserp.ac.uk:443/dare-trefx-nottingham/control-main-ui:${dareVer}
     container_name: submissionUI
     restart: always
     networks:
@@ -302,7 +308,7 @@ services:
   
   submissionAPI:
     platform: linux/x86_64
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
+    image: harbor.ukserp.ac.uk:443/dare-trefx-nottingham/control-main-api:${dareVer}
     container_name: submissionAPI
     restart: always
     networks:
