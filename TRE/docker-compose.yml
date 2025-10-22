@@ -419,6 +419,178 @@ services:
     environment:
       - ACCEPT_EULA=Y
 
+      - ACCEPT_EULA=Y
+######################################################
+# Credentials
+######################################################
+
+######################################################
+# Camunda
+######################################################
+ TRE-Camunda:
+    platform: linux/x86_64
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-camunda:${dareVer}
+    container_name: TRECamunda
+    restart: always
+    networks:
+      - sub-net      
+    ports:
+      - 8102:80
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      keycloak: 
+        condition: service_healthy     
+    environment:      
+      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__TREPostgresConnection=Server=postgres;Port=5432;Database=tredataInclude Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - RabbitMQ__HostAddress=rabbitmq-tre
+      - Serilog__SeqServerUrl=http://seq:5341
+      - ZeebeBootstrap_Client_GatewayAddress=$(ZeebeBootstrap_GatewayAddress)
+      - LdapSettings_host=$(LdapSettings_host)
+      - VaultSettings_BaseUrl=$(Vault_BaseUrl)     
+
+
+zeebe: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#zeebe
+  image: camunda/zeebe:${CAMUNDA_PLATFORM_VERSION}
+  container_name: zeebe
+  ports:
+    - "26500:26500"
+    - "9600:9600"
+  environment: # https://docs.camunda.io/docs/self-managed/zeebe-deployment/configuration/environment-variables/
+    - ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_CLASSNAME=io.camunda.zeebe.exporter.ElasticsearchExporter
+    - ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_URL=http://elasticsearch:9200
+    # default is 1000, see here: https://github.com/camunda/zeebe/blob/main/exporters/elasticsearch-exporter/src/main/java/io/camunda/zeebe/exporter/ElasticsearchExporterConfiguration.java#L259
+    - ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_BULK_SIZE=1
+    # allow running with low disk space
+    - ZEEBE_BROKER_DATA_DISKUSAGECOMMANDWATERMARK=0.998
+    - ZEEBE_BROKER_DATA_DISKUSAGEREPLICATIONWATERMARK=0.999
+    - "JAVA_TOOL_OPTIONS=-Xms512m -Xmx512m"
+  restart: always
+  healthcheck:
+    test: [ "CMD-SHELL", "timeout 10s bash -c ':> /dev/tcp/127.0.0.1/9600' && timeout 10s bash -c ':> /dev/tcp/127.0.0.1/26500' || exit 1" ]
+    interval: 30s
+    timeout: 5s
+    retries: 5
+    start_period: 60s
+  volumes:
+    - zeebe:/usr/local/zeebe/data
+  networks:
+    - camunda-platform
+  depends_on:
+    - elasticsearch
+
+operate: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#operate
+  image: camunda/operate:${CAMUNDA_PLATFORM_VERSION}
+  container_name: operate
+  ports:
+    - "8081:8080"
+  environment: #http://localhost:8081/swagger-ui/index.html#/ProcessInstance/byKey_1
+    - CAMUNDA_OPERATE_ZEEBE_GATEWAYADDRESS=zeebe:26500
+    - CAMUNDA_OPERATE_ELASTICSEARCH_URL=http://elasticsearch:9200
+    - CAMUNDA_OPERATE_ZEEBEELASTICSEARCH_URL=http://elasticsearch:9200
+    - management.endpoints.web.exposure.include=health
+    - management.endpoint.health.probes.enabled=true
+  healthcheck:
+    test: [ "CMD-SHELL", "wget -O - -q 'http://localhost:8080/actuator/health/readiness'" ]
+    interval: 30s
+    timeout: 1s
+    retries: 5
+    start_period: 30s
+  networks:
+    - camunda-platform
+  depends_on:
+    - zeebe
+    - elasticsearch
+
+connectors: # https://docs.camunda.io/docs/components/integration-framework/connectors/out-of-the-box-connectors/available-connectors-overview/
+  image: camunda/connectors-bundle:${CAMUNDA_CONNECTORS_VERSION}
+  container_name: connectors
+  ports:
+    - "8085:8080"
+  environment:
+    - ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS=zeebe:26500
+    - ZEEBE_CLIENT_SECURITY_PLAINTEXT=true
+    - CAMUNDA_OPERATE_CLIENT_URL=http://operate:8080
+    - CAMUNDA_OPERATE_CLIENT_USERNAME=demo
+    - CAMUNDA_OPERATE_CLIENT_PASSWORD=demo
+    - management.endpoints.web.exposure.include=health
+    - management.endpoint.health.probes.enabled=true
+  healthcheck:
+    test: [ "CMD-SHELL", "curl -f http://localhost:8080/actuator/health/readiness" ]
+    interval: 30s
+    timeout: 1s
+    retries: 5
+    start_period: 30s
+  env_file: connector-secrets.txt
+  networks:
+    - camunda-platform
+  depends_on:
+    - zeebe
+    - operate
+
+elasticsearch: # https://hub.docker.com/_/elasticsearch
+  image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION}
+  container_name: elasticsearch
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+  environment:
+    - bootstrap.memory_lock=true
+    - discovery.type=single-node
+    - xpack.security.enabled=false
+    # allow running with low disk space
+    - cluster.routing.allocation.disk.threshold_enabled=false
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+  restart: always
+  healthcheck:
+    test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cat/health | grep -q green" ]
+    interval: 30s
+    timeout: 5s
+    retries: 3
+  volumes:
+    - elastic:/usr/share/elasticsearch/data
+  networks:
+    - camunda-platform
+######################################################
+#Vault
+######################################################
+
+vault:
+  image: hashicorp/vault:latest
+  container_name: vault
+  mem_limit: 512M
+  mem_reservation: 256M
+  cpus: 0.2
+  restart: always
+  ports:
+    - "8200:8200"
+  environment:
+    - VAULT_DEV_ROOT_TOKEN_ID=dev-only-token
+    - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+    - VAULT_ADDR=http://127.0.0.1:8200
+  volumes:
+    - vault_data:/vault/data
+    - vault_logs:/vault/logs
+    - ./vault-config:/vault/config:ro
+  cap_add:
+    - IPC_LOCK
+  networks:
+    - communicating
+  healthcheck:
+    test: ["CMD-SHELL", "vault status || exit 1"]
+    interval: 30s
+    timeout: 5s
+    retries: 5
+    start_period: 10s
+  command: ["vault", "server", "-dev", "-dev-root-token-id=dev-only-token"]
+
 ######################################################
 # VOLUME
 ######################################################
@@ -439,11 +611,17 @@ volumes:
       driver: local  
     data-protection:
       driver: local 
-       
+    vault_data:
+      driver: local
+    vault_logs:
+      driver: local
+    openldap_data:   
 
 ######################################################
 # networks
 ######################################################
 networks:
   sub-net:
+    driver: bridge
+  camunda-platform:
     driver: bridge
