@@ -403,22 +403,22 @@ services:
   ######################################################
   postgresql:
     platform: linux/x86_64
-    image: docker.io/bitnami/postgresql:latest
+    image: postgres:17
     container_name: postgres
     restart: always
     environment:
-      - POSTGRESQL_USERNAME=${PGLOGIN}
-      - POSTGRESQL_DATABASE=DARE-Control
-      - POSTGRESQL_PASSWORD=${PGPASSWORD}
+      - POSTGRES_USER=${PGLOGIN}
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+      - POSTGRES_DB=DARE-Control
     networks:
       - sub-net
     ports:
       - "5432:5432"
     volumes:
-      - "postgresql_data:/bitnami/postgresql"
+      - "postgresql_data:/var/lib/postgresql/data"
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}"]
+      test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d keycloak"]
 
   adminer:
     image: adminer
