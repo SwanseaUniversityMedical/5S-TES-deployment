@@ -1,10 +1,9 @@
-version: '3.7'
+name: AllInOne
 
 services:
-
-######################################################
-# TRE Proxy
-######################################################
+  ######################################################
+  # TRE Proxy
+  ######################################################
 
   nginx-dare:
     image: nginx:latest
@@ -23,9 +22,9 @@ services:
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
 
-######################################################
-# TRE LAYER
-######################################################
+  ######################################################
+  # TRE LAYER
+  ######################################################
 
   tre-ui:
     platform: linux/x86_64
@@ -39,7 +38,7 @@ services:
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__Address=http://treAPI    
+      - TreAPISettings__Address=http://treAPI
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -54,11 +53,10 @@ services:
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
       - TreKeyCloakSettings__AccountManagementURL=${TreAccountManagementURLUI}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
-
 
   tre-api:
     platform: linux/x86_64
@@ -67,17 +65,17 @@ services:
     restart: always
     networks:
       - sub-net
-     # - engine-tre
-      
+      # - engine-tre
+
     ports:
       - 8072:80
     depends_on:
       postgresql:
         condition: service_healthy
-      keycloak: 
+      keycloak:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy   
+        condition: service_healthy
       minio2:
         condition: service_healthy
       submissionAPI:
@@ -102,7 +100,7 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - EnableExternalHangfire=true
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
@@ -114,7 +112,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
@@ -126,7 +124,7 @@ services:
       - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionAPIValidAudiences}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
@@ -151,7 +149,7 @@ services:
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
       - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
-      - MinioSubSettings__BucketName=testbucket      
+      - MinioSubSettings__BucketName=testbucket
       - MinioSubSettings__AWSRegion=us-east-1
       - MinioTRESettings__AWSRegion=us-east-1
       - Hutch__APIAddress=${HutchAPIAddress}
@@ -159,11 +157,11 @@ services:
       - Hutch__DbName=${HutchDbName}
       - Hutch__DbPort=${HutchDbPort}
       #- HasuraSettings__HasuraURL=${HasuraURL}
-     # - HasuraSettings__HasuraAdminSecret=${HasuraPass} 
+      # - HasuraSettings__HasuraAdminSecret=${HasuraPass}
 
-######################################################
-# DataEgress LAYER
-######################################################
+  ######################################################
+  # DataEgress LAYER
+  ######################################################
 
   DataEgressUI:
     platform: linux/x86_64
@@ -188,7 +186,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre 
+      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
@@ -202,7 +200,7 @@ services:
     container_name: DataEgressAPI
     restart: always
     networks:
-      - sub-net      
+      - sub-net
     ports:
       - 8101:80
     depends_on:
@@ -210,8 +208,8 @@ services:
         condition: service_healthy
       minio2:
         condition: service_healthy
-      keycloak: 
-        condition: service_healthy     
+      keycloak:
+        condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -227,7 +225,7 @@ services:
       - TreKeyCloakSettings__ValidAudiences=${TreAPIValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
@@ -239,7 +237,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressKeyCloakClientID}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - MinioSettings__Url=http://minio2:9000
@@ -250,11 +248,9 @@ services:
       - TreAPISettings__Address=http://treapi:80
       - DataEgressAPISettings__Address=http://DataEgressAPI:8100
 
-
-
-######################################################
-# SUBMISSION LAYER
-######################################################
+  ######################################################
+  # SUBMISSION LAYER
+  ######################################################
 
   submissionUI:
     platform: linux/x86_64
@@ -267,7 +263,7 @@ services:
       - 7220:80
       - 8888:80
     depends_on:
-      - submissionAPI      
+      - submissionAPI
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
@@ -288,18 +284,18 @@ services:
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
       - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
-      - SuppressAntiforgery=${SuppressAntiforgery} 
+      - SuppressAntiforgery=${SuppressAntiforgery}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
       - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
-      
-# AccountManagementURL BaseUrl MetadataAddress Authority
-      
-#      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
-  
+
+  # AccountManagementURL BaseUrl MetadataAddress Authority
+
+  #      - URLSettingsFrontEnd__MinioUrl=192.168.70.87:9001
+
   submissionAPI:
     platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
@@ -313,12 +309,12 @@ services:
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     depends_on:
-      keycloak: 
+      keycloak:
         condition: service_healthy
       postgresql:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy  
+        condition: service_healthy
       minioAAA:
         condition: service_healthy
     environment:
@@ -355,15 +351,13 @@ services:
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
       - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
 
-      
-######################################################
-# Keycloak
-######################################################
+  ######################################################
+  # Keycloak
+  ######################################################
   keycloak:
     image: quay.io/keycloak/keycloak:26.0
     container_name: keycloak
     environment:
-      
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${PGLOGIN}
@@ -383,7 +377,7 @@ services:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
     networks:
-      - sub-net 
+      - sub-net
     command: start-dev  --import-realm #--verbose
     depends_on:
       postgresql:
@@ -393,17 +387,20 @@ services:
     volumes:
       - ./realm-config:/opt/keycloak/data/import
     healthcheck:
-      test: ["CMD-SHELL", "exec 3<>/dev/tcp/0.0.0.0/9000; echo -e \"GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q '\"status\": \"UP\"' <&3; exec 3<&- 3>&-"]
+      test:
+        [
+          "CMD-SHELL",
+          "exec 3<>/dev/tcp/0.0.0.0/9000; echo -e \"GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q '\"status\": \"UP\"' <&3; exec 3<&- 3>&-",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 45s
       start_interval: 5s
 
-
-######################################################
-# POSTGRES
-######################################################
+  ######################################################
+  # POSTGRES
+  ######################################################
   postgresql:
     platform: linux/x86_64
     image: docker.io/bitnami/postgresql:latest
@@ -418,10 +415,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - 'postgresql_data:/bitnami/postgresql'
+      - "postgresql_data:/bitnami/postgresql"
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}" ]
+      test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d ${PGLOGIN}"]
 
   adminer:
     image: adminer
@@ -438,25 +435,25 @@ services:
       postgresql:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "nc", "-z", "adminer", "9000" ]
+      test: ["CMD", "nc", "-z", "adminer", "9000"]
       timeout: 45s
       interval: 10s
       retries: 10
 
-######################################################
-# Rabbit MQ
-######################################################
+  ######################################################
+  # Rabbit MQ
+  ######################################################
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: 'rabbitmq'
+    container_name: "rabbitmq"
     hostname: rabbitmq
     ports:
-        - 5672:5672
-        - 15672:15672
+      - 5672:5672
+      - 15672:15672
     volumes:
-        - rabbitdata:/var/lib/rabbitmq/
-        - rabbitlogs:/var/log/rabbitmq
+      - rabbitdata:/var/lib/rabbitmq/
+      - rabbitlogs:/var/log/rabbitmq
     networks:
       - sub-net
     healthcheck:
@@ -465,17 +462,16 @@ services:
       timeout: 30s
       retries: 3
 
-
-######################################################
-# MINIO
-######################################################
+  ######################################################
+  # MINIO
+  ######################################################
   minioAAA:
     image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: minioAAA
     restart: always
     command: server /data --console-address ":9001"
     depends_on:
-      keycloak: 
+      keycloak:
         condition: service_healthy
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
@@ -511,7 +507,7 @@ services:
     mem_reservation: 256M
     cpus: 0.1
     depends_on:
-      keycloak: 
+      keycloak:
         condition: service_healthy
     container_name: minio2
     restart: always
@@ -540,9 +536,9 @@ services:
       timeout: 10s
       retries: 5
       start_period: 5s
-######################################################
-# SEQ / Serilog
-######################################################
+  ######################################################
+  # SEQ / Serilog
+  ######################################################
   seq:
     platform: linux/x86_64
     image: datalust/seq:2025.1.14095
@@ -561,25 +557,24 @@ services:
 # VOLUME
 ######################################################
 volumes:
-    postgresql_data:
-      driver: local
-    postgresql_kc:
-      driver: local
-    minio_data:
-      driver: local
-    minio2_data:
-      driver: local
-    seq_data:
-      driver: local
-    rabbitdata:
-      driver: local
-    rabbitlogs:
-      driver: local
-    keycloak_data:
-      driver: local  
-    data-protection:
-      driver: local 
-       
+  postgresql_data:
+    driver: local
+  postgresql_kc:
+    driver: local
+  minio_data:
+    driver: local
+  minio2_data:
+    driver: local
+  seq_data:
+    driver: local
+  rabbitdata:
+    driver: local
+  rabbitlogs:
+    driver: local
+  keycloak_data:
+    driver: local
+  data-protection:
+    driver: local
 
 ######################################################
 # networks
