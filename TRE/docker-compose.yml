@@ -13,13 +13,14 @@ services:
       - 9999:80
     networks:
       - sub-net
-    depends_on:  
+    depends_on:
       - DataEgressUI
       - DataEgressAPI
       - tre-ui
       - tre-api
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf
+
 
 ######################################################
 # TRE LAYER
@@ -37,7 +38,7 @@ services:
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__Address=http://treAPI    
+      - TreAPISettings__Address=http://treAPI
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -52,7 +53,7 @@ services:
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
       - TreKeyCloakSettings__AccountManagementURL=${TreAccountManagementURLUI}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpiredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
@@ -66,23 +67,24 @@ services:
     networks:
       - sub-net
      # - engine-tre
-      
+
     ports:
       - 8072:80
     depends_on:
       postgresql:
         condition: service_healthy
-      keycloak: 
+      keycloak:
         condition: service_healthy
       rabbitmq:
-        condition: service_healthy   
+        condition: service_healthy
       minio:
-        condition: service_healthy    
+        condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=password123
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=CredentialsConnection;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       - DareAPISettings__Address=${SubmissionAPIAddressURL}
@@ -96,8 +98,9 @@ services:
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
+      - EnableExternalHangfire=true
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpiredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
@@ -109,7 +112,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
@@ -121,7 +124,7 @@ services:
       - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionAPIValidAudiences}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpiredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
@@ -133,6 +136,7 @@ services:
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
+      - AgentSettings__TESKInputBucketIP=${TESKInputBucketIP}
       #- AgentSettings__URLHasuraToAdd=${HasuraIP}
       - TreName=${TreName}
       #- AgentSettings__Proxy=true
@@ -147,7 +151,7 @@ services:
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
       - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
-      - MinioSubSettings__BucketName=testbucket      
+      - MinioSubSettings__BucketName=testbucket
       - MinioSubSettings__AWSRegion=us-east-1
       - MinioTRESettings__AWSRegion=us-east-1
       - Hutch__APIAddress=${HutchAPIAddress}
@@ -155,9 +159,10 @@ services:
       - Hutch__DbName=${HutchDbName}
       - Hutch__DbPort=${HutchDbPort}
       #- HasuraSettings__HasuraURL=${HasuraURL}
-     # - HasuraSettings__HasuraAdminSecret=${HasuraPass} 
-
-
+     # - HasuraSettings__HasuraAdminSecret=${HasuraPass}
+      - CredentialAPISettings__StartWebhookUrl=http://connectors:8086/inbound/StartCredentials
+      - CredentialAPISettings__RevokeWebhookUrl=http://connectors:8086/inbound/RevokeCredentials
+      - VaultSettings__BaseUrl=${VaultBaseUrl}
 ######################################################
 # DataEgress LAYER
 ######################################################
@@ -185,7 +190,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre 
+      - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
@@ -199,7 +204,7 @@ services:
     container_name: DataEgressAPI
     restart: always
     networks:
-      - sub-net      
+      - sub-net
     ports:
       - 8101:80
     depends_on:
@@ -207,8 +212,8 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
-      keycloak: 
-        condition: service_healthy     
+      keycloak:
+        condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -224,7 +229,7 @@ services:
       - TreKeyCloakSettings__ValidAudiences=${TreAPIValidAudiences}
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpiredAddressUI}
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
@@ -236,7 +241,7 @@ services:
       - DataEgressKeyCloakSettings__ValidAudiences=${EgressKeyCloakClientID}
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"    
+      - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - MinioSettings__Url=http://minio:9000
@@ -247,7 +252,7 @@ services:
       - TreAPISettings__Address=http://treapi:80
       - DataEgressAPISettings__Address=http://DataEgressAPI:8100
 
-      
+
 ######################################################
 # Keycloak
 ######################################################
@@ -255,7 +260,7 @@ services:
     image: quay.io/keycloak/keycloak:26.0
     container_name: keycloak
     environment:
-      
+
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${PGLOGIN}
@@ -274,11 +279,11 @@ services:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       # Admin credentials
-  
-      
+
+
       # Enable client and user configuration during startup
     networks:
-      - sub-net 
+      - sub-net
     command: start-dev  --import-realm #--verbose
     depends_on:
       postgresql:
@@ -372,7 +377,7 @@ services:
     mem_reservation: 256M
     cpus: 0.1
     depends_on:
-      keycloak: 
+      keycloak:
         condition: service_healthy
     container_name: minio
     restart: always
@@ -418,7 +423,6 @@ services:
     environment:
       - ACCEPT_EULA=Y
 
-      - ACCEPT_EULA=Y
 ######################################################
 # Credentials
 ######################################################
@@ -450,6 +454,10 @@ services:
       - ZeebeBootstrap__Client__GatewayAddress=${ZeebeBootstrapGatewayAddress}
       - LdapSettings__host=${LdapSettingsHost}
       - VaultSettings__BaseUrl=${VaultBaseUrl}
+      #- ProcessModelSettings__ModelDirectory=/app/ProcessModels
+      - FeatureFlag__EphemeralCredentials=true
+    volumes:
+      - CamundaModels:/app/ProcessModels
 
   zeebe: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#zeebe
     image: camunda/zeebe:${CAMUNDA_PLATFORM_VERSION}
@@ -612,6 +620,8 @@ volumes:
     zeebe:
       driver: local
     elastic:
+      driver: local
+    CamundaModels:
       driver: local
 ######################################################
 # networks
