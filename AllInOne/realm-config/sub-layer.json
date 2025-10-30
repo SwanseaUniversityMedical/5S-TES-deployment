@@ -28,7 +28,7 @@
   "oauth2DeviceCodeLifespan": 86400,
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
-  "sslRequired": "external",
+  "sslRequired": "none",
   "registrationAllowed": true,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
@@ -64,15 +64,9 @@
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
-          "realm": [
-            "offline_access",
-            "uma_authorization"
-          ],
+          "realm": ["offline_access", "uma_authorization"],
           "client": {
-            "account": [
-              "manage-account",
-              "view-profile"
-            ]
+            "account": ["manage-account", "view-profile"]
           }
         },
         "clientRole": false,
@@ -121,10 +115,7 @@
         "description": "",
         "composite": true,
         "composites": {
-          "realm": [
-            "offline_access",
-            "uma_authorization"
-          ]
+          "realm": ["offline_access", "uma_authorization"]
         },
         "clientRole": false,
         "containerId": "2d79964b-f1eb-43e2-877f-035e7f420a3b",
@@ -225,9 +216,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "realm-management": [
-                "query-clients"
-              ]
+              "realm-management": ["query-clients"]
             }
           },
           "clientRole": true,
@@ -313,10 +302,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "realm-management": [
-                "query-groups",
-                "query-users"
-              ]
+              "realm-management": ["query-groups", "query-users"]
             }
           },
           "clientRole": true,
@@ -426,9 +412,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "account": [
-                "manage-account-links"
-              ]
+              "account": ["manage-account-links"]
             }
           },
           "clientRole": true,
@@ -487,9 +471,7 @@
           "composite": true,
           "composites": {
             "client": {
-              "account": [
-                "view-consent"
-              ]
+              "account": ["view-consent"]
             }
           },
           "clientRole": true,
@@ -506,17 +488,11 @@
       "path": "/dare-control-admin",
       "subGroups": [],
       "attributes": {
-        "policy": [
-          "consoleAdmin"
-        ]
+        "policy": ["consoleAdmin"]
       },
-      "realmRoles": [
-        "default-roles-dare-control"
-      ],
+      "realmRoles": ["default-roles-dare-control"],
       "clientRoles": {
-        "realm-management": [
-          "manage-users"
-        ]
+        "realm-management": ["manage-users"]
       }
     },
     {
@@ -564,9 +540,7 @@
     "clientRole": false,
     "containerId": "2d79964b-f1eb-43e2-877f-035e7f420a3b"
   },
-  "requiredCredentials": [
-    "password"
-  ],
+  "requiredCredentials": ["password"],
   "otpPolicyType": "totp",
   "otpPolicyAlgorithm": "HmacSHA1",
   "otpPolicyInitialCounter": 0,
@@ -581,9 +555,7 @@
   ],
   "localizationTexts": {},
   "webAuthnPolicyRpEntityName": "keycloak",
-  "webAuthnPolicySignatureAlgorithms": [
-    "ES256"
-  ],
+  "webAuthnPolicySignatureAlgorithms": ["ES256"],
   "webAuthnPolicyRpId": "",
   "webAuthnPolicyAttestationConveyancePreference": "not specified",
   "webAuthnPolicyAuthenticatorAttachment": "not specified",
@@ -594,9 +566,7 @@
   "webAuthnPolicyAcceptableAaguids": [],
   "webAuthnPolicyExtraOrigins": [],
   "webAuthnPolicyPasswordlessRpEntityName": "keycloak",
-  "webAuthnPolicyPasswordlessSignatureAlgorithms": [
-    "ES256"
-  ],
+  "webAuthnPolicyPasswordlessSignatureAlgorithms": ["ES256"],
   "webAuthnPolicyPasswordlessRpId": "",
   "webAuthnPolicyPasswordlessAttestationConveyancePreference": "not specified",
   "webAuthnPolicyPasswordlessAuthenticatorAttachment": "not specified",
@@ -652,16 +622,10 @@
       "totp": false,
       "serviceAccountClientId": "Dare-Control-UI-Long",
       "disableableCredentialTypes": [],
-      "requiredActions": [
-        "CONFIGURE_TOTP"
-      ],
-      "realmRoles": [
-        "default-roles-dare-control"
-      ],
+      "requiredActions": ["CONFIGURE_TOTP"],
+      "realmRoles": ["default-roles-dare-control"],
       "clientRoles": {
-        "Dare-Control-UI-Long": [
-          "uma_protection"
-        ]
+        "Dare-Control-UI-Long": ["uma_protection"]
       },
       "notBefore": 0,
       "groups": []
@@ -679,14 +643,8 @@
           "temporary": false
         }
       ],
-      "realmRoles": [
-        "dare-control-admin",
-        "default-roles-dare-control"
-      ],
-      "groups": [
-        "/dare-control-admin",
-        "/dare-control-users"
-      ]
+      "realmRoles": ["dare-control-admin", "default-roles-dare-control"],
+      "groups": ["/dare-control-admin", "/dare-control-users"]
     },
     {
       "username": "minioadmin",
@@ -729,64 +687,44 @@
           "temporary": false
         }
       ],
-      "realmRoles": [
-        "dare-tre-admin",
-        "default-roles-dare-control"
-      ]
+      "realmRoles": ["dare-tre-admin", "default-roles-dare-control"]
     }
   ],
   "scopeMappings": [
     {
       "clientScope": "Dare-Tre-Control-API-cs",
-      "roles": [
-        "dare-tre-admin"
-      ]
+      "roles": ["dare-tre-admin"]
     },
     {
       "clientScope": "Dare-Control-API-cs",
-      "roles": [
-        "uma_authorization"
-      ]
+      "roles": ["uma_authorization"]
     },
     {
       "clientScope": "minio-authorization",
-      "roles": [
-        "uma_authorization"
-      ]
+      "roles": ["uma_authorization"]
     },
     {
       "clientScope": "Dare-Tre-Control-UI-cs",
-      "roles": [
-        "dare-tre-admin"
-      ]
+      "roles": ["dare-tre-admin"]
     },
     {
       "clientScope": "Dare-Control-UI-cs",
-      "roles": [
-        "uma_authorization"
-      ]
+      "roles": ["uma_authorization"]
     },
     {
       "clientScope": "Dare-Control-UI-Long-cs",
-      "roles": [
-        "uma_authorization"
-      ]
+      "roles": ["uma_authorization"]
     },
     {
       "clientScope": "offline_access",
-      "roles": [
-        "offline_access"
-      ]
+      "roles": ["offline_access"]
     }
   ],
   "clientScopeMappings": {
     "account": [
       {
         "client": "account-console",
-        "roles": [
-          "manage-account",
-          "view-groups"
-        ]
+        "roles": ["manage-account", "view-groups"]
       }
     ]
   },
@@ -801,9 +739,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "/realms/Dare-Control/account/*"
-      ],
+      "redirectUris": ["/realms/Dare-Control/account/*"],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -847,9 +783,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "/realms/Dare-Control/account/*"
-      ],
+      "redirectUris": ["/realms/Dare-Control/account/*"],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -991,12 +925,8 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "2e60b956-16bc-4dea-8b49-118a8baac5e5",
-      "redirectUris": [
-        "http://localhost:5034/*"
-      ],
-      "webOrigins": [
-        "+"
-      ],
+      "redirectUris": ["http://localhost:5034/*"],
+      "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -1098,9 +1028,7 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "8a11bbcd-693a-4549-bda4-3e978fcf4de1",
-      "redirectUris": [
-        "http://localhost:9001/*"
-      ],
+      "redirectUris": ["http://localhost:9001/*"],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1164,12 +1092,8 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "1218304e-bf92-4706-83f6-912e0b04ecb9",
-      "redirectUris": [
-        "http://localhost:7220/*"
-      ],
-      "webOrigins": [
-        "+"
-      ],
+      "redirectUris": ["http://localhost:7220/*"],
+      "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -1283,12 +1207,8 @@
       "alwaysDisplayInConsole": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": [
-        "https://localhost:7220/*"
-      ],
-      "webOrigins": [
-        "/*"
-      ],
+      "redirectUris": ["https://localhost:7220/*"],
+      "webOrigins": ["/*"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -1452,12 +1372,8 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "redirectUris": [
-        "/admin/Dare-Control/console/*"
-      ],
-      "webOrigins": [
-        "+"
-      ],
+      "redirectUris": ["/admin/Dare-Control/console/*"],
+      "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -2298,9 +2214,7 @@
     "user": "hiru"
   },
   "eventsEnabled": false,
-  "eventsListeners": [
-    "jboss-logging"
-  ],
+  "eventsListeners": ["jboss-logging"],
   "enabledEventTypes": [],
   "adminEventsEnabled": false,
   "adminEventsDetailsEnabled": false,
@@ -2373,9 +2287,7 @@
         "subType": "anonymous",
         "subComponents": {},
         "config": {
-          "allow-default-scopes": [
-            "true"
-          ]
+          "allow-default-scopes": ["true"]
         }
       },
       {
@@ -2385,9 +2297,7 @@
         "subType": "authenticated",
         "subComponents": {},
         "config": {
-          "allow-default-scopes": [
-            "true"
-          ]
+          "allow-default-scopes": ["true"]
         }
       },
       {
@@ -2397,12 +2307,8 @@
         "subType": "anonymous",
         "subComponents": {},
         "config": {
-          "host-sending-registration-request-must-match": [
-            "true"
-          ],
-          "client-uris-must-match": [
-            "true"
-          ]
+          "host-sending-registration-request-must-match": ["true"],
+          "client-uris-must-match": ["true"]
         }
       },
       {
@@ -2439,9 +2345,7 @@
         "subType": "anonymous",
         "subComponents": {},
         "config": {
-          "max-clients": [
-            "200"
-          ]
+          "max-clients": ["200"]
         }
       },
       {
@@ -2472,12 +2376,8 @@
         "providerId": "rsa-enc-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ],
-          "algorithm": [
-            "RSA-OAEP"
-          ]
+          "priority": ["100"],
+          "algorithm": ["RSA-OAEP"]
         }
       },
       {
@@ -2486,9 +2386,7 @@
         "providerId": "rsa-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ]
+          "priority": ["100"]
         }
       },
       {
@@ -2497,9 +2395,7 @@
         "providerId": "aes-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ]
+          "priority": ["100"]
         }
       },
       {
@@ -2508,12 +2404,8 @@
         "providerId": "hmac-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ],
-          "algorithm": [
-            "HS256"
-          ]
+          "priority": ["100"],
+          "algorithm": ["HS256"]
         }
       },
       {
@@ -2522,12 +2414,8 @@
         "providerId": "hmac-generated",
         "subComponents": {},
         "config": {
-          "priority": [
-            "100"
-          ],
-          "algorithm": [
-            "HS512"
-          ]
+          "priority": ["100"],
+          "algorithm": ["HS512"]
         }
       }
     ]
