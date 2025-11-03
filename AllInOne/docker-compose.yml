@@ -466,7 +466,7 @@ services:
   # MINIO
   ######################################################
   minioSubmission:
-    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+    image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     container_name: minioSubmission
     restart: always
     command: server /data --console-address ":9001"
@@ -502,7 +502,7 @@ services:
       start_period: 5s
 
   minioTRE:
-    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+    image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     mem_limit: 512M
     mem_reservation: 256M
     cpus: 0.1
