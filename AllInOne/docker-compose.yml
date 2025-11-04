@@ -76,7 +76,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minio2:
+      minioTRE:
         condition: service_healthy
       submissionAPI:
         condition: service_started
@@ -140,11 +140,11 @@ services:
       #- AgentSettings__Proxy=true
       #- AgentSettings__ProxyAddresURL=${proxyurl}
       #- AgentSettings__ImageNameToAddToToken=harbor.ukserp.ac.uk/dare-trefx/control-tre-hasura
-      - MinioTRESettings__Url=http://minio2:9000
+      - MinioTRESettings__Url=http://minioTRE:9000
       - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=http://minio2:9001
+      - MinioTRESettings__AdminConsole=http://minioTRE:9001
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
@@ -206,7 +206,7 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      minio2:
+      minioTRE:
         condition: service_healthy
       keycloak:
         condition: service_healthy
@@ -240,7 +240,7 @@ services:
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - MinioSettings__Url=http://minio2:9000
+      - MinioSettings__Url=http://minioTRE:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
@@ -315,7 +315,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minioAAA:
+      minioSubmission:
         condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
@@ -324,15 +324,15 @@ services:
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       #- MinioSettings__ProxyAddresURLForExternalFetch=${ProxyAddresURLForExternalFetch}
-      - MinioSettings__Url=http://minioAAA:9000
+      - MinioSettings__Url=http://minioSubmission:9000
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
       - MinioSettings__BucketName=testbucket
       - SuppressAntiforgery=${SuppressAntiforgery}
-      - MinioSettings__AdminConsole=http://minioAAA:9001
+      - MinioSettings__AdminConsole=http://minioSubmission:9001
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy=minioAAA,seq
+      - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
@@ -465,9 +465,9 @@ services:
   ######################################################
   # MINIO
   ######################################################
-  minioAAA:
-    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
-    container_name: minioAAA
+  minioSubmission:
+    image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
+    container_name: minioSubmission
     restart: always
     command: server /data --console-address ":9001"
     depends_on:
@@ -490,7 +490,7 @@ services:
     networks:
       - sub-net
     volumes:
-      - minio_data:/data
+      - minioSubmission_data:/data
     ports:
       - 9000:9000
       - 9001:9001
@@ -501,15 +501,15 @@ services:
       retries: 5
       start_period: 5s
 
-  minio2:
-    image: quay.io/minio/minio:RELEASE.2025-04-22T22-12-26Z
+  minioTRE:
+    image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     mem_limit: 512M
     mem_reservation: 256M
     cpus: 0.1
     depends_on:
       keycloak:
         condition: service_healthy
-    container_name: minio2
+    container_name: minioTRE
     restart: always
     command: server /data --console-address ":9001"
     environment:
@@ -526,7 +526,7 @@ services:
     networks:
       - sub-net
     volumes:
-      - minio2_data:/data
+      - minioTRE_data:/data
     ports:
       - 9002:9000
       - 9003:9001
@@ -561,9 +561,9 @@ volumes:
     driver: local
   postgresql_kc:
     driver: local
-  minio_data:
+  minioSubmission_data:
     driver: local
-  minio2_data:
+  minioTRE_data:
     driver: local
   seq_data:
     driver: local
