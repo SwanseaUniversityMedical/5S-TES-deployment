@@ -541,16 +541,16 @@ services:
       - logger.org.elasticsearch.deprecation="OFF"
     mem_limit: 1g
     restart: unless-stopped
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -f http://localhost:9200/_cat/health | grep -q green",
-        ]
-      interval: 1s
-      retries: 30
-      start_period: 30s
-      timeout: 1s
+    # healthcheck:
+    #   test:
+    #     [
+    #       "CMD-SHELL",
+    #       "curl -f http://localhost:9200/_cat/health | grep -q green",
+    #     ]
+    #   interval: 1s
+    #   retries: 30
+    #   start_period: 30s
+    #   timeout: 1s
     volumes:
       - elastic:/usr/share/elasticsearch/data
     networks:
