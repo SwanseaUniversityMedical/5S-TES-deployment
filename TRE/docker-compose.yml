@@ -49,12 +49,12 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      keycloak:
-        condition: service_healthy
+      # keycloak:
+      #   condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minio:
-        condition: service_healthy
+      # minio:
+      #   condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -67,7 +67,7 @@ services:
       - DareAPISettings__Address=${SubmissionAPIAddressURL}
       - DataEgressAPISettings__Address=https://egressAPI
       - EnableExternalHangfire=${EnableExternalHangfire}
-      - IgnoreHutchSSL=${IgnoreHutchSSL}
+      # - IgnoreHutchSSL=${IgnoreHutchSSL}
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -115,21 +115,21 @@ services:
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
       - MinioTRESettings__Url=http://minio:9000
-      - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
+      # - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
       - MinioTRESettings__AdminConsole=http://minio:9001
-      - MinioSubSettings__Url=${submissionMinioUrl}
+      # - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
-      - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
+      # - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
       - MinioSubSettings__BucketName=testbucket
       - MinioSubSettings__AWSRegion=us-east-1
       - MinioTRESettings__AWSRegion=us-east-1
-      - Hutch__APIAddress=${HutchAPIAddress}
-      - Hutch__DbServer=${HutchDbServer}
-      - Hutch__DbName=${HutchDbName}
-      - Hutch__DbPort=${HutchDbPort}
+      # - Hutch__APIAddress=${HutchAPIAddress}
+      # - Hutch__DbServer=${HutchDbServer}
+      # - Hutch__DbName=${HutchDbName}
+      # - Hutch__DbPort=${HutchDbPort}
       - CredentialAPISettings__StartWebhookUrl=${CredentialAPISettingsStartWebhookUrl}
       - CredentialAPISettings__RevokeWebhookUrl=${CredentialAPISettingsRevokeWebhookUrl}
       - VaultSettings__BaseUrl=http://vault:8200
@@ -187,10 +187,10 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      minio:
-        condition: service_healthy
-      keycloak:
-        condition: service_healthy
+      # minio:
+      #   condition: service_healthy
+      # keycloak:
+      #   condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -281,46 +281,46 @@ services:
   ######################################################
   # Keycloak
   ######################################################
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.0
-    container_name: keycloak
-    environment:
-      KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres/keycloak
-      KC_DB_USERNAME: ${PGLOGIN}
-      KC_DB_PASSWORD: ${PGPASSWORD}
-      KC_HOSTNAME: ${KeycloakHostName}
-      KC_HOSTNAME_PORT: 8085
-      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
-      KEYCLOAK_FRONTEND_URL: ${KeycloakHostName}/auth
-      KC_LOG_LEVEL: info
-      KC_METRICS_ENABLED: true
-      KC_HEALTH_ENABLED: true
-      KEYCLOAK_HEALTH_ENABLED: true
-      KEYCLOAK_METRICS_ENABLED: true
-      KC_BOOTSTRAP_ADMIN_USERNAME: admin
-      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
-    networks:
-      - sub-net
-    command: start-dev  --import-realm #--verbose
-    depends_on:
-      postgresql:
-        condition: service_healthy
-    ports:
-      - 8085:8080
-    volumes:
-      - ./realm-config:/opt/keycloak/data/import
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "exec 3<>/dev/tcp/0.0.0.0/9000; echo -e \"GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q '\"status\": \"UP\"' <&3; exec 3<&- 3>&-",
-        ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 90s
-      start_interval: 5s
+  # keycloak:
+  #   image: quay.io/keycloak/keycloak:26.0
+  #   container_name: keycloak
+  #   environment:
+  #     KC_DB: postgres
+  #     KC_DB_URL: jdbc:postgresql://postgres/keycloak
+  #     KC_DB_USERNAME: ${PGLOGIN}
+  #     KC_DB_PASSWORD: ${PGPASSWORD}
+  #     KC_HOSTNAME: ${KeycloakHostName}
+  #     KC_HOSTNAME_PORT: 8085
+  #     KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+  #     KEYCLOAK_FRONTEND_URL: ${KeycloakHostName}/auth
+  #     KC_LOG_LEVEL: info
+  #     KC_METRICS_ENABLED: true
+  #     KC_HEALTH_ENABLED: true
+  #     KEYCLOAK_HEALTH_ENABLED: true
+  #     KEYCLOAK_METRICS_ENABLED: true
+  #     KC_BOOTSTRAP_ADMIN_USERNAME: admin
+  #     KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+  #   networks:
+  #     - sub-net
+  #   command: start-dev  --import-realm #--verbose
+  #   depends_on:
+  #     postgresql:
+  #       condition: service_healthy
+  #   ports:
+  #     - 8085:8080
+  #   volumes:
+  #     - ./realm-config:/opt/keycloak/data/import
+  #   healthcheck:
+  #     test:
+  #       [
+  #         "CMD-SHELL",
+  #         "exec 3<>/dev/tcp/0.0.0.0/9000; echo -e \"GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q '\"status\": \"UP\"' <&3; exec 3<&- 3>&-",
+  #       ]
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 90s
+  #     start_interval: 5s
 
   ######################################################
   # POSTGRES
@@ -344,6 +344,22 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d keycloak"]
 
+  omop-lite:
+    image: ghcr.io/health-informatics-uon/omop-lite
+    container_name: omop-lite
+    depends_on:
+      - postgresql
+    environment:
+      - DB_PASSWORD=${PGPASSWORD}
+      - DB_USER=${PGLOGIN}
+      - DB_HOST=postgres
+      - DB_NAME=tredata
+      - SCHEMA_NAME=Testing
+      - SYNTHETIC=true
+      - SYNTHETIC_NUMBER=1000
+    networks:
+      - sub-net
+
   adminer:
     image: adminer
     restart: always
@@ -358,11 +374,11 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD", "nc", "-z", "adminer", "9000"]
-      timeout: 45s
-      interval: 10s
-      retries: 10
+    # healthcheck:
+    #   test: ["CMD", "nc", "-z", "adminer", "9000"]
+    #   timeout: 45s
+    #   interval: 10s
+    #   retries: 10
 
   ######################################################
   # Rabbit MQ
@@ -395,9 +411,9 @@ services:
     mem_limit: 512M
     mem_reservation: 256M
     cpus: 0.1
-    depends_on:
-      keycloak:
-        condition: service_healthy
+    # depends_on:
+    #   keycloak:
+    #     condition: service_healthy
     container_name: minio
     restart: always
     command: server /data --console-address ":9001"
@@ -418,16 +434,16 @@ services:
     ports:
       - 9002:9000
       - 9003:9001
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "timeout 5 sh -c 'cat < /dev/null > /dev/tcp/127.0.0.1/9000'",
-        ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      start_period: 5s
+    # healthcheck:
+    #   test:
+    #     [
+    #       "CMD-SHELL",
+    #       "timeout 5 sh -c 'cat < /dev/null > /dev/tcp/127.0.0.1/9000'",
+    #     ]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
+    #   start_period: 5s
   ######################################################
   # SEQ / Serilog
   ######################################################
@@ -648,8 +664,8 @@ services:
 volumes:
   postgresql_data:
     driver: local
-  postgresql_kc:
-    driver: local
+  # postgresql_kc:
+  #   driver: local
   minio_data:
     driver: local
   seq_data:
@@ -658,8 +674,8 @@ volumes:
     driver: local
   rabbitlogs:
     driver: local
-  keycloak_data:
-    driver: local
+  # keycloak_data:
+  #   driver: local
   data-protection:
     driver: local
   zeebe:
