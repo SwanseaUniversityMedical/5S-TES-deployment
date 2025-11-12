@@ -211,9 +211,9 @@ services:
     container_name: minio
     restart: always
     command: server /data --console-address ":9001"
-    depends_on:
-      keycloak:
-        condition: service_healthy
+    # depends_on:
+    #   keycloak:
+    #     condition: service_healthy
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
@@ -265,8 +265,6 @@ services:
 volumes:
   postgresql_data:
     driver: local
-  postgresql_kc:
-    driver: local
   minio_data:
     driver: local
   seq_data:
@@ -275,8 +273,8 @@ volumes:
     driver: local
   rabbitlogs:
     driver: local
-  keycloak_data:
-    driver: local
+  # keycloak_data:
+  #   driver: local
   data-protection:
     driver: local
 
