@@ -256,10 +256,11 @@ services:
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
+      - ZeebeBootstrap__Client__KeepAlive=20000
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=5000
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=10000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # LDAP settings
       - LdapSettings__Host=openldap
       - LdapSettings__Port=389
@@ -508,7 +509,7 @@ services:
       - management.endpoints.web.exposure.include=health,configprops
       - management.endpoint.health.probes.enabled=true
     # env_file: connector-secrets.txt
-    mem_limit: 512m
+    mem_limit: 1g
     restart: unless-stopped
     healthcheck:
       test:
@@ -542,7 +543,8 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       # Disable noisy deprecation logs, see https://github.com/camunda/camunda/issues/26285
       - logger.org.elasticsearch.deprecation="OFF"
-    mem_limit: 1g
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+    mem_limit: 4g
     restart: unless-stopped
     healthcheck:
       test:
