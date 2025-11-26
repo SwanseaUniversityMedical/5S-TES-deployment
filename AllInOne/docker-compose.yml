@@ -60,6 +60,8 @@ services:
         condition: service_healthy
       vault:
         condition: service_healthy
+      orchestration:
+        condition: service_healthy
     environment:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
@@ -145,6 +147,13 @@ services:
       - DmnFilePath=app/ProcessModels
       - TreUISettings__Address=http://localhost:8989
       - TreAPISettings__Address=http://localhost:8072
+      # Zeebe settings
+      - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
+      - ZeebeBootstrap__Worker__MaxJobsActive=5
+      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
 
   ######################################################
   # DataEgress LAYER
