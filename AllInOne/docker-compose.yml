@@ -17,7 +17,8 @@ services:
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__Address=http://treAPI
+      - TreAPISettings__InternalApiBaseUrl=http://treAPI
+      - TreAPISettings__PublicApiBaseUrl=http://localhost:8072
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -141,6 +142,9 @@ services:
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
+      - DmnFilePath=app/ProcessModels
+      - TreUISettings__Address=http://localhost:8989
+      - TreAPISettings__Address=http://localhost:8072
 
   ######################################################
   # DataEgress LAYER
@@ -382,6 +386,7 @@ services:
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      # Change the connection string below to the DB which holds OMOP CDM data
       - ConnectionStrings__TREPostgresConnection=Server=postgres;Port=5432;Database=tredata;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
 
   ######################################################
