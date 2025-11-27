@@ -826,7 +826,9 @@ volumes:
   data-protection:
     driver: local
   zeebe:
+    driver: local
   elastic:
+    driver: local
   vault_data:
     driver: local
   vault_logs:
