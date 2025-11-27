@@ -47,6 +47,9 @@ services:
       - sub-net
     ports:
       - 8072:80
+    # This is the volume for the process models to make the changes in the DMN table persistent
+    volumes:
+      - tre_process_models:/app/ProcessModels
     depends_on:
       postgresql:
         condition: service_healthy
@@ -832,6 +835,8 @@ volumes:
   openldap_data:
     driver: local
   openldap_config:
+    driver: local
+  tre_process_models:
     driver: local
 
 ######################################################
