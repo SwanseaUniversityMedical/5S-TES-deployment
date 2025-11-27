@@ -398,8 +398,7 @@ services:
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
-      # Change the connection string below to the DB which holds OMOP CDM data
-      - ConnectionStrings__TREPostgresConnection=Server=postgres;Port=5432;Database=tredata;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - ConnectionStrings__TREPostgresConnection=Server=${TRE_DATA_SERVER};Port=${TRE_DATA_PORT};Database=${TRE_DATA_DATABASE};Include Error Detail=true;User Id=${TRE_DATA_USER};Password=${TRE_DATA_PASSWORD};
 
   ######################################################
   # Keycloak
