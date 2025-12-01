@@ -349,7 +349,6 @@ services:
   # Credentials
   #####################################################
   TRE-Camunda:
-    platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-camunda:${dareVer}
     container_name: TRE-Camunda
     restart: always
@@ -445,7 +444,6 @@ services:
   # POSTGRES
   ######################################################
   postgresql:
-    platform: linux/x86_64
     image: postgres:17
     container_name: postgres
     restart: always
@@ -587,7 +585,6 @@ services:
   # SEQ / Serilog
   ######################################################
   seq:
-    platform: linux/x86_64
     image: datalust/seq:2025.1.14095
     container_name: seq
     restart: always
