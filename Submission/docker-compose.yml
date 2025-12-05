@@ -37,7 +37,7 @@ services:
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
-      - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
+      - URLSettingsFrontEnd__MinioUrl=${MinioBrowserHost}:9001
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
 
