@@ -66,12 +66,12 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - MinioSettings__Url=${MinioBrowserHost}:9000
+      - MinioSettings__Url=${MinioSubmissionUrl}
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
       - MinioSettings__BucketName=testbucket
       - SuppressAntiforgery=${SuppressAntiforgery}
-      - MinioSettings__AdminConsole=${MinioBrowserHost}:9001
+      - MinioSettings__AdminConsole=${MinioSubmissionAdminConsoleUrl}
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=minio,seq
