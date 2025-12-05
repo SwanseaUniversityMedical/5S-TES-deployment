@@ -675,7 +675,7 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       # Disable noisy deprecation logs, see https://github.com/camunda/camunda/issues/26285
       - logger.org.elasticsearch.deprecation="OFF"
-    mem_limit: 1g
+    mem_limit: 4g
     restart: unless-stopped
     healthcheck:
       test:
