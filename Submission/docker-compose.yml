@@ -58,7 +58,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minioSubmission:
+      minio:
         condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
@@ -66,15 +66,15 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - MinioSettings__Url=${MinioSubmissionUrl}
+      - MinioSettings__Url=${MinioBrowserHost}:9000
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
       - MinioSettings__BucketName=testbucket
       - SuppressAntiforgery=${SuppressAntiforgery}
-      - MinioSettings__AdminConsole=${MinioSubmissionAdminConsoleUrl}
+      - MinioSettings__AdminConsole=${MinioBrowserHost}:9001
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
+      - SubmissionKeyCloakSettings__BypassProxy=minio,seq
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
@@ -212,9 +212,9 @@ services:
   ######################################################
   # MINIO
   ######################################################
-  minioSubmission:
+  minio:
     image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
-    container_name: minioSubmission
+    container_name: minio
     restart: always
     command: server /data --console-address ":9001"
     depends_on:
@@ -234,7 +234,7 @@ services:
     networks:
       - sub-net
     volumes:
-      - minioSubmission_data:/data
+      - minio_data:/data
     ports:
       - 9000:9000
       - 9001:9001
@@ -272,7 +272,7 @@ volumes:
     driver: local
   postgresql_kc:
     driver: local
-  minioSubmission_data:
+  minio_data:
     driver: local
   seq_data:
     driver: local
