@@ -55,7 +55,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minioTRE:
+      minio:
         condition: service_healthy
       vault:
         condition: service_healthy
@@ -118,10 +118,10 @@ services:
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
-      - MinioTRESettings__Url=http://minioTRE:9000
+      - MinioTRESettings__Url=${MinioTreUrl}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=http://minioTRE:9001
+      - MinioTRESettings__AdminConsole=${MinioTreAdminConsoleUrl}
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
@@ -138,8 +138,8 @@ services:
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
       - DmnFilePath=app/ProcessModels
-      - TreUISettings__Address=http://localhost:8989
-      - TreAPISettings__Address=http://localhost:8072
+      - TreUISettings__Address=${TreUiPublicUrl}
+      - TreAPISettings__Address=${TreApiPublicUrl}
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
@@ -179,7 +179,7 @@ services:
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:80
-      - MinioSettings__Url=http://localhost:9003
+      - MinioSettings__Url=http://${MinioBrowserHost}:9003
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
 
@@ -194,7 +194,7 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      minioTRE:
+      minio:
         condition: service_healthy
       keycloak:
         condition: service_healthy
@@ -228,11 +228,11 @@ services:
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - MinioSettings__Url=http://minioTRE:9000
+      - MinioSettings__Url=${MinioTreUrl}
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
-      - MinioSettings__AdminConsole=http://minioIn:9001
+      - MinioSettings__AdminConsole=${MinioTreAdminConsoleUrl}
       - TreAPISettings__Address=http://treapi:80
       - DataEgressAPISettings__Address=http://DataEgressAPI:8100
 
@@ -264,9 +264,9 @@ services:
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=5000
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=10000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # LDAP settings
       - LdapSettings__Host=openldap
       - LdapSettings__Port=389
@@ -296,12 +296,12 @@ services:
       KC_DB_URL: jdbc:postgresql://postgres/keycloak
       KC_DB_USERNAME: ${PGLOGIN}
       KC_DB_PASSWORD: ${PGPASSWORD}
-      KC_HOSTNAME: ${KeycloakHostName}
+      KC_HOSTNAME: http://${KeycloakHostName}:8085
       KC_HOSTNAME_PORT: 8085
       KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
       #KC_HOSTNAME_STRICT: false
       #KC_HOSTNAME_STRICT_HTTPS: false
-      KEYCLOAK_FRONTEND_URL: ${KeycloakHostName}/auth
+      KEYCLOAK_FRONTEND_URL: http://${KeycloakHostName}:8085/auth
       KC_LOG_LEVEL: info
       KC_METRICS_ENABLED: true
       KC_HEALTH_ENABLED: true
@@ -342,7 +342,7 @@ services:
     environment:
       - POSTGRES_USER=${PGLOGIN}
       - POSTGRES_PASSWORD=${PGPASSWORD}
-      - POSTGRES_DB=Redirect
+      - POSTGRES_DB=DARE-Control
     networks:
       - sub-net
     ports:
@@ -398,7 +398,7 @@ services:
   ######################################################
   # MINIO
   ######################################################
-  minioTRE:
+  minio:
     image: coollabsio/minio:RELEASE.2025-04-22T22-12-26Z
     mem_limit: 512M
     mem_reservation: 256M
@@ -406,13 +406,13 @@ services:
     depends_on:
       keycloak:
         condition: service_healthy
-    container_name: minioTRE
+    container_name: minio
     restart: always
     command: server /data --console-address ":9001"
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=${MinioBrowserUrl}
+      - MINIO_BROWSER_REDIRECT_URL=http://${MinioBrowserHost}:9003
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioTreIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioTreIdentityID}
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}
@@ -422,7 +422,7 @@ services:
     networks:
       - sub-net
     volumes:
-      - minioTRE_data:/data
+      - minio_data:/data
     ports:
       - 9002:9000
       - 9003:9001
@@ -471,11 +471,12 @@ services:
       test:
         [
           "CMD-SHELL",
-          "bash -c 'exec 3<>/dev/tcp/127.0.0.1/9600 && echo -e \"GET /actuator/health/status HTTP/1.1\r\nHost: localhost\r\n\r\n\" >&3 && head -n 1 <&3'",
+          "timeout 5s bash -c ':> /dev/tcp/127.0.0.1/9600 && :> /dev/tcp/127.0.0.1/26500' || exit 1",
         ]
-      interval: 1s
-      retries: 30
-      start_period: 30s
+      interval: 5s
+      retries: 60
+      start_period: 60s
+      timeout: 10s
     volumes:
       - zeebe:/usr/local/zeebe/data
     configs:
@@ -657,7 +658,7 @@ volumes:
     driver: local
   postgresql_kc:
     driver: local
-  minioTRE_data:
+  minio_data:
     driver: local
   seq_data:
     driver: local
