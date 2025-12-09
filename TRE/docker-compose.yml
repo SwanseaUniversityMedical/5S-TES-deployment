@@ -118,10 +118,10 @@ services:
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
-      - MinioTRESettings__Url=${MinioTreUrl}
+      - MinioTRESettings__Url=http://minio:9000
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=${MinioTreAdminConsoleUrl}
+      - MinioTRESettings__AdminConsole=http://minio:9001
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
@@ -228,11 +228,11 @@ services:
       - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - MinioSettings__Url=${MinioTreUrl}
+      - MinioSettings__Url=http://minio:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
-      - MinioSettings__AdminConsole=${MinioTreAdminConsoleUrl}
+      - MinioSettings__AdminConsole=http://minio:9001
       - TreAPISettings__Address=http://treapi:80
       - DataEgressAPISettings__Address=http://DataEgressAPI:8100
 
@@ -410,8 +410,8 @@ services:
     restart: always
     command: server /data --console-address ":9001"
     environment:
-      - MINIO_ROOT_USER=${MinioRootUser}
-      - MINIO_ROOT_PASSWORD=${MinioRootPass}
+      - MINIO_ROOT_USER=${TreMinioAdminUser}
+      - MINIO_ROOT_PASSWORD=${TreMinioAdminPassword}
       - MINIO_BROWSER_REDIRECT_URL=http://${MinioBrowserHost}:9003
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioTreIdentityConfigURL}
       - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioTreIdentityID}
