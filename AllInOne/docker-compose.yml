@@ -12,11 +12,11 @@ services:
     networks:
       - sub-net
     ports:
-      - 8989:80
+      - 8989:8080
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__InternalApiBaseUrl=http://treAPI
+      - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
       - TreAPISettings__PublicApiBaseUrl=http://localhost:8072
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=${DemoMode}
@@ -44,7 +44,7 @@ services:
     networks:
       - sub-net
     ports:
-      - 8072:80
+      - 8072:8080
     # This is the volume for the process models to make the changes in the DMN table persistent
     volumes:
       - tre_process_models:/app/ProcessModels
@@ -72,8 +72,8 @@ services:
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - DareAPISettings__Address=http://submissionAPI:80
-      - DataEgressAPISettings__Address=https://egressAPI
+      - DareAPISettings__Address=http://submissionAPI:8080
+      - DataEgressAPISettings__Address=https://egressAPI:8080 
       - EnableExternalHangfire=${EnableExternalHangfire}
       - IgnoreHutchSSL=${IgnoreHutchSSL}
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
@@ -167,7 +167,7 @@ services:
     networks:
       - sub-net
     ports:
-      - 8100:80
+      - 8100:8080
     depends_on:
       - DataEgressAPI
     environment:
@@ -186,7 +186,7 @@ services:
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioSettings__Url=http://localhost:9003
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
@@ -198,7 +198,7 @@ services:
     networks:
       - sub-net
     ports:
-      - 8101:80
+      - 8101:8080
     depends_on:
       postgresql:
         condition: service_healthy
@@ -241,7 +241,7 @@ services:
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
       - MinioSettings__AdminConsole=http://minioIn:9001
-      - TreAPISettings__Address=http://treapi:80
+      - TreAPISettings__Address=http://treapi:8080
       - DataEgressAPISettings__Address=http://DataEgressAPI:8100
 
   ######################################################
@@ -255,8 +255,8 @@ services:
     networks:
       - sub-net
     ports:
-      - 7220:80
-      - 8888:80
+      - 7220:8080
+      - 8888:8080
     depends_on:
       - submissionAPI
     volumes:
@@ -266,8 +266,8 @@ services:
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       - KeyCloakSettings__Proxy=false
-      - DareAPISettings__Address=http://submissionAPI:80
-      - DareAPISettings_HelpAddress=http://submissionAPI:80
+      - DareAPISettings__Address=http://submissionAPI:8080
+      - DareAPISettings_HelpAddress=http://submissionAPI:8080
       - FormIOSettings__UseInternal=true
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -293,11 +293,11 @@ services:
     networks:
       - sub-net
     ports:
-      - 5034:80
+      - 5034:8080
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -476,7 +476,7 @@ services:
       postgresql:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "nc", "-z", "adminer", "9000"]
+      test: ["CMD", "nc", "-z", "adminer", "8080"]
       timeout: 45s
       interval: 10s
       retries: 10
