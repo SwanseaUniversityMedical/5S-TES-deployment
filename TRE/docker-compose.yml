@@ -262,6 +262,7 @@ services:
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
+      - ZeebeBootstrap__Client__KeepAlive=20000
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=5000
       - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=10000
@@ -498,15 +499,18 @@ services:
       - management.endpoints.web.exposure.include=health,configprops
       - management.endpoint.health.probes.enabled=true
     # env_file: connector-secrets.txt
-    mem_limit: 512m
+    mem_limit: 1g
     restart: unless-stopped
     healthcheck:
       test:
-        ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health/readiness"]
+        [
+          "CMD-SHELL",
+          "timeout 5s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1",
+        ]
       interval: 30s
-      timeout: 1s
+      timeout: 10s
       retries: 5
-      start_period: 30s
+      start_period: 60s
     configs:
       - source: connectors-config
         target: application.yaml
@@ -530,18 +534,19 @@ services:
       - cluster.routing.allocation.disk.threshold_enabled=false
       # Disable noisy deprecation logs, see https://github.com/camunda/camunda/issues/26285
       - logger.org.elasticsearch.deprecation="OFF"
-    mem_limit: 1g
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+    mem_limit: 4g
     restart: unless-stopped
     healthcheck:
       test:
         [
           "CMD-SHELL",
-          "curl -f http://localhost:9200/_cat/health | grep -q green",
+          "timeout 5s bash -c ':> /dev/tcp/127.0.0.1/9200' || exit 1",
         ]
-      interval: 1s
-      retries: 30
-      start_period: 30s
-      timeout: 1s
+      interval: 5s
+      retries: 60
+      start_period: 60s
+      timeout: 10s
     volumes:
       - elastic:/usr/share/elasticsearch/data
     networks:
