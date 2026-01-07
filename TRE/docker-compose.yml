@@ -38,7 +38,7 @@ services:
     depends_on:
       - tre-api
     environment:
-      - TreAPISettings__PublicApiBaseUrl=<ip>
+      - TreAPISettings__PublicApiBaseUrl=<IP>
       - TreAPISettings__InternalApiBaseUrl=http://treAPI
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=${DemoMode}
@@ -73,6 +73,7 @@ services:
       - 8072:80
     volumes:
       - tre_process_models:/app/ProcessModels
+      - ./ProcessModels:/TRE.Credentials/ProcessModels
     depends_on:
       postgresql:
         condition: service_healthy
@@ -81,6 +82,9 @@ services:
       minio:
         condition: service_healthy
     environment:
+      - ZeebeBootstrap__Client__GatewayAddress=${ZeebeBootstrapGatewayAddress}
+      - NO_PROXY=zeebe,operate,connectors,elasticsearch,seq,rabbitmq,minio,vault,postgresql,postgres,<ip>,<ip>
+      - DmnPath__Path=/TRE.Credentials/ProcessModels/
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=password123
@@ -203,7 +207,6 @@ services:
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
       - MinioSettings__Url=<ip>
-
   DataEgressAPI:
     platform: linux/x86_64
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
@@ -424,6 +427,7 @@ services:
       minio:
         condition: service_healthy
     environment:
+      - DmnPath__Path=/TRE.Credentials/ProcessModels/
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__TREPostgresConnection=Server=postgres;Port=5432;Database=tredata;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq-tre
@@ -445,6 +449,7 @@ services:
       - HTTPS_PROXY=http://192.168.10.15:8080
       - NO_PROXY=zeebe,operate,connectors,elasticsearch,seq,rabbitmq,minio,vault,postgresql,postgres,<ip>,<ip>
     volumes:
+      - ./ProcessModels:/TRE.Credentials/ProcessModels
       - CamundaModels:/app/ProcessModels
 
   zeebe: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#zeebe
@@ -616,6 +621,8 @@ volumes:
     postgresql_data2:
       driver: local
     tre_process_models:
+      driver: local
+    tre_process_models2:
       driver: local
 ######################################################
 # networks
