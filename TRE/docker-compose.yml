@@ -48,6 +48,7 @@ services:
     # This is the volume for the process models to make the changes in the DMN table persistent
     volumes:
       - tre_process_models:/app/ProcessModels
+      - ./ProcessModels:/TRE.Credentials/ProcessModels
     depends_on:
       postgresql:
         condition: service_healthy
@@ -146,6 +147,7 @@ services:
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
       - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      - DmnPath__Path=/TRE.Credentials/ProcessModels/
 
   ######################################################
   # DataEgress LAYER
@@ -254,7 +256,11 @@ services:
         condition: service_healthy
       postgresql:
         condition: service_healthy
+    volumes:
+      - ./ProcessModels:/TRE.Credentials/ProcessModels
+      - CamundaModels:/app/ProcessModels
     environment:
+      - DmnPath__Path=/TRE.Credentials/ProcessModels/
       - Logging__LogLevel__Default=Information
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
       - AllowedHosts=*
