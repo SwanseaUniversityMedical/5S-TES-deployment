@@ -18,7 +18,7 @@ services:
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
-      - TreAPISettings__InternalApiBaseUrl=http://treAPI
+      - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
       - TreAPISettings__PublicApiBaseUrl=${TreApiPublicUrl}
       - Serilog__SeqServerUrl=http://seq:5341
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
@@ -368,7 +368,7 @@ services:
       postgresql:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "nc", "-z", "adminer", "9000"]
+      test: ["CMD", "nc", "-z", "adminer", "8080"]
       timeout: 45s
       interval: 10s
       retries: 10
