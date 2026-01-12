@@ -12,7 +12,7 @@ services:
     networks:
       - sub-net
     ports:
-      - 8989:80
+      - 8989:8080
     depends_on:
       - tre-api
     environment:
@@ -44,7 +44,7 @@ services:
     networks:
       - sub-net
     ports:
-      - 8072:80
+      - 8072:8080
     # This is the volume for the process models to make the changes in the DMN table persistent
     volumes:
       - tre_process_models:/app/ProcessModels
@@ -113,7 +113,7 @@ services:
       - AgentSettings__UseRabbit=${UseRabbit}
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
@@ -158,7 +158,7 @@ services:
     networks:
       - sub-net
     ports:
-      - 8100:80
+      - 8100:8080
     depends_on:
       - DataEgressAPI
     environment:
@@ -177,7 +177,7 @@ services:
       - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
       - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:80
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioSettings__Url=http://${MinioBrowserHost}:9003
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
@@ -189,7 +189,7 @@ services:
     networks:
       - sub-net
     ports:
-      - 8101:80
+      - 8101:8080
     depends_on:
       postgresql:
         condition: service_healthy
@@ -232,7 +232,7 @@ services:
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
       - MinioSettings__BucketName=testbucket
       - MinioSettings__AdminConsole=http://minio:9001
-      - TreAPISettings__Address=http://treapi:80
+      - TreAPISettings__Address=http://treapi:8080
       - DataEgressAPISettings__Address=http://DataEgressAPI:8100
 
 
