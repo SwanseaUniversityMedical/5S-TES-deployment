@@ -1092,7 +1092,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "1218304e-bf92-4706-83f6-912e0b04ecb9",
-      "redirectUris": ["http://localhost:7220/*"],
+      "redirectUris": ["http://localhost:7220/*", "http://localhost:8888/*"],
       "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
