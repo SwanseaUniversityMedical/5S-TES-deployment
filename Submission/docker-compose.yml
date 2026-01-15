@@ -11,7 +11,6 @@ services:
       - sub-net
     ports:
       - 7220:8080
-      - 8888:8080
     depends_on:
       - submissionAPI
     volumes:
@@ -24,22 +23,23 @@ services:
       - DareAPISettings__Address=http://submissionAPI:8080
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
       - FormIOSettings__UseInternal=true
-      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__Proxy=${useproxy:-false}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakClientUIRedirectURL}Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect:-false}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
-      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
+      - SubmissionKeyCloakSettings__AccountManagementURL=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control/account
+      - SubmissionKeyCloakSettings__BaseUrl=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control
       - SuppressAntiforgery=${SuppressAntiforgery}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
-      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
+      - SubmissionKeyCloakSettings__MetadataAddress=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control
       - URLSettingsFrontEnd__MinioUrl=${MinioBrowserHost}:9001
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
+      - URLSettingsFrontEnd__QueryImageGraphQL=${URLSettingsFrontEndQueryImagehasura}
+      - URLSettingsFrontEnd__QueryImageSQL=${URLSettingsFrontEndQueryImageSQL}
 
   submissionAPI:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
@@ -66,32 +66,32 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - MinioSettings__Url=${MinioSubmissionUrl}
+      - MinioSettings__Url=${MinioSubmissionUrl:-http://minio:9000}
+      - MinioSettings__AdminConsole=${MinioSubmissionAdminConsoleUrl:-http://minio:9001}
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
       - MinioSettings__BucketName=testbucket
       - SuppressAntiforgery=${SuppressAntiforgery}
-      - MinioSettings__AdminConsole=${MinioSubmissionAdminConsoleUrl}
-      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__Proxy=${useproxy:-false}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=minio,seq
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakClientUIRedirectURL}Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect:-false}
       - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
+      - SubmissionKeyCloakSettings__BaseUrl=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__MetadataAddress=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control/.well-known/openid-configuration
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
       #- SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
-      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
-      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
-      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
-      - SubmissionKeyCloakSettings__Server=${SubmissionServer}
+      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri:-/}
+      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds:-3600}
+      - SubmissionKeyCloakSettings__ValidAudiences=Dare-Control-UI,Dare-Control-API,Dare-Control-Minio}
+      - SubmissionKeyCloakSettings__Server=${SubmissionServer:-keycloak:8080}
       - SubmissionKeyCloakSettings__Protocol=${SubmissionServerProtocol}
-      - SubmissionKeyCloakSettings__Realm=${SubmissionRealm}
+      - SubmissionKeyCloakSettings__Realm=Dare-Control
       - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
-      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
-      - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
+      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer:-}
+      - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience:-}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
@@ -225,8 +225,8 @@ services:
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
       - MINIO_BROWSER_REDIRECT_URL=http://${MinioBrowserHost}:9001
       - MINIO_SERVER_URL=http://${MinioBrowserHost}:9000
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfigURL}
-      - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KeyCloakBaseUrl:-http://keycloak:8080}/realms/Dare-Control/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
       - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
       - MINIO_IDENTITY_OPENID_SCOPES=openid
