@@ -24,7 +24,7 @@ services:
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
       - FormIOSettings__UseInternal=true
       - SubmissionKeyCloakSettings__Proxy=${useproxy:-false}
-      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl:-http://192.168.10.15:8080}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakClientUIRedirectURL}Account/LoginAfterTokenExpired
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect:-false}
@@ -73,7 +73,7 @@ services:
       - MinioSettings__BucketName=testbucket
       - SuppressAntiforgery=${SuppressAntiforgery}
       - SubmissionKeyCloakSettings__Proxy=${useproxy:-false}
-      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl:-http://192.168.10.15:8080}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=minio,seq
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakClientUIRedirectURL}Account/LoginAfterTokenExpired
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect:-false}
