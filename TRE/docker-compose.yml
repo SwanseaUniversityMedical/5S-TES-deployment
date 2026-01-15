@@ -136,7 +136,7 @@ services:
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
-      - DmnFilePath=app/ProcessModels
+      - DmnPath__Path=app/ProcessModels
       #- TreAPISettings__Address=${TreApiPublicUrl}
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
