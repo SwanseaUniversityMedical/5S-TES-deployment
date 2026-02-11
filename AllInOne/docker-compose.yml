@@ -794,6 +794,27 @@ services:
     depends_on:
       - openldap
 
+  funnel:
+    build:
+      context: .
+      dockerfile: funnel/Dockerfile
+    container_name: funnel
+    networks:
+      - sub-net
+    ports:
+      - "8000:8000"
+      - "9090:9090"
+    depends_on:
+      minioTRE:
+        condition: service_healthy
+    environment:
+        - MinioKey=${MinioKey}
+        - MinioSecret=${MinioSecret}
+    volumes:
+      - ./funnel:/opt/funnel/config
+      - funnel_data:/opt/funnel/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
 ######################################################
 # VOLUME
 ######################################################
@@ -829,6 +850,8 @@ volumes:
   openldap_config:
     driver: local
   tre_process_models:
+    driver: local
+  funnel_data:
     driver: local
 
 ######################################################
