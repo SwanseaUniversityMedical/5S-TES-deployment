@@ -145,7 +145,7 @@ services:
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
-      - DmnPath__Path=app/ProcessModels
+      - DmnPath__Path=/app/ProcessModels
       - TreAPISettings__Address=http://localhost:8072
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
@@ -369,7 +369,7 @@ services:
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
       - AllowedHosts=*
       - Serilog__SeqServerUrl=http://seq:5341
-      - DmnPath__Path=app/ProcessModels
+      - DmnPath__Path=/app/ProcessModels
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
