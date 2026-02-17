@@ -1,0 +1,33 @@
+services:
+
+  # ------ Camunda Connectors ------
+  # -----------------------------------------
+
+  connectors:
+    image: camunda/connectors-bundle:${CAMUNDA_BUNDLE_VERSION}
+    container_name: connectors
+    ports:
+      - "8086:8080"
+    environment:
+      - management.endpoints.web.exposure.include=health,configprops
+      - management.endpoint.health.probes.enabled=true
+
+    # ------ env_file: connector-secrets.txt ------
+    mem_limit: 512m
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health/readiness"]
+      interval: 30s
+      timeout: 1s
+      retries: 5
+      start_period: 30s
+    configs:
+      - source: connectors-config
+        target: application.yaml
+    networks:
+      - sub-net
+    depends_on:
+      orchestration:
+        # Wait for orchestration service to be healthy, otherwise we get a lot of noisy logs from connection errors
+        condition: service_healthy
