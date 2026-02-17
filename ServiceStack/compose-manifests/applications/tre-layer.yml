@@ -1,0 +1,198 @@
+services:
+  tre-ui:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${dareVer}
+    container_name: treUI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 8989:8080
+    depends_on:
+      - tre-api
+    environment:
+      - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
+      - TreAPISettings__PublicApiBaseUrl=http://localhost:8072
+      - Serilog__SeqServerUrl=http://seq:5341
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
+      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
+      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
+      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
+      - TreKeyCloakSettings__AccountManagementURL=${TreAccountManagementURLUI}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+
+  tre-api:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
+    container_name: treapi
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 8072:8080
+    # This is the volume for the process models to make the changes in the DMN table persistent
+    volumes:
+      - tre_process_models:/app/ProcessModels
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minioTRE:
+        condition: service_healthy
+      submissionAPI:
+        condition: service_healthy
+      vault:
+        condition: service_healthy
+      orchestration:
+        condition: service_healthy
+    environment:
+      - Features__DemoAllInOne=${DemoMode}
+      - Features__EphemeralCredentials=true
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - DemoModeDefaultP=password123
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - RabbitMQ__HostAddress=rabbitmq
+      - Serilog__SeqServerUrl=http://seq:5341
+      - DareAPISettings__Address=http://submissionAPI:8080
+      - DataEgressAPISettings__Address=https://egressAPI:8080
+      - EnableExternalHangfire=${EnableExternalHangfire}
+      - IgnoreHutchSSL=${IgnoreHutchSSL}
+      - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
+      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
+      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
+      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - EnableExternalHangfire=true
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpredAddressUI}
+      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
+      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
+      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
+      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
+      - SubmissionKeyCloakSettings__ClientId=${SubmissionAPIKeyCloakClientId}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
+      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionAPIValidAudiences}
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
+      - AgentSettings__UseTESK=${UseTESK}
+      - AgentSettings__UseRabbit=${UseRabbit}
+      - JobSettings__scanSchedule=${scanSchedule}
+      - JobSettings__syncSchedule=${syncSchedule}
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
+      - AgentSettings__TESKAPIURL=${TesAPIUrl}
+      - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
+      - TreName=${TreName}
+      - MinioTRESettings__Url=http://minioTRE:9000
+      - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
+      - MinioTRESettings__AccessKey=${TreMinioAdminUser}
+      - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
+      - MinioTRESettings__AdminConsole=http://minioTRE:9001
+      - MinioSubSettings__Url=${submissionMinioUrl}
+      - MinioSubSettings__AccessKey=${MinioRootUser}
+      - MinioSubSettings__SecretKey=${MinioRootPass}
+      - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
+      - MinioSubSettings__BucketName=testbucket
+      - MinioSubSettings__AWSRegion=us-east-1
+      - MinioTRESettings__AWSRegion=us-east-1
+      - Hutch__APIAddress=${HutchAPIAddress}
+      - Hutch__DbServer=${HutchDbServer}
+      - Hutch__DbName=${HutchDbName}
+      - Hutch__DbPort=${HutchDbPort}
+      - CredentialAPISettings__StartWebhookUrl=${CredentialAPISettingsStartWebhookUrl}
+      - CredentialAPISettings__RevokeWebhookUrl=${CredentialAPISettingsRevokeWebhookUrl}
+      - VaultSettings__BaseUrl=http://vault:8200
+      - VaultSettings__Token=dev-only-token
+      - VaultSettings__TimeoutSeconds=30
+      - VaultSettings__SecretEngine=secret
+      - VaultSettings__EnableRetry=true
+      - VaultSettings__MaxRetryAttempts=3
+      - DmnPath__Path=/app/ProcessModels
+      - TreAPISettings__Address=http://localhost:8072
+      # Zeebe settings
+      - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
+      - ZeebeBootstrap__Worker__MaxJobsActive=5
+      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+
+  TRE-Camunda:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-camunda:${dareVer}
+    container_name: TRE-Camunda
+    restart: always
+    networks:
+      - sub-net
+    depends_on:
+      orchestration:
+        condition: service_healthy
+      openldap:
+        condition: service_healthy
+      vault:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+    volumes:
+      - tre_process_models:/app/ProcessModels
+    environment:
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Warning
+      - AllowedHosts=*
+      - Serilog__SeqServerUrl=http://seq:5341
+      - DmnPath__Path=/app/ProcessModels
+      # Zeebe Bootstrap settings
+      - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
+      - ZeebeBootstrap__Worker__MaxJobsActive=5
+      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      # LDAP settings
+      - LdapSettings__Host=openldap
+      - LdapSettings__Port=389
+      - LdapSettings__AdminDn=cn=admin,dc=camundaephemeral,dc=local
+      - LdapSettings__AdminPassword=admin
+      - LdapSettings__BaseDn=dc=camundaephemeral,dc=local
+      - LdapSettings__UserOu=ou=Users
+      - LdapSettings__UseSSL=false
+      # Vault settings
+      - VaultSettings__BaseUrl=http://vault:8200
+      - VaultSettings__Token=dev-only-token
+      - VaultSettings__TimeoutSeconds=30
+      - VaultSettings__SecretEngine=secret
+      - VaultSettings__EnableRetry=true
+      - VaultSettings__MaxRetryAttempts=3
+      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - ConnectionStrings__TREPostgresConnection=Server=${TRE_DATA_SERVER};Port=${TRE_DATA_PORT};Database=${TRE_DATA_DATABASE};Include Error Detail=true;User Id=${TRE_DATA_USER};Password=${TRE_DATA_PASSWORD};

@@ -1,0 +1,98 @@
+services:
+  submissionUI:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
+    container_name: submissionUI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 7220:8080
+      - 8888:8080
+    depends_on:
+      - submissionAPI
+    volumes:
+      - data-protection:/root/.aspnet/DataProtection-Keys
+    environment:
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - Serilog__SeqServerUrl=http://seq:5341
+      - KeyCloakSettings__Proxy=false
+      - DareAPISettings__Address=http://submissionAPI:8080
+      - DareAPISettings_HelpAddress=http://submissionAPI:8080
+      - FormIOSettings__UseInternal=true
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
+      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
+      - SuppressAntiforgery=${SuppressAntiforgery}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
+      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
+      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
+      - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
+
+
+  submissionAPI:
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
+    container_name: submissionAPI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 5034:8080
+    volumes:
+      - data-protection:/root/.aspnet/DataProtection-Keys
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+      start_interval: 5s
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      postgresql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minioSubmission:
+        condition: service_healthy
+    environment:
+      - DemoMode=${DemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - RabbitMQ__HostAddress=rabbitmq
+      - Serilog__SeqServerUrl=http://seq:5341
+      - MinioSettings__Url=http://minioSubmission:9000
+      - MinioSettings__AccessKey=${MinioRootUser}
+      - MinioSettings__SecretKey=${MinioRootPass}
+      - MinioSettings__BucketName=testbucket
+      - SuppressAntiforgery=${SuppressAntiforgery}
+      - MinioSettings__AdminConsole=http://minioSubmission:9001
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
+      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
+      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
+      #- SubmissionKeyCloakSettings__RemoteSignOutPath=${SubmissionRemoteSignOutPath}
+      - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
+      - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
+      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionValidAudiences}
+      - SubmissionKeyCloakSettings__Server=${SubmissionServer}
+      - SubmissionKeyCloakSettings__Protocol=${SubmissionServerProtocol}
+      - SubmissionKeyCloakSettings__Realm=${SubmissionRealm}
+      - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
+      - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
+      - SubmissionKeyCloakSettings__ValidAudience=${SubmissionValidAudience}
