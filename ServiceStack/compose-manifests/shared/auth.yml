@@ -1,0 +1,160 @@
+services:
+
+  # ------ Keycloak Identity Provider ------
+  # ---------------------------------------------
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: keycloak
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres/keycloak
+      KC_DB_USERNAME: ${PGLOGIN}
+      KC_DB_PASSWORD: ${PGPASSWORD}
+      KC_HOSTNAME: http://localhost:8085
+      KC_HOSTNAME_PORT: 8085
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+      #KC_HOSTNAME_STRICT: false
+      #KC_HOSTNAME_STRICT_HTTPS: false
+      KEYCLOAK_FRONTEND_URL: http://localhost:8085/auth
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_HEALTH_ENABLED: true
+      KEYCLOAK_METRICS_ENABLED: true
+      # Admin credentials
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    networks:
+      - sub-net
+    command: start-dev  --import-realm #--verbose
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    ports:
+      - 8085:8080
+
+    # ----- $CONFIG_PATH Configuration -----
+
+    # Use CONFIG_PATH when using the image in the compose stack.
+    # - Update the CONFIG_PATH variable in the .env file to point to the directory.
+
+    volumes:
+      - ${CONFIG_PATH}/realm-config:/opt/keycloak/data/import
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "exec 3<>/dev/tcp/0.0.0.0/9000; echo -e \"GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n\" >&3; grep -q '\"status\": \"UP\"' <&3; exec 3<&- 3>&-",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+      start_interval: 5s
+
+  # ------ OpenLDAP Identity Provider ------
+  # ---------------------------------------------
+
+  openldap:
+    image: osixia/openldap:1.5.0
+    container_name: openldap
+    environment:
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "TRE Ephemeral Credentials"
+      LDAP_DOMAIN: "camundaephemeral.local"
+      LDAP_ADMIN_PASSWORD: "admin"
+      LDAP_CONFIG_PASSWORD: "config"
+      LDAP_TLS: "false"
+      LDAP_ADD_LDIF_URL: "file:///container/service/slapd/assets/init.ldif"
+    volumes:
+      - openldap_data:/var/lib/ldap
+      - openldap_config:/etc/ldap/slapd.d
+      - ${CONFIG_PATH}/ldap-init/init.ldif:/container/service/slapd/assets/init.ldif
+    ports:
+      - "1389:389"
+      - "1636:636"
+    networks:
+      - sub-net
+    domainname: "camundaephemeral.local"
+    hostname: "ldap.camundaephemeral.local"
+    tty: true
+    stdin_open: true
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "ldapsearch -x -H ldap://localhost -b dc=camundaephemeral,dc=local -D 'cn=admin,dc=camundaephemeral,dc=local' -w admin",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ------ LDAP Initialization Service ------
+  # ---------------------------------------------
+
+  ldap-init:
+    image: osixia/openldap:1.5.0
+    networks:
+      - sub-net
+    depends_on:
+      openldap:
+        condition: service_healthy
+    entrypoint: >
+      sh -c "
+        for i in $(seq 1 30); do
+          ldapsearch -x -H ldap://openldap -D 'cn=admin,dc=camundaephemeral,dc=local' -w admin -b 'dc=camundaephemeral,dc=local' && break
+          sleep 2
+        done
+        ldapadd -x -H ldap://openldap -D 'cn=admin,dc=camundaephemeral,dc=local' -w admin -f /container/service/slapd/assets/init.ldif || true
+      "
+    volumes:
+      - ${CONFIG_PATH}/ldap-init/init.ldif:/container/service/slapd/assets/init.ldif
+
+  # ------ phpLDAPadmin Web Interface ------
+  # ---------------------------------------------
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: phpldapadmin
+    networks:
+      - sub-net
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    ports:
+      - "8080:80"
+    depends_on:
+      - openldap
+
+ # ----- Vault Secret Management ------
+ # ---------------------------------------------
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    mem_limit: 512M
+    mem_reservation: 256M
+    cpus: 0.2
+    restart: always
+    ports:
+      - "8200:8200"
+    environment:
+      - VAULT_DEV_ROOT_TOKEN_ID=dev-only-token
+      - VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200
+      - VAULT_ADDR=http://127.0.0.1:8200
+    volumes:
+      - vault_data:/vault/data
+      - vault_logs:/vault/logs
+      - ${CONFIG_PATH}/vault-config:/vault/config:ro
+    cap_add:
+      - IPC_LOCK
+    networks:
+      - sub-net
+    healthcheck:
+      test: ["CMD-SHELL", "vault status || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    command: ["vault", "server", "-dev", "-dev-root-token-id=dev-only-token"]
