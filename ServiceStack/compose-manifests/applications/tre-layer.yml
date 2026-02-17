@@ -1,4 +1,8 @@
 services:
+
+  # ------ TRE Agent - UI -------
+  # -----------------------------------
+
   tre-ui:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${dareVer}
     container_name: treUI
@@ -31,6 +35,8 @@ services:
       - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
 
+# ------ TRE Agent - API -------
+# -----------------------------------
   tre-api:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
     container_name: treapi
@@ -148,6 +154,10 @@ services:
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
       - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+
+
+# ----- TRE Agent - Camunda Worker -------
+# --------------------------------------------
 
   TRE-Camunda:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-camunda:${dareVer}

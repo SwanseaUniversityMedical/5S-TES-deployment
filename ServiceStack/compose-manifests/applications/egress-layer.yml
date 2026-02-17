@@ -1,4 +1,8 @@
 services:
+
+  # ----- Data Egress - UI -----
+  # -------------------------------------
+
   DataEgressUI:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
     container_name: DataEgressUI
@@ -29,6 +33,9 @@ services:
       - MinioSettings__Url=http://localhost:9003
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
+
+  # ----- Data Egress - API -----
+  # -------------------------------------
 
   DataEgressAPI:
       image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}

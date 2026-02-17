@@ -1,4 +1,7 @@
 services:
+
+  # ----- Submission UI -----
+  # -----------------------------------------
   submissionUI:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
     container_name: submissionUI
@@ -37,6 +40,9 @@ services:
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
 
+
+  # ----- Submission API -----
+  # ----------------------------------
 
   submissionAPI:
     image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
