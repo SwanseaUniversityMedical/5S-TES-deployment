@@ -8,35 +8,57 @@ User and Developer Guides can be found in the [documentation](https://docs.feder
 ```bash
 .
 ├── AllInOne/      # Demonstration instance of the stack
-├── ansible/       # Ansible script to install funnel 
+├── ansible/       # Ansible script to install funnel
+├── DemoStack/     # Demonstration instance of the stack (for dev and demonstration purposes)
 ├── Submission/    # Deploy an instance of the Submission Layer
 ├── TRE/           # Deploy an instance of the TRE Agent
 ├── Diagram/       # Architecture or system diagrams
-└── README.md         
+└── README.md      # This is a readme file.
 
 ```
-
-## All In One
+## DemoStack
 A Simple Demonstrator instance of the complete stack, intended to be run locally, not intended to be a production deployment.
 ```bash
 .
-├── realm-config/.     # Keycloak realms configuration files
-    ├── sub-layer.json
-    ├── tre-layer.json
-    ├── egress-layer.json     
-├── .env               # Environment variables
-├── default.conf       # Proxy configuration
-├── docker-compose.yml # All in One demonstrator docker compose
-├── init.sql           # SQL script for the DB
+├── config/
+│   ├── ldap-init/
+│   │   └── init.ldif           # LDAP initialisation file
+│   ├── realm-config/
+│   │   ├── sub-layer.json      # Keycloak Submission realm config
+│   │   ├── tre-layer.json      # Keycloak TRE realm config
+│   │   └── egress-layer.json   # Keycloak Egress realm config
+│   ├── vault-config/           # Vault configuration files
+│   └── init.sql                # SQL script for DB initialisation
+├── scripts/
+│    ├── funnel.sh              # Script to automate funnel setup
+│    └── setup.sh               # Script to automate demo stack setup
+├── .env                        # Environment variables
+├── starter.sh                  # Script to re-start the demo stack with updated vars
+└──docker-compose.yml           # All-in-One demonstrator docker compose
 ```
 
-The docker compose includes:   
-- Submission UI & Submission API 
+**The docker compose includes:**
+
+Application Services:
+- Submission UI & Submission API
 - TRE Agent UI & TRE Agent API
 - Egress UI & Egress API
-- Keycloak: includes realms defined in `realm-config/`
-- PostgreSQL | RabbitMQ | Seq | Nginx
-- MinIO: Submission & TRE Agent 
+- TRE Camunda (Credential Worker)
+
+Shared Services:
+- Keycloak: includes realms defined in realm-config/
+- PostgreSQL | Adminer | RabbitMQ | Seq
+
+Authentication & Security:
+- OpenLDAP | phpLDAPadmin | LDAP Init | HashiCorp Vault
+
+Storage Services:
+- MinIO: Submission & TRE Agent
+- Elasticsearch
+
+Orchestration Services:
+- Camunda (Zeebe + Operate + Tasklist)
+- Camunda Connectors
 
 ## Submission
 ```bash
@@ -46,10 +68,10 @@ The docker compose includes:
 ├── .env               # Environment variables
 ├── default.conf       # Proxy configuration
 ├── docker-compose.yml # Submission docker compose
-├── init.sql 
+├── init.sql
 ```
 The docker compose includes:
-- Submission UI & Submission API 
+- Submission UI & Submission API
 - Keycloak: submission realm defined in `realm-config/`
 - PostgreSQL | RabbitMQ | Seq | Nginx
 - Submission MinIO
@@ -63,7 +85,7 @@ The docker compose includes:
 ├── .env               # Environment variables
 ├── default.conf       # Proxy configuration
 ├── docker-compose.yml # TRE Agent & Egress docker compose
-├── init.sql 
+├── init.sql
 ```
 
 The docker compose includes:
