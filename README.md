@@ -37,6 +37,12 @@ A Simple Demonstrator instance of the complete stack, intended to be run locally
 └──docker-compose.yml           # All-in-One demonstrator docker compose
 ```
 
+### To add New Services to the DemoStack
+1. Create a new docker compose file for the service in `ServiceStack/compose-manifests/`.
+2. Add the new compose file to the `include` section of `DemoStack/docker-compose.yml`.
+3. Add any necessary configuration files to `DemoStack/config/` and reference them in the compose file.
+    - For pointing the service to the config files, use `CONFIG_PATH` environment variable in the compose file.
+
 **The docker compose includes:**
 
 Application Services:
