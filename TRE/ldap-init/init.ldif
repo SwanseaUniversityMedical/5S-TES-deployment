@@ -1,3 +1,0 @@
-dn: ou=Users,dc=camundaephemeral,dc=local
-objectClass: organizationalUnit
-ou: Users
