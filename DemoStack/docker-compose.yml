@@ -14,17 +14,16 @@ include:
   # ----- Shared Services -----
   # - Platform Service: (PostgreSQL, Adminer, Serilog, RabbitMQ)
   # - Auth Service: (Keycloak)
-  # - Credentials Service: (Camunda, Connectors, Vault, OpenLDAP, LDAP Init, phpLDAPadmin)
+  # - Credentials Service: (Camunda, Connectors, Vault, OpenLDAP, LDAP Init, phpLDAPadmin, Elastic Search)
 
   - ../ServiceStack/compose-manifests/shared/platform.yml
   - ../ServiceStack/compose-manifests/shared/auth.yml
   - ../ServiceStack/compose-manifests/shared/credentials.yml
 
   # ----- Storage Services -----
-  # - (Elastic Search, MinIO - Submission & TRE)
+  # - (MinIO - Submission & TRE)
   - ../ServiceStack/compose-manifests/storage/minio-submission.yml
   - ../ServiceStack/compose-manifests/storage/minio-tre.yml
-  - ../ServiceStack/compose-manifests/storage/elasticsearch.yml
 
 
 # ----- Volumes -----
