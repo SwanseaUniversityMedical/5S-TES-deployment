@@ -66,37 +66,44 @@ Orchestration Services:
 - Camunda (Zeebe + Operate + Tasklist)
 - Camunda Connectors
 
-## Submission
+## DeploymentStack/Submission
+
+A deployable instance of the Submission Layer.
+
 ```bash
+DeploymentStack/Submission/
 .
-├── realm-config/.     # Keycloak realm configuration file
-    ├── sub-layer.json
-├── .env               # Environment variables
-├── default.conf       # Proxy configuration
-├── docker-compose.yml # Submission docker compose
-├── init.sql
+├── config/
+│   ├── init.sql                # SQL script for DB initialisation
+│   └── realm-config/
+│       └── sub-layer.json      # Keycloak Submission realm configuration
+├── .env                        # Environment variables for Submission deployment
+├── docker-compose.yml
 ```
 The docker compose includes:
 - Submission UI & Submission API
-- Keycloak: submission realm defined in `realm-config/`
+- Keycloak (Submission realm defined in `config/realm-config/sub-layer.json`)
 - PostgreSQL | RabbitMQ | Seq | Nginx
 - Submission MinIO
 
 ## TRE
 ```bash
+DeploymentStack/TRE/
 .
-├── realm-config/.     # Keycloak realm configuration file
-    ├── egress-layer.json
-    ├── tre-layer.json
-├── .env               # Environment variables
-├── default.conf       # Proxy configuration
-├── docker-compose.yml # TRE Agent & Egress docker compose
-├── init.sql
+├── config/
+│   ├── init.sql                 # SQL script for DB initialisation
+│   ├── ldap-init/
+│   │   └── init.ldif            # OpenLDAP initialisation file
+│   └── realm-config/
+│       ├── tre-layer.json       # Keycloak TRE realm configuration
+│       └── egress-layer.json    # Keycloak Egress realm configuration
+├── .env                         # Environment variables for TRE deployment
+├── docker-compose.yml
 ```
 
 The docker compose includes:
 - TRE Agent UI & TRE Agent API
 - Egress UI & Egress API
-- Keycloak: TRE & Egress realms defined in `realm-config/`
+- Keycloak (TRE & Egress realms defined in `config/realm-config/`)
 - PostgreSQL | RabbitMQ | Seq | Nginx
 - TRE Agent MinIO
