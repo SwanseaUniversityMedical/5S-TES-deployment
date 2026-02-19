@@ -11,3 +11,6 @@
 /.vs/VSWorkspaceState.json
 .DS_Store
 **/.DS_Store
+
+/config.yml
+/funnel-work-dir
