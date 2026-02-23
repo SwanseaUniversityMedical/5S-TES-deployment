@@ -8,9 +8,6 @@ services:
     mem_limit: 512M
     mem_reservation: 256M
     cpus: 0.1
-    depends_on:
-      keycloak:
-        condition: service_healthy
     container_name: minioTRE
     restart: always
     command: server /data --console-address ":9001"

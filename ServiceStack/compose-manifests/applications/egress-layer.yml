@@ -50,8 +50,6 @@ services:
           condition: service_healthy
         minioTRE:
           condition: service_healthy
-        keycloak:
-          condition: service_healthy
       environment:
         - DemoMode=${DemoMode}
         - KeyCloakDemoMode=${KeyCloakDemoMode}
