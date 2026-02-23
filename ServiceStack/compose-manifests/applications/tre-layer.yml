@@ -57,8 +57,6 @@ services:
         condition: service_healthy
       minioTRE:
         condition: service_healthy
-      submissionAPI:
-        condition: service_healthy
       vault:
         condition: service_healthy
       orchestration:
