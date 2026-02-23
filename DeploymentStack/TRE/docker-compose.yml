@@ -1,0 +1,102 @@
+name: TREDeployment
+
+# ----- Services -----
+include:
+
+  # ----- Application Services -----
+  # - (TRE Layer, Egress Layer)
+
+  - ../../ServiceStack/compose-manifests/applications/tre-layer.yml
+  - ../../ServiceStack/compose-manifests/applications/egress-layer.yml
+
+  # ----- Shared Services -----
+  # - Platform Service: (PostgreSQL, Adminer, Serilog, RabbitMQ)
+  # - Credential Service: (Camunda, Connectors, Vault, OpenLDAP, LDAP Init, phpLDAPadmin, Elastic Search)
+  # - Auth Service: (Keycloak)
+
+  - ../../ServiceStack/compose-manifests/shared/platform.yml
+  - ../../ServiceStack/compose-manifests/shared/credentials.yml
+  - ../../ServiceStack/compose-manifests/shared/auth.yml
+
+  # ----- Storage Services -----
+  # - (MinIO - TRE)
+  - ../../ServiceStack/compose-manifests/storage/minio-tre.yml
+
+# ----- Volumes -----
+
+volumes:
+  postgresql_data:
+    driver: local
+  postgresql_kc:
+    driver: local
+  minioTRE_data:
+    driver: local
+  seq_data:
+    driver: local
+  rabbitdata:
+    driver: local
+  rabbitlogs:
+    driver: local
+  keycloak_data:
+    driver: local
+  data-protection:
+    driver: local
+  zeebe:
+    driver: local
+  elastic:
+    driver: local
+  vault_data:
+    driver: local
+  vault_logs:
+    driver: local
+  openldap_data:
+    driver: local
+  openldap_config:
+    driver: local
+  tre_process_models:
+    driver: local
+
+
+# ----- Shared Network & Configs -----
+
+networks:
+  sub-net:
+    driver: bridge
+
+configs:
+  connectors-config:
+    content: |
+      camunda:
+        client:
+          mode: self-managed
+          grpc-address: http://orchestration:26500
+          rest-address: http://orchestration:8080
+
+  orchestration-config:
+    content: |
+      management.endpoints.configprops.show-values: always
+      camunda:
+        system:
+          cpu-thread-count: "3"
+          io-thread-count: "3"
+        security:
+          authentication:
+            method: "basic"
+            unprotectedApi: true
+          authorizations:
+            enabled: false
+          initialization:
+            users:
+              - username: "demo"
+                password: "demo"
+                name: "Demo User"
+                email: "demo@demo.com"
+            defaultRoles.admin.users:
+              - "demo"
+        database.index.numberOfReplicas: 0 # Single node elasticsearch so we disable replication
+        data:
+          secondary-storage:
+            type: elasticsearch
+            elasticsearch:
+              cluster-name: elasticsearch
+              url: "http://elasticsearch:9200"
