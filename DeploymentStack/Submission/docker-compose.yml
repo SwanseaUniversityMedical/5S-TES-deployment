@@ -1,0 +1,47 @@
+name: SubmissionDeployment
+
+# ----- Services -----
+
+include:
+
+  # ----- Application Services -----
+  # - (Submission Layer)
+
+  - ../../ServiceStack/compose-manifests/applications/submission-layer.yml
+
+  # ----- Shared Services -----
+  # - Platform Service: (PostgreSQL, Adminer, Serilog, RabbitMQ)
+  # - Auth Service: (Keycloak)
+
+  - ../../ServiceStack/compose-manifests/shared/platform.yml
+  - ../../ServiceStack/compose-manifests/shared/auth.yml
+
+  # ----- Storage Services -----
+  # - (MinIO - Submission)
+  - ../../ServiceStack/compose-manifests/storage/minio-submission.yml
+
+# ----- Volumes -----
+
+volumes:
+  postgresql_data:
+    driver: local
+  postgresql_kc:
+    driver: local
+  minioSubmission_data:
+    driver: local
+  seq_data:
+    driver: local
+  rabbitdata:
+    driver: local
+  rabbitlogs:
+    driver: local
+  keycloak_data:
+    driver: local
+  data-protection:
+    driver: local
+
+# ----- Shared Network & Configs -----
+
+networks:
+  sub-net:
+    driver: bridge
