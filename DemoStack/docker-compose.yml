@@ -8,8 +8,15 @@ include:
   # - (Submission Layer, TRE Layer, Egress Layer)
 
   - ../ServiceStack/compose-manifests/applications/submission-layer.yml
-  - ../ServiceStack/compose-manifests/applications/tre-layer.yml
   - ../ServiceStack/compose-manifests/applications/egress-layer.yml
+
+  # - two files merged together to override TRE API service configurations.
+    # - base yaml file (tre-layer.yml) is from ServiceStack.
+    # - he override config file (tre-layer-override.yml) is from DemoStack.
+
+  - path:
+    - ../ServiceStack/compose-manifests/applications/tre-layer.yml
+    - ./override-compose/tre-layer-override.yml
 
   # ----- Shared Services -----
   # - Platform Service: (PostgreSQL, Adminer, Serilog, RabbitMQ)

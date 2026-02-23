@@ -1,0 +1,8 @@
+# ----- Override TRE API Service Configurations -----
+
+# TRE API Service depends on Submission API Service in the DemoStack.
+services:
+  tre-api:
+    depends_on:
+      submissionAPI:
+        condition: service_healthy
