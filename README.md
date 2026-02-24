@@ -1,5 +1,5 @@
-# DARE-TREFX-Environment
-Demo Environment for DARE TRE-FX Project.
+# 5S-TES Environment
+Dev and Demo Environment for Five Safes - TES Project.
 User and Developer Guides can be found in the [documentation](https://docs.federated-analytics.ac.uk/).
 
 
