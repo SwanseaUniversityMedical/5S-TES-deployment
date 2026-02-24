@@ -26,9 +26,9 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy=treAPI,seq-tre
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
       - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRediretURL}
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - MinioSettings__Url=http://localhost:9003
       - sslcookies=${sslcookies}
@@ -66,9 +66,9 @@ services:
         - TreKeyCloakSettings__Proxy=${useproxy}
         - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
         - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-        - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpredAddressUI}
+        - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakTokenExpiredAddressUI}
         - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-        - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRediretURL}
+        - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
         - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
         - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
         - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
@@ -78,7 +78,7 @@ services:
         - DataEgressKeyCloakSettings__Proxy=${useproxy}
         - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
         - DataEgressKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-        - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpredAddressUI}
+        - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
         - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
         - MinioSettings__Url=http://minioTRE:9000
         - MinioSettings__AccessKey=${TreMinioAdminUser}

@@ -26,9 +26,9 @@ services:
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
       - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
@@ -36,7 +36,7 @@ services:
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
-      - URLSettingsFrontEnd__MinioUrl=${URLSettingsFrontEndMinioUrl}
+      - URLSettingsFrontEnd__MinioUrl=${MinioBrowserHost}:9001
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
 
@@ -83,9 +83,9 @@ services:
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpredAddressUI}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
       - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRediretURL}
+      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
