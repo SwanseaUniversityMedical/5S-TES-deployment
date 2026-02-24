@@ -21,11 +21,10 @@ fi
 
 # ---- Implement Funnel Setup ----
 
-cd ..
 echo "Continuing with Funnel setup..."
 
 # Giving permissions and executing `funnel.sh`
-FUNNEL_SCRIPT="./DemoStack/scripts/funnel.sh"
+FUNNEL_SCRIPT="./scripts/funnel.sh"
 chmod +x "$FUNNEL_SCRIPT"
 "$FUNNEL_SCRIPT"
 
