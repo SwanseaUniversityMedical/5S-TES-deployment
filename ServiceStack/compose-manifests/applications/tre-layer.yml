@@ -4,7 +4,7 @@ services:
   # -----------------------------------
 
   tre-ui:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-ui:${dareVer}
+    image: harbor.federated-analytics.ac.uk/5s-tes/agent-ui:${5s-tes-version}
     container_name: treUI
     restart: always
     networks:
@@ -38,7 +38,7 @@ services:
 # ------ TRE Agent - API -------
 # -----------------------------------
   tre-api:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-api:${dareVer}
+    image: harbor.federated-analytics.ac.uk/5s-tes/agent-api:${5s-tes-version}
     container_name: treapi
     restart: always
     networks:
@@ -150,13 +150,16 @@ services:
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
       - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      # Encryption settings
+      - EncryptionSettings__Key=${EncryptionSettingsKey}
+      - EncryptionSettings__Base=${EncryptionSettingsBase}
 
 
 # ----- TRE Agent - Camunda Worker -------
 # --------------------------------------------
 
   TRE-Camunda:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-tre-camunda:${dareVer}
+    image: harbor.federated-analytics.ac.uk/5s-tes/credentials-camunda:${5s-tes-version}
     container_name: TRE-Camunda
     restart: always
     networks:
