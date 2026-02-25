@@ -150,6 +150,9 @@ services:
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
       - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      # Encryption settings
+      - EncryptionSettings__Key=${EncryptionSettingsKey}
+      - EncryptionSettings__Base=${EncryptionSettingsBase}
 
 
 # ----- TRE Agent - Camunda Worker -------
