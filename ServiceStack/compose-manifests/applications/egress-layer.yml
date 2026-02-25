@@ -4,7 +4,7 @@ services:
   # -------------------------------------
 
   DataEgressUI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:${dareVer}
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:3.0.3
     container_name: DataEgressUI
     restart: always
     networks:
@@ -38,7 +38,7 @@ services:
   # -------------------------------------
 
   DataEgressAPI:
-      image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:${dareVer}
+      image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:3.0.3
       container_name: DataEgressAPI
       restart: always
       networks:
