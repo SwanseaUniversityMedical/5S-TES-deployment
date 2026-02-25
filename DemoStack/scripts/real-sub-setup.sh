@@ -56,3 +56,8 @@ else
     echo "ERROR: Docker Compose failed to start all services."
     exit 1
 fi
+
+
+# ---- Note ----
+# Run this command to give access to the real-sub-setup.sh.
+# - chmod +x real-sub-setup.sh

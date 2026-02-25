@@ -81,20 +81,25 @@ fi
 
 # ---- Create Funnel config.yml ----
 
-echo "Creating config.yml..."
+FUNNEL_WORK_DIR="./DemoStack/config/funnel-work-dir"
 
-cat <<EOF > config.yml
+echo "Creating funnel-config.yml..."
+
+cat <<EOF > "./config/funnel-config.yml"
 GenericS3:
   - Disabled: false
     Endpoint: "localhost:9002"
     Key: "$ACCESS_KEY"
     Secret: "$SECRET_KEY"
-EOF
 
-echo "config.yml created successfully."
+Worker:
+  WorkDir: "$FUNNEL_WORK_DIR"
+
+EOF
 
 
 # ---- Run Funnel Server ----
 
 echo "Starting Funnel..."
-funnel server run -c config.yml
+cd ./config
+funnel server run -c funnel-config.yml
