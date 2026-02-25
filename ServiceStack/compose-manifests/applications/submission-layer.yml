@@ -3,7 +3,7 @@ services:
   # ----- Submission UI -----
   # -----------------------------------------
   submissionUI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-ui:${dareVer}
+    image: harbor.federated-analytics.ac.uk/5s-tes/submission-ui:${5s-tes-version}
     container_name: submissionUI
     restart: always
     networks:
@@ -45,7 +45,7 @@ services:
   # ----------------------------------
 
   submissionAPI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-main-api:${dareVer}
+    image: harbor.federated-analytics.ac.uk/5s-tes/submission-api:${5s-tes-version}
     container_name: submissionAPI
     restart: always
     networks:
