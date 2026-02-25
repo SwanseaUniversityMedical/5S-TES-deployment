@@ -16,15 +16,19 @@ if docker compose up -d; then
 else
     echo "ERROR: Docker Compose failed to start all services."
     exit 1
-    
+
 fi
 
 # ---- Implement Funnel Setup ----
 
-cd ..
 echo "Continuing with Funnel setup..."
 
 # Giving permissions and executing `funnel.sh`
-FUNNEL_SCRIPT="./AllInOne/scripts/funnel.sh"
+FUNNEL_SCRIPT="./scripts/funnel.sh"
 chmod +x "$FUNNEL_SCRIPT"
 "$FUNNEL_SCRIPT"
+
+
+# ---- Note ----
+# Run this command to give access to the starter.sh.
+# - chmod +x starter.sh
