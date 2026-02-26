@@ -151,7 +151,6 @@ services:
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
-      - EncryptionSettings__Base=${EncryptionSettingsBase}
 
 
 # ----- TRE Agent - Camunda Worker -------
