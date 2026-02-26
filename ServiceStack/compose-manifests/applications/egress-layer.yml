@@ -30,7 +30,7 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
-      - MinioSettings__Url=http://localhost:9003
+      - MinioSettings__Url=http://minioTRE:9000
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
 
