@@ -21,7 +21,7 @@ services:
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
-      - TreKeyCloakSettings__AccountManagementURL=${TreAccountManagementURLUI}
+      - TreKeyCloakSettings__AccountManagementURL=${KEYCLOAK_URL}/realms/Dare-TRE/account
       - TreKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
       - TreKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
       - TreKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-TRE
