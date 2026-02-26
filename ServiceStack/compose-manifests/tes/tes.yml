@@ -1,0 +1,37 @@
+services:
+  dind:
+    image: docker:dind
+    privileged: true
+    command: dockerd --host=tcp://0.0.0.0:2375
+    healthcheck:
+      test: ["CMD", "docker", "-H", "tcp://localhost:2375", "info"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sub-net
+
+  funnel:
+    build:
+      dockerfile: Dockerfile
+      context: funnel
+    depends_on:
+      dind:
+        condition: service_healthy        
+      minioTRE:
+        condition: service_healthy
+    ports:
+      - 8000:8000
+    environment:
+      - MinioKey=${MinioRootUser}
+      - MinioSecret=${MinioRootUser}
+      - DOCKER_HOST=tcp://dind:2375
+    networks:
+      - sub-net
+    volumes:
+      - ./funnel:/opt/funnel/config
+      - funnel_data:/opt/funnel/data
+
+volumes:
+  funnel_data:
+    driver: local
