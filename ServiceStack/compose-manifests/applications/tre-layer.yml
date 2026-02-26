@@ -71,7 +71,6 @@ services:
       - DareAPISettings__Address=http://submissionAPI:8080
       - DataEgressAPISettings__Address=https://egressAPI:8080
       - EnableExternalHangfire=${EnableExternalHangfire}
-      - IgnoreHutchSSL=${IgnoreHutchSSL}
       - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
       - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
       - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
@@ -117,7 +116,6 @@ services:
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
       - MinioTRESettings__Url=http://minioTRE:9000
-      - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
       - MinioTRESettings__AdminConsole=http://minioTRE:9001
@@ -128,12 +126,8 @@ services:
       - MinioSubSettings__BucketName=testbucket
       - MinioSubSettings__AWSRegion=us-east-1
       - MinioTRESettings__AWSRegion=us-east-1
-      - Hutch__APIAddress=${HutchAPIAddress}
-      - Hutch__DbServer=${HutchDbServer}
-      - Hutch__DbName=${HutchDbName}
-      - Hutch__DbPort=${HutchDbPort}
-      - CredentialAPISettings__StartWebhookUrl=${CredentialAPISettingsStartWebhookUrl}
-      - CredentialAPISettings__RevokeWebhookUrl=${CredentialAPISettingsRevokeWebhookUrl}
+      - CredentialAPISettings__StartWebhookUrl=http://connectors:8080/inbound/StartCredentials
+      - CredentialAPISettings__RevokeWebhookUrl=http://connectors:8080/inbound/RevokeCredentials
       - VaultSettings__BaseUrl=http://vault:8200
       - VaultSettings__Token=dev-only-token
       - VaultSettings__TimeoutSeconds=30
