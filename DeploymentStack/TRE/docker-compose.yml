@@ -2,7 +2,6 @@ name: TRE
 
 # ----- Services -----
 include:
-
   # ----- Application Services -----
   # - (TRE Layer, Egress Layer)
 
@@ -12,7 +11,7 @@ include:
   # ----- Shared Services -----
   # - Platform Service: (PostgreSQL, Adminer, Serilog, RabbitMQ)
   # - Credential Service: (Camunda, Connectors, Vault, OpenLDAP, LDAP Init, phpLDAPadmin, Elastic Search)
-  # - Auth Service: (Keycloak)
+  # - Auth Service: (Keycloak - Optional)
 
   - ../../ServiceStack/compose-manifests/shared/platform.yml
   - ../../ServiceStack/compose-manifests/shared/credentials.yml
@@ -55,7 +54,6 @@ volumes:
     driver: local
   tre_process_models:
     driver: local
-
 
 # ----- Shared Network & Configs -----
 
