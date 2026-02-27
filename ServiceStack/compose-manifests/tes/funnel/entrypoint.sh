@@ -6,4 +6,4 @@ sed \
 echo "##### ----- Funnel config start -----"
 cat config.yaml
 echo "##### ----- Funnel config end -----"
-exec /root/.local/bin/funnel server run --config config.yaml
+exec funnel server run --config config.yaml
