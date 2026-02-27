@@ -31,7 +31,7 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
-      - MinioSettings__Url=http://minioTRE:9000
+      - MinioSettings__Url=${MINIO_TRE_UI_URL}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
 
