@@ -1,5 +1,4 @@
 FROM docker:dind-rootless
-WORKDIR /opt/funnel/
 
 USER root
 ARG FUNNEL_VERSION=v0.11.7
@@ -10,6 +9,9 @@ RUN apk add --no-cache curl perl-utils \
     && chmod +x /usr/local/bin/funnel \
     && apk del curl perl-utils 
 USER rootless
+
+# Set data dir
+WORKDIR /opt/funnel/data
 
 # Set entrypoint
 ENTRYPOINT ["config/entrypoint.sh"]
