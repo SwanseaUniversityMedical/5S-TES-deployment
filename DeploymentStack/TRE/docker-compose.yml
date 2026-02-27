@@ -12,10 +12,12 @@ include:
   # - Platform Service: (PostgreSQL, Adminer, Serilog, RabbitMQ)
   # - Credential Service: (Camunda, Connectors, Vault, OpenLDAP, LDAP Init, phpLDAPadmin, Elastic Search)
   # - Auth Service: (Keycloak - Optional)
+  # - OMOP Lite Service: (OMOP Lite - Optional)
 
   - ../../ServiceStack/compose-manifests/shared/platform.yml
   - ../../ServiceStack/compose-manifests/shared/credentials.yml
   - ../../ServiceStack/compose-manifests/shared/auth.yml
+  - ../../ServiceStack/compose-manifests/shared/omop-lite.yml
 
   # ----- Storage Services -----
   # - (MinIO - TRE)
