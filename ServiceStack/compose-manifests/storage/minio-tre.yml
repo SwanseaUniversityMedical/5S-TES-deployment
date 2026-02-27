@@ -14,7 +14,7 @@ services:
     environment:
       - MINIO_ROOT_USER=${TreMinioAdminUser}
       - MINIO_ROOT_PASSWORD=${TreMinioAdminPassword}
-      - MINIO_BROWSER_REDIRECT_URL=${MINIO_TRE_URL}
+      - MINIO_BROWSER_REDIRECT_URL=${MINIO_TRE_UI_URL}
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
       - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-TRE-Minio
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}
