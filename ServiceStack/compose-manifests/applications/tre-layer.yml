@@ -78,6 +78,19 @@ services:
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
+      # TRE UI Keycloak settings
+      - TreKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-TRE
+      - TreKeyCloakSettings__ClientId=Dare-TRE-UI
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
+      - TreKeyCloakSettings__UseRedirectURL=false
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       # Data Egress Keycloak settings
       - DataEgressKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
