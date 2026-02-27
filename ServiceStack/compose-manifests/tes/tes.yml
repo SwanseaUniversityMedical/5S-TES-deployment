@@ -24,7 +24,7 @@ services:
       - 8000:8000
     environment:
       - MinioKey=${MinioRootUser}
-      - MinioSecret=${MinioRootUser}
+      - MinioSecret=${MinioRootPass}
       - DOCKER_HOST=tcp://dind:2375
     networks:
       - sub-net
