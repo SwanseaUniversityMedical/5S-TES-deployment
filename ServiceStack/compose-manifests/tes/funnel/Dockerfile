@@ -14,4 +14,6 @@ USER rootless
 WORKDIR /opt/funnel/data
 
 # Set entrypoint
-ENTRYPOINT ["config/entrypoint.sh"]
+WORKDIR /opt/funnel
+COPY entrypoint.sh ./entrypoint.sh 
+ENTRYPOINT ["./entrypoint.sh"]
