@@ -15,25 +15,25 @@ services:
       - tre-api
     environment:
       - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
-      - TreAPISettings__PublicApiBaseUrl=http://localhost:8072
+      - TreAPISettings__PublicApiBaseUrl=${TreApiPublicUrl}
       - Serilog__SeqServerUrl=http://seq:5341
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
-      - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
-      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
-      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
-      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
-      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
-      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
-      - TreKeyCloakSettings__Proxy=${useproxy}
-      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
-      - TreKeyCloakSettings__AccountManagementURL=${TreAccountManagementURLUI}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpiredAddressUI}
-      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
+      - TreKeyCloakSettings__AccountManagementURL=${KEYCLOAK_URL}/realms/Dare-TRE/account
+      - TreKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-TRE
+      - TreKeyCloakSettings__ClientId=Dare-TRE-UI
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
       - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
+      - TreKeyCloakSettings__UseRedirectURL=false
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
 
 # ------ TRE Agent - API -------
 # -----------------------------------
@@ -60,6 +60,7 @@ services:
       orchestration:
         condition: service_healthy
     environment:
+      # General settings
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -68,81 +69,79 @@ services:
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
-      - DareAPISettings__Address=http://submissionAPI:8080
-      - DataEgressAPISettings__Address=https://egressAPI:8080
+      - DareAPISettings__Address=${SubmissionAPIAddressURL}
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - EnableExternalHangfire=${EnableExternalHangfire}
-      - IgnoreHutchSSL=${IgnoreHutchSSL}
-      - TreKeyCloakSettings__Authority=${TreKeyCloakAuthority}
-      - TreKeyCloakSettings__MetadataAddress=${TreKeyCloakMetadataAddress}
-      - TreKeyCloakSettings__BaseUrl=${TreKeyCloakBaseRealmAddress}
-      - TreKeyCloakSettings__ClientId=${TreKeyCloakClientId}
-      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
-      - TreKeyCloakSettings__ValidAudiences=${TreValidAudiences}
-      - TreKeyCloakSettings__Proxy=${useproxy}
-      - EnableExternalHangfire=true
-      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakTokenExpiredAddressUI}
-      - TreKeyCloakSettings__UseRedirectURL=${TreKeyCloakUseRedirect}
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
-      - DataEgressKeyCloakSettings__Authority=${EgressKeyCloakAuthority}
-      - DataEgressKeyCloakSettings__MetadataAddress=${EgressKeyCloakMetadataAddress}
-      - DataEgressKeyCloakSettings__BaseUrl=${EgressKeyCloakBaseRealmAddress}
-      - DataEgressKeyCloakSettings__ClientId=${EgressKeyCloakClientID}
-      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
-      - DataEgressKeyCloakSettings__ValidAudiences=${EgressValidAudiences}
-      - DataEgressKeyCloakSettings__Proxy=${useproxy}
-      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
-      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakTokenExpiredAddressUI}
-      - DataEgressKeyCloakSettings__UseRedirectURL=${EgressKeyCloakUseRedirect}
-      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
-      - SubmissionKeyCloakSettings__ClientId=${SubmissionAPIKeyCloakClientId}
-      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
-      - SubmissionKeyCloakSettings__ValidAudiences=${SubmissionAPIValidAudiences}
-      - SubmissionKeyCloakSettings__Proxy=${useproxy}
-      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakTokenExpiredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${SubmissionAPIKeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
       - AgentSettings__UseTESK=${UseTESK}
-      - AgentSettings__UseRabbit=${UseRabbit}
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
+      # TRE UI Keycloak settings
+      - TreKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-TRE
+      - TreKeyCloakSettings__ClientId=Dare-TRE-UI
+      - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
+      - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
+      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
+      - TreKeyCloakSettings__UseRedirectURL=false
+      - TreKeyCloakSettings__Proxy=${useproxy}
+      - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
+      # Data Egress Keycloak settings
+      - DataEgressKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Data-Egress
+      - DataEgressKeyCloakSettings__ClientId=Data-Egress-API
+      - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
+      - DataEgressKeyCloakSettings__ValidAudiences=Data-Egress-UI,Data-Egress-API
+      - DataEgressKeyCloakSettings__TokenExpiredAddress=${EgressKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - DataEgressKeyCloakSettings__RedirectURL=${EgressKeyCloakClientUIRedirectURL}
+      - DataEgressKeyCloakSettings__UseRedirectURL=false
+      - DataEgressKeyCloakSettings__Proxy=${useproxy}
+      - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
+      # Submission API Keycloak settings
+      - SubmissionKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__ClientId=Dare-Control-API
+      - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
+      - SubmissionKeyCloakSettings__ValidAudiences=Dare-Control-UI,Dare-Control-API,Dare-Control-Minio
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
+      - SubmissionKeyCloakSettings__UseRedirectURL=false
+      - SubmissionKeyCloakSettings__Proxy=${useproxy}
+      - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
+      - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre,minioSubmission"
+      # MINIO TRE settings
       - MinioTRESettings__Url=http://minioTRE:9000
-      - MinioTRESettings__HutchURLOverride=${HutchMinioURLOverride}
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
       - MinioTRESettings__AdminConsole=http://minioTRE:9001
+      - MinioTRESettings__AWSRegion=us-east-1
+      # MINIO SUBMISSION settings
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
       - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
       - MinioSubSettings__BucketName=testbucket
       - MinioSubSettings__AWSRegion=us-east-1
-      - MinioTRESettings__AWSRegion=us-east-1
-      - Hutch__APIAddress=${HutchAPIAddress}
-      - Hutch__DbServer=${HutchDbServer}
-      - Hutch__DbName=${HutchDbName}
-      - Hutch__DbPort=${HutchDbPort}
-      - CredentialAPISettings__StartWebhookUrl=${CredentialAPISettingsStartWebhookUrl}
-      - CredentialAPISettings__RevokeWebhookUrl=${CredentialAPISettingsRevokeWebhookUrl}
+      # Credentials and DMN settings
+      - CredentialAPISettings__StartWebhookUrl=http://connectors:8080/inbound/StartCredentials
+      - CredentialAPISettings__RevokeWebhookUrl=http://connectors:8080/inbound/RevokeCredentials
+      - DmnPath__Path=/app/ProcessModels
+      - TreAPISettings__Address=${TreApiPublicUrl}
+      # Vault settings
       - VaultSettings__BaseUrl=http://vault:8200
       - VaultSettings__Token=dev-only-token
       - VaultSettings__TimeoutSeconds=30
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
-      - DmnPath__Path=/app/ProcessModels
-      - TreAPISettings__Address=http://localhost:8072
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
@@ -152,7 +151,6 @@ services:
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
-      - EncryptionSettings__Base=${EncryptionSettingsBase}
 
 
 # ----- TRE Agent - Camunda Worker -------
