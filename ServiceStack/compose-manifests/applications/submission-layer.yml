@@ -25,7 +25,7 @@ services:
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
       - SuppressAntiforgery=${SuppressAntiforgery}
-      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
+      - URLSettingsFrontEnd__QueryImageSQL=${URLSettingsFrontEndQueryImageSQL}
       - URLSettingsFrontEnd__MinioUrl=${submissionMinioUrl}
       # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
