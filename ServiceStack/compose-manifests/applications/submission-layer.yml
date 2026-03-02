@@ -22,22 +22,23 @@ services:
       - DareAPISettings__Address=http://submissionAPI:8080
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
       - FormIOSettings__UseInternal=true
+      - sslcookies=${sslcookies}
+      - httpsRedirect=${httpsRedirect}
+      - SuppressAntiforgery=${SuppressAntiforgery}
+      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
+      - URLSettingsFrontEnd__MinioUrl=${submissionMinioUrl}
+      # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="submissionAPI,seq"
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__UseRedirectURL=false
+      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionKeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
-      - SubmissionKeyCloakSettings__AccountManagementURL=${SubmissionUIAccountManagementURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionUIKeyCloakBaseUrl}
-      - SuppressAntiforgery=${SuppressAntiforgery}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
-      - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
-      - URLSettingsFrontEnd__MinioUrl=${submissionMinioUrl}
-      - sslcookies=${sslcookies}
-      - httpsRedirect=${httpsRedirect}
+      - SubmissionKeyCloakSettings__AccountManagementURL=${KEYCLOAK_URL}/realms/Dare-Control/account
+      - SubmissionKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-Control/
 
   # ----- Submission API -----
   # ----------------------------------
@@ -83,12 +84,12 @@ services:
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${KeyCloakTokenExpiredAddressUI}
-      - SubmissionKeyCloakSettings__UseRedirectURL=${KeyCloakUseRedirect}
-      - SubmissionKeyCloakSettings__RedirectURL=${KeyCloakClientUIRedirectURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${SubmissionAPIKeyCloakBaseRealmAddress}
-      - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionAPIKeyCloakMetadataAddress}
-      - SubmissionKeyCloakSettings__Authority=${SubmissionAPIKeyCloakAuthority}
+      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
+      - SubmissionKeyCloakSettings__UseRedirectURL=false
+      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionKeyCloakClientUIRedirectURL}
+      - SubmissionKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-Control/
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
       - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
       - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}
