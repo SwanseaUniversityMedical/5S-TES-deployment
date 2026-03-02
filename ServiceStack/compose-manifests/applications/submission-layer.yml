@@ -26,7 +26,7 @@ services:
       - httpsRedirect=${httpsRedirect}
       - SuppressAntiforgery=${SuppressAntiforgery}
       - URLSettingsFrontEnd__QueryImageSQL=${URLSettingsFrontEndQueryImageSQL}
-      - URLSettingsFrontEnd__MinioUrl=${submissionMinioUrl}
+      - URLSettingsFrontEnd__MinioUrl=${submissionMinioAdminConsole}
       # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
