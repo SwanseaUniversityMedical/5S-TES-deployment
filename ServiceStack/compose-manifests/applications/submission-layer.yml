@@ -1,5 +1,4 @@
 services:
-
   # ----- Submission UI -----
   # -----------------------------------------
   submissionUI:
@@ -36,10 +35,9 @@ services:
       - SubmissionKeyCloakSettings__MetadataAddress=${SubmissionUIKeyCloakMetadataAddress}
       - SubmissionKeyCloakSettings__Authority=${SubmissionUIKeyCloakAuthority}
       - URLSettingsFrontEnd__QueryImage=${URLSettingsFrontEndQueryImage}
-      - URLSettingsFrontEnd__MinioUrl=${MinioBrowserHost}:9001
+      - URLSettingsFrontEnd__MinioUrl=${submissionMinioUrl}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
-
 
   # ----- Submission API -----
   # ----------------------------------

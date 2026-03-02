@@ -1,5 +1,4 @@
 services:
-
   # ----- Minio Submission ------
   # ------------------------------------
 
@@ -11,12 +10,12 @@ services:
     environment:
       - MINIO_ROOT_USER=${MinioRootUser}
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
-      - MINIO_BROWSER_REDIRECT_URL=http://localhost:9001
-      - MINIO_SERVER_URL=http://localhost:9000
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${MinioIdentityConfigURL}
-      - MINIO_IDENTITY_OPENID_CLIENT_ID=${MinioIdentityID}
+      - MINIO_BROWSER_REDIRECT_URL=${submissionMinioAdminConsole}
+      - MINIO_SERVER_URL=${submissionMinioUrl}
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
-      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=SSO_IDENTIFIER
+      - MINIO_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
       - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
     networks:
