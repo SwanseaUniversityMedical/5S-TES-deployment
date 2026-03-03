@@ -1,5 +1,4 @@
 services:
-
   # ------ TRE Agent - UI -------
   # -----------------------------------
 
@@ -35,8 +34,31 @@ services:
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
 
-# ------ TRE Agent - API -------
-# -----------------------------------
+  # ------ New TRE Agent - UI -------
+  # -----------------------------------
+  new-tre-ui:
+    image: harbor.federated-analytics.ac.uk/5s-tes/agent-web:${DEPLOYMENT_VERSION}
+    container_name: new-treUI
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 3000:3000
+    depends_on:
+      - tre-api
+    environment:
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+      - KEYCLOAK_URL=${KEYCLOAK_URL}
+      - KEYCLOAK_CLIENT_ID=Dare-TRE-UI
+      - KEYCLOAK_CLIENT_SECRET=${TreKeyCloakSecret}
+      - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
+      - NEXT_PUBLIC_KEYCLOAK_REALM=Dare-TRE
+      - NEXT_PUBLIC_HELPDESK_URL=${NEXT_PUBLIC_HELPDESK_URL}
+      - AGENT_API_URL=http://treapi:8080
+
+  # ------ TRE Agent - API -------
+  # -----------------------------------
   tre-api:
     image: harbor.federated-analytics.ac.uk/5s-tes/agent-api:${DEPLOYMENT_VERSION}
     container_name: treapi
@@ -152,9 +174,8 @@ services:
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
 
-
-# ----- TRE Agent - Camunda Worker -------
-# --------------------------------------------
+  # ----- TRE Agent - Camunda Worker -------
+  # --------------------------------------------
 
   TRE-Camunda:
     image: harbor.federated-analytics.ac.uk/5s-tes/credentials-camunda:${DEPLOYMENT_VERSION}
