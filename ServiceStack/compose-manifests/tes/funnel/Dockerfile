@@ -15,5 +15,5 @@ WORKDIR /opt/funnel/data
 
 # Set entrypoint
 WORKDIR /opt/funnel
-COPY entrypoint.sh ./entrypoint.sh 
+COPY --chmod=+x entrypoint.sh ./entrypoint.sh 
 ENTRYPOINT ["./entrypoint.sh"]
