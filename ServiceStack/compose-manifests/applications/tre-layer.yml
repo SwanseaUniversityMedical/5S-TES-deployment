@@ -1,5 +1,4 @@
 services:
-
   # ------ TRE Agent - UI -------
   # -----------------------------------
 
@@ -35,8 +34,8 @@ services:
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
 
-# ------ TRE Agent - API -------
-# -----------------------------------
+  # ------ TRE Agent - API -------
+  # -----------------------------------
   tre-api:
     image: harbor.federated-analytics.ac.uk/5s-tes/agent-api:${DEPLOYMENT_VERSION}
     container_name: treapi
@@ -105,9 +104,9 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       # Submission API Keycloak settings
-      - SubmissionKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
-      - SubmissionKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
-      - SubmissionKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
       - SubmissionKeyCloakSettings__ClientId=Dare-Control-API
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
       - SubmissionKeyCloakSettings__ValidAudiences=Dare-Control-UI,Dare-Control-API,Dare-Control-Minio
@@ -152,9 +151,8 @@ services:
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
 
-
-# ----- TRE Agent - Camunda Worker -------
-# --------------------------------------------
+  # ----- TRE Agent - Camunda Worker -------
+  # --------------------------------------------
 
   TRE-Camunda:
     image: harbor.federated-analytics.ac.uk/5s-tes/credentials-camunda:${DEPLOYMENT_VERSION}
