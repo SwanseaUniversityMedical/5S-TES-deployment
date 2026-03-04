@@ -1,0 +1,35 @@
+Database: boltdb
+
+Compute: local
+
+Logger:
+  Level: info
+  OutputFile: ""
+
+Server:
+  HTTPPort: "8000"
+  RPCPort: "9090"
+
+Worker:
+  WorkDir: "/opt/funnel"
+  PollingRate: 5s
+  LogUpdateRate: 5s
+  LogTailSize: 10000 # 10 KB
+  LeaveWorkDir: false
+  MaxParallelTransfers: 10
+
+BoltDB:
+  Path: "/opt/funnel/data/funnel.db"
+
+AmazonS3:
+  Disabled: true
+  MaxRetries: 10
+  Key: ""
+  Secret: ""
+
+GenericS3:
+  - Disabled: false
+    Endpoint: "http://minioTRE:9000" # URL to MinIO.
+    # Key and secret should be set in the .env file
+    Key: "${MinioKey}"
+    Secret: "${MinioSecret}"

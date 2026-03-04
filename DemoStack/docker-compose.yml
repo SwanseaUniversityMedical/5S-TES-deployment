@@ -25,6 +25,9 @@ include:
   - ../ServiceStack/compose-manifests/storage/minio-submission.yml
   - ../ServiceStack/compose-manifests/storage/minio-tre.yml
 
+  # ----- Task Execution Services -----
+  # - (Docker-in-Docker, Funnel)
+  - ../ServiceStack/compose-manifests/tes/tes.yml
 
 # ----- Volumes -----
 
