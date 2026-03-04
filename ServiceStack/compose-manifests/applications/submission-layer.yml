@@ -35,10 +35,10 @@ services:
       - SubmissionKeyCloakSettings__UseRedirectURL=false
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionKeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionUIClientSecret}
-      - SubmissionKeyCloakSettings__AccountManagementURL=${KEYCLOAK_URL}/realms/Dare-Control/account
-      - SubmissionKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-Control
-      - SubmissionKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
-      - SubmissionKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-Control/
+      - SubmissionKeyCloakSettings__AccountManagementURL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/account
+      - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/
 
   # ----- Submission API -----
   # ----------------------------------
@@ -87,9 +87,9 @@ services:
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
       - SubmissionKeyCloakSettings__UseRedirectURL=false
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionKeyCloakClientUIRedirectURL}
-      - SubmissionKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-Control
-      - SubmissionKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
-      - SubmissionKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-Control/
+      - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
+      - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
       - SubmissionKeyCloakSettings__SignedOutRedirectUri=${SubmissionSignedOutRedirectUri}
       - SubmissionKeyCloakSettings__TokenRefreshSeconds=${SubmissionTokenRefreshSeconds}

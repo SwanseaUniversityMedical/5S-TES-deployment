@@ -12,7 +12,7 @@ services:
       - MINIO_ROOT_PASSWORD=${MinioRootPass}
       - MINIO_BROWSER_REDIRECT_URL=${submissionMinioAdminConsole}
       - MINIO_SERVER_URL=${submissionMinioUrl}
-      - MINIO_IDENTITY_OPENID_CONFIG_URL=${KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - MINIO_IDENTITY_OPENID_CONFIG_URL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
       - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
       - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
       - MINIO_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
