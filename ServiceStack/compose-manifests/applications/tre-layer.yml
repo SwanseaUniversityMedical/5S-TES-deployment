@@ -20,10 +20,10 @@ services:
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
-      - TreKeyCloakSettings__AccountManagementURL=${KEYCLOAK_URL}/realms/Dare-TRE/account
-      - TreKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
-      - TreKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
-      - TreKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-TRE
+      - TreKeyCloakSettings__AccountManagementURL=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/account
+      - TreKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${TRE_KEYCLOAK_URL}/realms/Dare-TRE
       - TreKeyCloakSettings__ClientId=Dare-TRE-UI
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
@@ -78,9 +78,9 @@ services:
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
       # TRE UI Keycloak settings
-      - TreKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
-      - TreKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
-      - TreKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Dare-TRE
+      - TreKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__MetadataAddress=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - TreKeyCloakSettings__BaseUrl=${TRE_KEYCLOAK_URL}/realms/Dare-TRE
       - TreKeyCloakSettings__ClientId=Dare-TRE-UI
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
@@ -91,9 +91,9 @@ services:
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
       # Data Egress Keycloak settings
-      - DataEgressKeyCloakSettings__Authority=${KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
-      - DataEgressKeyCloakSettings__MetadataAddress=${KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
-      - DataEgressKeyCloakSettings__BaseUrl=${KEYCLOAK_URL}/realms/Data-Egress
+      - DataEgressKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__MetadataAddress=${TRE_KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
+      - DataEgressKeyCloakSettings__BaseUrl=${TRE_KEYCLOAK_URL}/realms/Data-Egress
       - DataEgressKeyCloakSettings__ClientId=Data-Egress-API
       - DataEgressKeyCloakSettings__ClientSecret=${EgressKeyCloakSecret}
       - DataEgressKeyCloakSettings__ValidAudiences=Data-Egress-UI,Data-Egress-API
