@@ -34,11 +34,11 @@ services:
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
 
-  # ------ New TRE Agent - UI -------
+  # ------ TRE Agent - Web (NextJS app) -------
   # -----------------------------------
-  new-tre-ui:
+  agent-web:
     image: harbor.federated-analytics.ac.uk/5s-tes/agent-web:${DEPLOYMENT_VERSION}
-    container_name: new-treUI
+    container_name: agent-web
     restart: always
     networks:
       - sub-net
