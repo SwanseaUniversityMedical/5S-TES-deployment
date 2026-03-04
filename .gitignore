@@ -14,3 +14,5 @@
 
 DemoStack/config/funnel-config.yml
 DemoStack/config/funnel-work-dir/
+DeploymentStack/TRE/.env
+DeploymentStack/Submission/.env
