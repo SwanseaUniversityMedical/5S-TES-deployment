@@ -34,6 +34,29 @@ services:
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
 
+  # ------ TRE Agent - Web (NextJS app) -------
+  # -----------------------------------
+  agent-web:
+    image: harbor.federated-analytics.ac.uk/5s-tes/agent-web:${DEPLOYMENT_VERSION}
+    container_name: agent-web
+    restart: always
+    networks:
+      - sub-net
+    ports:
+      - 3000:3000
+    depends_on:
+      - tre-api
+    environment:
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL}
+      - KEYCLOAK_URL=${TRE_KEYCLOAK_URL}
+      - KEYCLOAK_CLIENT_ID=Dare-TRE-UI
+      - KEYCLOAK_CLIENT_SECRET=${TreKeyCloakSecret}
+      - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
+      - NEXT_PUBLIC_KEYCLOAK_REALM=Dare-TRE
+      - NEXT_PUBLIC_HELPDESK_URL=${NEXT_PUBLIC_HELPDESK_URL}
+      - AGENT_API_URL=http://treapi:8080
+
   # ------ TRE Agent - API -------
   # -----------------------------------
   tre-api:
