@@ -2,10 +2,6 @@ Database: boltdb
 
 Compute: local
 
-Logger:
-  Level: info
-  OutputFile: ""
-
 Server:
   HTTPPort: "8000"
   RPCPort: "9090"
@@ -21,15 +17,8 @@ Worker:
 BoltDB:
   Path: "/opt/funnel/data/funnel.db"
 
-AmazonS3:
-  Disabled: true
-  MaxRetries: 10
-  Key: ""
-  Secret: ""
-
 GenericS3:
   - Disabled: false
-    Endpoint: "http://minioTRE:9000" # URL to MinIO.
-    # Key and secret should be set in the .env file
+    Endpoint: "http://minioTRE:9000" # URL to MinIO. In Production, the Key and secret should be set in the .env file
     Key: "${MinioKey}"
     Secret: "${MinioSecret}"
