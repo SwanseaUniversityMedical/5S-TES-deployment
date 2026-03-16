@@ -73,7 +73,7 @@ echo "Checking for Funnel installation..."
 
 if ! command -v funnel &>/dev/null; then
     echo "Installing Funnel..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohsu-comp-bio/funnel/refs/heads/develop/install.sh)" -- v0.11.7-rc.12
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohsu-comp-bio/funnel/refs/heads/develop/install.sh)" -- v0.11.7
 else
     echo "Funnel is already installed."
 fi
