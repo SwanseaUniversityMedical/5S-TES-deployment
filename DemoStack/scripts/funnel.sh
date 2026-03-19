@@ -45,7 +45,7 @@ fi
 
 # ---- Login to MinIO ----
 
-echo "Configuring MinIO client alias..."
+echo "Configuring MinIO client..."
 
 mc alias set tre-minio http://localhost:9002 minio minio123 || {
     echo "ERROR: Unable to connect to MinIO."
@@ -56,15 +56,13 @@ mc alias set tre-minio http://localhost:9002 minio minio123 || {
 
 # ---- Create Access Keys ----
 
-echo "Creating new MinIO Access Key..."
+echo "Fetching MinIO Access Key..."
 
 SA_JSON=$(mc admin user svcacct add tre-minio minio --json)
 
 ACCESS_KEY=$(echo "$SA_JSON" | grep -o '"accessKey":"[^"]*"' | cut -d'"' -f4)
 SECRET_KEY=$(echo "$SA_JSON" | grep -o '"secretKey":"[^"]*"' | cut -d'"' -f4)
 
-echo "Access Key: $ACCESS_KEY"
-echo "Secret Key: $SECRET_KEY"
 
 
 # ---- Install Funnel ----
