@@ -81,7 +81,7 @@ fi
 
 # ---- Create Funnel config.yml ----
 
-FUNNEL_WORK_DIR="./DemoStack/config/funnel-work-dir"
+FUNNEL_WORK_DIR="./funnel-work-dir"
 
 echo "Creating funnel-config.yml..."
 
