@@ -69,6 +69,8 @@ SECRET_KEY=$(echo "$SA_JSON" | grep -o '"secretKey":"[^"]*"' | cut -d'"' -f4)
 
 echo "Checking for Funnel installation..."
 
+export PATH="$HOME/.local/bin:$PATH"
+
 if ! command -v funnel &>/dev/null; then
     echo "Installing Funnel..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohsu-comp-bio/funnel/refs/heads/develop/install.sh)" -- v0.11.7
