@@ -7,7 +7,7 @@ set -e
 
 # ---- Verify .env File Exists ----
 
-ENV_FILE="../.env"
+ENV_FILE="./.env"
 
 if [[ ! -f "$ENV_FILE" ]]; then
     echo "ERROR: .env file not found at: $ENV_FILE"
@@ -23,31 +23,17 @@ echo "Updating .env..."
 if [[ "$(uname)" == "Darwin" ]]; then
     # macOS
     sed -i '' "s|^DemoMode=.*|DemoMode=false|" "$ENV_FILE"
-    sed -i '' "s|^KeyCloakDemoMode=.*|KeyCloakDemoMode=true|" "$ENV_FILE"
     sed -i '' "s|^UseTESK=.*|UseTESK=true|" "$ENV_FILE"
 else
     # Linux and others
     sed -i "s|^DemoMode=.*|DemoMode=false|" "$ENV_FILE"
-    sed -i "s|^KeyCloakDemoMode=.*|KeyCloakDemoMode=true|" "$ENV_FILE"
     sed -i "s|^UseTESK=.*|UseTESK=true|" "$ENV_FILE"
 fi
 
 echo ".env updated successfully."
-cd ..
 
 
 # ---- Restart Docker Compose ----
-
-echo "Stoping existing Docker Compose services..."
-
-if docker compose down; then
-    echo "Docker Compose stopped successfully."
-else
-    echo "ERROR: Docker Compose failed to stop."
-    exit 1
-fi
-
-echo "Preparing to start Docker Compose with updated configuration..."
 
 if docker compose up -d; then
     echo "Docker Compose completed successfully."
