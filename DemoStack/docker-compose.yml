@@ -3,7 +3,6 @@ name: DemoStack
 # ----- Services -----
 
 include:
-
   # ----- Application Services -----
   # - (Submission Layer, TRE Layer, Egress Layer)
 
@@ -20,14 +19,13 @@ include:
   - ../ServiceStack/compose-manifests/shared/auth.yml
   - ../ServiceStack/compose-manifests/shared/credentials.yml
 
+  # - OMOP Lite Service: (OMOP Lite - Optional - Uncomment to enable)
+  # - ../ServiceStack/compose-manifests/shared/omop-lite.yml
+
   # ----- Storage Services -----
   # - (MinIO - Submission & TRE)
   - ../ServiceStack/compose-manifests/storage/minio-submission.yml
   - ../ServiceStack/compose-manifests/storage/minio-tre.yml
-
-  # ----- Task Execution Services -----
-  # - (Docker-in-Docker, Funnel)
-  - ../ServiceStack/compose-manifests/tes/tes.yml
 
 # ----- Volumes -----
 
