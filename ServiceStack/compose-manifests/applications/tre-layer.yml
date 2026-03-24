@@ -167,10 +167,10 @@ services:
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
-      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
 
@@ -203,10 +203,10 @@ services:
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
-      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=500
-      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=50
-      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=1000
-      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=1000
+      - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
+      - ZeebeBootstrap__Worker__PollingTimeoutInMilliseconds=5000
+      - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # LDAP settings
       - LdapSettings__Host=openldap
       - LdapSettings__Port=389
