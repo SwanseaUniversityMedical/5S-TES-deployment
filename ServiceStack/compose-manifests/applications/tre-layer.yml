@@ -16,6 +16,7 @@ services:
       - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
       - TreAPISettings__PublicApiBaseUrl=${TreApiPublicUrl}
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=Information
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - sslcookies=${sslcookies}
@@ -91,6 +92,7 @@ services:
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=Information
       - DareAPISettings__Address=${SubmissionAPIAddressURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - EnableExternalHangfire=${EnableExternalHangfire}
@@ -199,6 +201,7 @@ services:
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
       - AllowedHosts=*
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=Information
       - DmnPath__Path=/app/ProcessModels
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
