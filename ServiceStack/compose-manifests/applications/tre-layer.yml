@@ -17,6 +17,7 @@ services:
       - TreAPISettings__PublicApiBaseUrl=${TreApiPublicUrl}
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - sslcookies=${sslcookies}
@@ -93,6 +94,7 @@ services:
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - DareAPISettings__Address=${SubmissionAPIAddressURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
       - EnableExternalHangfire=${EnableExternalHangfire}
@@ -202,6 +204,7 @@ services:
       - AllowedHosts=*
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - DmnPath__Path=/app/ProcessModels
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
