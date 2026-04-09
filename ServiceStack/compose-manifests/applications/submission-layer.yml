@@ -18,6 +18,8 @@ services:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - KeyCloakSettings__Proxy=false
       - DareAPISettings__Address=http://submissionAPI:8080
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
@@ -73,6 +75,8 @@ services:
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - SuppressAntiforgery=${SuppressAntiforgery}
       # Minio settings
       - MinioSettings__Url=http://minioSubmission:9000
