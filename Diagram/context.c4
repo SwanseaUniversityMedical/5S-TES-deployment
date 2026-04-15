@@ -1,0 +1,19 @@
+model {
+  // Actors who interact with submission layer
+  researcher -> submission
+  sub_admin -> submission
+
+  // Actors who interact with TRE layer
+  tre_admin -> tre
+  egress_admin -> tre
+
+  // Submission to TRE link
+  submission -> tre
+}
+
+views {
+  view index {
+    title '5Safes-TES - Context'
+    include *
+  }
+}
