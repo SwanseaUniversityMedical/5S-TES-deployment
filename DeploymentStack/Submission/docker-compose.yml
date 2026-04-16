@@ -36,6 +36,10 @@ volumes:
     driver: local
   data-protection:
     driver: local
+  vault_data:
+    driver: local
+  vault_logs:
+    driver: local
 
 # ----- Shared Network & Configs -----
 
