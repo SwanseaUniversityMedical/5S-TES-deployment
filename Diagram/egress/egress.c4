@@ -1,0 +1,16 @@
+model {
+  extend egress {
+    egress_ui = component 'Egress UI'
+    egress_api = component 'Egress API'
+
+    data_owner -> egress_ui 'Views / Approves'
+    egress_ui -> tre.minio 'Trigger file transfer'
+  }
+}
+
+views {
+  view of egress {
+    title 'Egress Service'
+    include *
+  }
+}

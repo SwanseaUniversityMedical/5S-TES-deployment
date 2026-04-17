@@ -1,3 +1,4 @@
 model {
   researcher = actor 'Researcher'
+  data_owner = actor 'Data Owner'
 }

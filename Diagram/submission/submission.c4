@@ -15,6 +15,7 @@ model {
 
     minio = component 'Minio' 'S3 Object Store'
     sub_api -> minio {title 'Stores objects'}
+    minio -> researcher 'Downloads result'
 
     rabbitmq = component 'RabbitMQ' 'MQTT message broker'
     sub_api -> rabbitmq {title 'Sends job message'}

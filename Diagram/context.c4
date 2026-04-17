@@ -3,8 +3,7 @@ model {
   submission -> tre {title "Submit job request"}
   tre -> execution {title "Submit job"}
   execution -> tre {title "Return job result"}
-  tre -> egress {title "Surface results"}
-  
+  tre -> egress {title "Show results for approval"}  
 }
 
 views {
