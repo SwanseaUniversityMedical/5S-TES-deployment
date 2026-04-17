@@ -1,14 +1,10 @@
 model {
-  // Actors who interact with submission layer
-  researcher -> submission
-  sub_admin -> submission
-
-  // Actors who interact with TRE layer
-  tre_admin -> tre
-  egress_admin -> tre
-
-  // Submission to TRE link
-  submission -> tre
+  // Job pathway
+  submission -> tre {title "Submit job request"}
+  tre -> execution {title "Submit job"}
+  execution -> tre {title "Return job result"}
+  tre -> egress {title "Surface results"}
+  
 }
 
 views {

@@ -1,0 +1,31 @@
+model {
+  extend submission {
+    submission_app = service 'Submission Application' {
+      sub_ui = component 'Submission UI'
+      sub_api = component 'Submission API'
+
+      researcher -> sub_ui {title 'Views in browser'}
+      sub_ui -> sub_api {title 'HTTP Requests'}
+    }
+
+    researcher -> submission_app {title 'Interacts with'}
+
+    postgres = component 'Postgres' 'Relational database'
+    sub_api -> postgres {title 'Stores metadata'}
+
+    minio = component 'Minio' 'S3 Object Store'
+    sub_api -> minio {title 'Stores objects'}
+
+    rabbitmq = component 'RabbitMQ' 'MQTT message broker'
+    sub_api -> rabbitmq {title 'Sends job message'}
+
+    sub_keycloak = component 'Submission Keycloak' 'Authenticates requests througout the layer'
+  }
+}
+
+views {
+  view of submission {
+    title 'Submission Service'
+    include *
+  }
+}

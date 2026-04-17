@@ -1,4 +1,6 @@
 model {
   submission = system 'Submission Layer'
+  execution = system 'Execution Layer'
   tre = system 'TRE'
+  egress = system 'Egress'
 }

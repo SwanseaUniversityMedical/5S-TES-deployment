@@ -1,6 +1,3 @@
 model {
   researcher = actor 'Researcher'
-  sub_admin = actor 'Submission Admin'
-  tre_admin = actor 'TRE Admin'
-  egress_admin = actor 'Egress Admin'
 }
