@@ -1,0 +1,9 @@
+model {
+  extend submission.submission_app {
+      sub_ui = component 'Submission UI'
+      sub_api = component 'Submission API'
+
+      researcher -> sub_ui {title 'Views in browser'}
+      sub_ui -> sub_api {title 'HTTP Requests'}
+   }
+}
