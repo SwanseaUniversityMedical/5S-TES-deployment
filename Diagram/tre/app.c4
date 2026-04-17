@@ -1,0 +1,11 @@
+model {
+  extend tre.tre_app {
+      // Components
+      tre_ui = component 'TRE Agent UI'
+      tre_api = component 'TRE API'
+
+      // Relationships
+      tre_ui -> submission.rabbitmq 'Picks up job'
+      tre_ui -> tre.camunda 'Configures job'
+  }
+}

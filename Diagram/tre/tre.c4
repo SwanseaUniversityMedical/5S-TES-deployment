@@ -1,16 +1,13 @@
 model {
   extend tre {
-    tre_ui = component 'TRE Agent UI'
-    tre_api = component 'TRE API'
-
+    // Components
+    tre_app = service 'TRE Application' 
     camunda = component 'Camunda' 'Credential Handler'
-
-    submission.rabbitmq -> tre_ui 'Picks up job'
-    tre_ui -> camunda 'Configures job'
-
-    camunda -> execution 'Forwards configured job'
-
     minio = component 'Minio' 'S3 Object Store'
+    keycloak = component 'TRE Keycloak' 'Authenticates requests througout the layer'
+
+    // Relationships
+    camunda -> execution 'Forwards configured job'
     execution -> minio 'Stores job result'
     minio -> data_owner 'Notifies'
     minio -> submission.minio 'Transfers'
