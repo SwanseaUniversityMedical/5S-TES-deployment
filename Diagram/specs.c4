@@ -1,7 +1,14 @@
 specification {
-  element actor {
+  element external_actor {
     style {
       shape person
+      color red
+    }
+  }
+  element internal_actor {
+    style {
+      shape person
+      color green
     }
   }
   element system
