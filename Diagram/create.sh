@@ -17,12 +17,12 @@ if [ "$COMMAND" == "server" ]; then
 fi
 
 if [ "$COMMAND" == "export" ]; then
-    docker run --rm -t likec4/likec4 export -h
+    docker run --rm -t -v "$PWD:/data" likec4/likec4 export png ./
     exit 0
 fi
 
 if [ "$COMMAND" == "build" ]; then
-    docker run -v "$PWD:/data" likec4/likec4 build -o dist
+    docker run --rm -v "$PWD:/data" likec4/likec4 build -o dist
     exit 0
 fi
 
