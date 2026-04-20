@@ -25,3 +25,8 @@ of the LikeC4 tooling.
 ### Notes
 
 - The script assumes that the script is being run in the `Diagrams` subdirectory
+- The built side can be viewed by moving to the generated `dist` directory and running:
+
+```bash
+python3 -m http.server 8000
+```
