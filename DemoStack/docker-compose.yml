@@ -93,12 +93,12 @@ configs:
             enabled: false
           initialization:
             users:
-              - username: "demo"
-                password: "demo"
-                name: "Demo User"
-                email: "demo@demo.com"
+              - username: ${CamundaUsername}
+                password: ${CamundaPassword}
+                name: "Camunda User"
+                email: "camunda@camunda.com"
             defaultRoles.admin.users:
-              - "demo"
+              - ${CamundaUsername}
         database.index.numberOfReplicas: 0 # Single node elasticsearch so we disable replication
         data:
           secondary-storage:
