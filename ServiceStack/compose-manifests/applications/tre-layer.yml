@@ -98,7 +98,9 @@ services:
       - Logging__LogLevel__Default=${SerilogLevel}
       - DareAPISettings__Address=${SubmissionAPIAddressURL}
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
-      - EnableExternalHangfire=${EnableExternalHangfire}
+      - Hangfire__EnableExternalHangfire=${EnableExternalHangfire}
+      - Hangfire__Username=${HangfireUser}
+      - Hangfire__Password=${HangfirePassword}
       - AgentSettings__UseTESK=${UseTESK}
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
