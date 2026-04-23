@@ -13,6 +13,7 @@ services:
     depends_on:
       - tre-api
     environment:
+      - UIName__Name=${AppName}
       - TreAPISettings__InternalApiBaseUrl=http://treAPI:8080
       - TreAPISettings__PublicApiBaseUrl=${TreApiPublicUrl}
       - Serilog__SeqServerUrl=http://seq:5341
