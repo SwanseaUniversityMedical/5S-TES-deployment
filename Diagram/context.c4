@@ -1,4 +1,10 @@
 model {
+  // Systems
+  submission = system 'Submission Layer'
+  execution = system 'Execution Layer'
+  tre = system 'TRE'
+  egress = system 'Egress'
+
   // Job pathway
   submission -> tre {title "Submit job request"}
   tre -> execution {title "Submit job"}
@@ -10,5 +16,48 @@ views {
   view index {
     title '5Safes-TES - Context'
     include *
+  }
+
+  dynamic view logic {
+    title "Data flow through the 5S-TES"
+
+    // Submit job
+    researcher -> submission.submission_app "Submits job request"
+
+    // Store inputs and create job
+    parallel {
+      submission.submission_app -> submission.rabbitmq "Job added to queue"
+      submission.submission_app -> submission.minio "Inputs stored"
+    }
+
+    // Pickup job
+    submission.rabbitmq <- tre.tre_app "Polls for jobs"
+    submission.rabbitmq -> tre.tre_app "Transfers job"
+
+    // Store inputs, fetch credentials, dispatch job
+    parallel {
+      tre.tre_app -> tre.camunda "Request Credentials"
+      tre.camunda -> tre.tre_app "Return Credentials"
+      tre.tre_app -> tre.minio "Inputs stored"
+    }
+
+    // Execute job
+    tre.tre_app -> execution.funnel "Submit job"
+    parallel {
+      execution.funnel -> tre.minio "Return results"
+      execution.funnel -> tre.tre_app "Return status"
+    }
+
+    // Present data for egress review
+    tre.tre_app -> egress.egress_ui "Post result"
+    egress.egress_ui -> data_owner "Display results for review"
+    data_owner -> egress.egress_ui "Approve results"
+
+    // Egress
+    egress.egress_ui -> tre.minio "Trigger transfer"
+    tre.minio -> submission.minio "Transfers results"
+    submission.minio -> researcher "View results"
+
+    include submission, tre, egress, execution
   }
 }

@@ -1,0 +1,13 @@
+model {
+  extend execution {
+    // Components
+    funnel = component "Funnel" "TES compliant job engine"
+  }
+}
+
+views {
+  view of execution {
+    title 'Execution Service'
+    include *
+  }
+}
