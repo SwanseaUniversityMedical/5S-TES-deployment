@@ -2,7 +2,7 @@ model {
   extend submission {
     // Components
     submission_app = service 'Submission Application' 'Application providing access to job submission queue and viewing of results'
-    postgres = component 'Postgres' 'Relational database'
+    postgres = component 'Postgres' 'Stores projects, submissions, registered TREs, users'
     rabbitmq = component 'RabbitMQ' 'MQTT message broker'
     sub_keycloak = component 'Submission Keycloak' 'Authenticates requests througout the layer'
 

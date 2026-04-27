@@ -1,7 +1,10 @@
 model {
   extend execution {
     // Components
-    funnel = component "Funnel" "TES compliant job engine"
+    funnel = component "TES Engine" "TES compliant job engine" "Funnel, TESK"
+
+    // Relationships
+    funnel -> tre.protected_data 'Queries protected data'
   }
 }
 
