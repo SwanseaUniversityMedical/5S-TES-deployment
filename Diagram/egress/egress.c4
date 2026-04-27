@@ -7,7 +7,7 @@ model {
 
     // Relationships
     data_owner -> egress_ui 'Views / Approves'
-    egress_ui -> tre.minio 'Trigger file transfer'
+    egress_ui -> tre.tre_ui ''
   }
 }
 
