@@ -16,3 +16,10 @@ model {
       tre_ui -> tre.minio 'Trigger file transfer'
   }
 }
+
+views {
+  view of tre.tre_app {
+    title 'TRE App'
+    include *
+  }
+}

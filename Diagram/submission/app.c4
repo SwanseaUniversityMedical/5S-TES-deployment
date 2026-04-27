@@ -7,3 +7,10 @@ model {
       sub_ui -> sub_api {title 'HTTP Requests'}
    }
 }
+
+views {
+  view of submission.submission_app {
+    title 'Submission App'
+    include *
+  }
+}
