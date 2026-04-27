@@ -2,16 +2,16 @@ model {
   extend submission {
     // Components
     submission_app = service 'Submission Application' 'Application providing access to job submission queue and viewing of results'
-    postgres = component 'Postgres' 'Stores projects, submissions, registered TREs, users'
-    rabbitmq = component 'RabbitMQ' 'MQTT message broker'
-    sub_keycloak = component 'Submission Keycloak' 'Authenticates requests througout the layer'
-
-    // Relationshipos
-    sub_api -> postgres {title 'Stores metadata'}
-    minio = component 'Minio' 'S3 Object Store'
-    sub_api -> minio {title 'Stores objects'}
+    postgres = component 'Postgres' 'Stores projects, submissions, registered TREs, users' { icon tech:postgresql }
+    rabbitmq = component 'RabbitMQ' 'MQTT message broker' { icon tech:rabbitmq }
+    sub_keycloak = component 'Submission Keycloak' 'Authenticates requests througout the layer' { icon https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png }
+    minio = component 'Minio' 'S3 Object Store' { icon https://dl.min.io/logo/Minio_logo_light/Minio_logo_light.png }
+    
+    // Relationships
+    sub_api -> postgres 'Stores metadata'
+    sub_api -> minio 'Stores objects'
     minio -> researcher 'Downloads result'
-    sub_api -> rabbitmq {title 'Sends job message'}
+    sub_api -> rabbitmq 'Sends job message'
   }
 }
 
