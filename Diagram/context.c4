@@ -1,20 +1,52 @@
 model {
+  // ---------------------------------------------------------------------------
   // Actors
-  researcher = external_actor 'Researcher' 'Researcher who wishes to perform analyses on protected data'
-  data_owner = internal_actor 'Data Owner' 'Responsible party who can approve / reject data leaving the TRE'
-  tre_admin = internal_actor 'TRE Admin' 'Superuser responsible for management of the TRE layer'
 
+  researcher = external_actor {
+    title 'Researcher'
+    description 'Researcher who wishes to perform analyses on protected data'
+
+    -> submission.sub_ui {title 'Views in browser'}
+  }
+  
+  data_owner = internal_actor {
+    title 'Data Owner'
+    description 'Responsible party who can approve / reject data leaving the TRE'
+  }
+
+  tre_admin = internal_actor {
+    title 'TRE Admin'
+    description 'Superuser responsible for management of the TRE layer'
+  }
+
+  // ----------------------------------------------------------------------------
   // Systems
-  submission = system 'Submission Layer' 'User interaction layer, job submission'
-  execution = system 'Execution Layer' 'Stack responsible for job execution'
-  tre = system 'TRE' 'Secure environment with access to restricted data'
-  egress = system 'Egress' 'Allow approval / rejection of results before they leave the TRE'
+  
+  submission = system {
+    title 'Submission Layer'
+    description 'User interaction layer, job submission'
+  }
+
+  execution = system {
+    title 'Execution Layer'
+    description 'Stack responsible for job execution'
+  }
+  
+  tre = system {
+    title 'TRE'
+    description 'Secure environment with access to restricted data'
+  }
+  
+  egress = system {
+    title 'Egress'
+    description 'Allow approval / rejection of results before they leave the TRE'
+  }
 
   // External Systems
-  protected_data = database 'Restricted Data' 'The protected data being queried, directly readable only during tool execution, inside the protected environment'
-
-  // Relationships
-  researcher -> submission.sub_ui {title 'Views in browser'}
+  protected_data = database {
+    title 'Restricted Data'
+    description 'The protected data being queried, directly readable only during tool execution, inside the protected environment'
+  }
 }
 
 views {

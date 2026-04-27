@@ -8,10 +8,6 @@ model {
     minio = component 'Minio' 'S3 Object Store' { icon https://dl.min.io/logo/Minio_logo_light/Minio_logo_light.png }
     
     // Relationships
-    sub_api -> postgres 'Stores metadata'
-    sub_api -> minio 'Stores objects'
-    sub_api -> rabbitmq 'Sends job message'
-
     minio -> researcher 'Downloads result'
   }
 }

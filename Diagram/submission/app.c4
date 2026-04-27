@@ -1,11 +1,23 @@
 model {
   extend submission.submission_app {
-      sub_ui = component 'Submission UI' 'User facing application for job submission and result viewing' { icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png }
-      sub_api = component 'Submission API' 'Backend for submission processes, handles user side data management and requests job dispatch' { icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png }
+    sub_ui = component {
+      title 'Submission UI'
+      description 'User facing application for job submission and result viewing'
+      icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png
 
-      researcher -> sub_ui {title 'Views in browser'}
-      sub_ui -> sub_api {title 'HTTP Requests'}
-   }
+      -> sub_api {title 'HTTP Requests'}
+    }
+      
+    sub_api = component {
+      title 'Submission API'
+      description 'Backend for submission processes, handles user side data management and requests job dispatch'
+      icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png
+
+      -> submission.postgres 'Stores metadata'
+      -> submission.minio 'Stores objects'
+      -> submission.rabbitmq 'Sends job message'
+    }
+  }
 }
 
 views {
