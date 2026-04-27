@@ -12,6 +12,9 @@ model {
 
   // External Systems
   protected_data = database 'Restricted Data' 'The protected data being queried, directly readable only during tool execution, inside the protected environment'
+
+  // Relationships
+  researcher -> submission.sub_ui {title 'Views in browser'}
 }
 
 views {
