@@ -12,15 +12,16 @@ specification {
     }
   }
 
-  color orange rgba(250, 171, 67, 100%)
+  color orange rgba(255, 153, 0, 100%)
   element database {
     style {
       shape storage
       color orange
+      multiple true
     }
   }
 
-  color system-colour rgba(0, 100, 255, 100%)
+  color system-colour rgba(35, 67, 99, 100%)
   element system {
     style {
       color system-colour
