@@ -29,6 +29,7 @@ model {
   submission = system {
     title 'Submission Layer'
     description 'User interaction layer, job submission'
+    technology '[Docker Compose]'
   }
 
   execution = system {
@@ -39,11 +40,13 @@ model {
   tre = system {
     title 'TRE'
     description 'Secure environment with access to restricted data'
+    technology '[Docker Compose]'
   }
   
   egress = system {
     title 'Egress'
     description 'Allow approval / rejection of results before they leave the TRE'
+    technology '[Docker Compose]'
   }
 
   // ----------------------------------------------------------------------------
