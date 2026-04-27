@@ -2,6 +2,7 @@ model {
   // Actors
   researcher = external_actor 'Researcher' 'Researcher who wishes to perform analyses on protected data'
   data_owner = internal_actor 'Data Owner' 'Responsible party who can approve / reject data leaving the TRE'
+  tre_admin = internal_actor 'TRE Admin' 'Superuser responsible for management of the TRE layer'
 
   // Systems
   submission = system 'Submission Layer' 'User interaction layer, job submission'
