@@ -3,6 +3,7 @@ model {
     // Components
     egress_ui = component 'Egress UI' 'UI for approving or rejecting data exfiltration'
     egress_api = component 'Egress API' 'API for supporting egress'
+    keycloak = component 'Keycloak'
 
     // Relationships
     data_owner -> egress_ui 'Views / Approves'
