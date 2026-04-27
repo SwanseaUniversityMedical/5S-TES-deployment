@@ -61,6 +61,7 @@ model {
 views {
   view index {
     title '5Safes-TES - Context'
+    description 'Top level diagram'
     include *
   }
 }
