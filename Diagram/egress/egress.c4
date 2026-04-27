@@ -1,9 +1,8 @@
 model {
   extend egress {
     // Components
-    egress_ui = component 'Egress UI' 'UI for approving or rejecting data exfiltration'
-    egress_api = component 'Egress API' 'API for supporting egress'
-    keycloak = component 'Keycloak'
+    egress_app = service 'Egress Application' 'Application providing data owners with the ability to approve or reject data egress'
+    keycloak = component 'Keycloak' 'Authenticates requests througout the layer' { icon https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png }
 
     // Relationships
     data_owner -> egress_ui 'Views / Approves'
