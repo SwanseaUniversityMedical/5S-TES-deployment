@@ -1,8 +1,8 @@
 model {
   extend egress {
     // Components
-    egress_ui = component 'Egress UI'
-    egress_api = component 'Egress API'
+    egress_ui = component 'Egress UI' 'UI for approving or rejecting data exfiltration'
+    egress_api = component 'Egress API' 'API for supporting egress'
 
     // Relationships
     data_owner -> egress_ui 'Views / Approves'

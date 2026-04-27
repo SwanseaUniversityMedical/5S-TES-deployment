@@ -1,4 +1,4 @@
 model {
-  researcher = external_actor 'Researcher'
-  data_owner = internal_actor 'Data Owner'
+  researcher = external_actor 'Researcher' 'Researcher who wishes to perform analyses on protected data'
+  data_owner = internal_actor 'Data Owner' 'Responsible party who can approve / reject data leaving the TRE'
 }

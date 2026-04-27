@@ -1,13 +1,12 @@
 model {
   extend submission {
     // Components
-    submission_app = service 'Submission Application' 
+    submission_app = service 'Submission Application' 'Application providing access to job submission queue and viewing of results'
     postgres = component 'Postgres' 'Relational database'
     rabbitmq = component 'RabbitMQ' 'MQTT message broker'
     sub_keycloak = component 'Submission Keycloak' 'Authenticates requests througout the layer'
 
     // Relationshipos
-    researcher -> submission_app {title 'Interacts with'}
     sub_api -> postgres {title 'Stores metadata'}
     minio = component 'Minio' 'S3 Object Store'
     sub_api -> minio {title 'Stores objects'}

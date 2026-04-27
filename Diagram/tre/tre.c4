@@ -1,7 +1,7 @@
 model {
   extend tre {
     // Components
-    tre_app = service 'TRE Application' 
+    tre_app = service 'TRE Application' 'Application responsible for picking up and dispatching jobs to agents'
     camunda = component 'Camunda' 'Credential Handler'
     minio = component 'Minio' 'S3 Object Store'
     keycloak = component 'TRE Keycloak' 'Authenticates requests througout the layer'
