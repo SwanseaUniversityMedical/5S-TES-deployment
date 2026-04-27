@@ -10,8 +10,9 @@ model {
     // Relationships
     sub_api -> postgres 'Stores metadata'
     sub_api -> minio 'Stores objects'
-    minio -> researcher 'Downloads result'
     sub_api -> rabbitmq 'Sends job message'
+
+    minio -> researcher 'Downloads result'
   }
 }
 
