@@ -2,12 +2,11 @@ model {
   extend tre {
     // Components
     tre_app = service 'TRE Agent' 'Application responsible for picking up and dispatching jobs to agents'
-    camunda = component 'Camunda' 'Credential Handler'
-    minio = component 'Minio' 'S3 Object Store'
-    keycloak = component 'TRE Keycloak' 'Authenticates requests througout the layer'
-    postgres = component 'Postgres' 'Store project details, config'
-    protected_data = component 'Protected Data'
-    vault = component 'Vault'
+    camunda = component 'Camunda' 'Credential Handler' { icon https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/2025_Logo_Camunda_Black.png/960px-2025_Logo_Camunda_Black.png }
+    minio = component 'Minio' 'S3 Object Store' { icon https://dl.min.io/logo/Minio_logo_light/Minio_logo_light.png }
+    keycloak = component 'TRE Keycloak' 'Authenticates requests througout the layer' { icon https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png }
+    postgres = component 'Postgres' 'Store project details, config' { icon tech:postgresql }
+    vault = component 'Vault' 'Secret Manager' { icon tech:vault }
 
     // Relationships
     execution -> minio 'Stores job result'

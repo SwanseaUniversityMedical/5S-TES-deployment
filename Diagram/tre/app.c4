@@ -1,19 +1,20 @@
 model {
   extend tre.tre_app {
       // Components
-      tre_ui = component 'TRE Agent UI'
-      tre_api = component 'TRE API'
+      tre_ui = component 'TRE Agent UI' 'Interface for managing TRE configuration' { icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png }
+      tre_api = component 'TRE API' 'Backend for management of the protected environment, handles job dispatch, movement of datasets and credentials' { icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png }
 
       // Relationships
       tre_admin -> tre_ui 'Administers'
-      tre_ui -> submission.rabbitmq 'Picks up job'
-      tre_ui -> tre.camunda 'Requests credentials'
+
+      tre_api -> submission.rabbitmq 'Picks up job'
+      tre_api -> tre.camunda 'Requests credentials'
       tre.camunda -> tre.vault 'Sends credentials'
-      tre_ui -> tre.vault 'Fetches credentials'
+      tre_api -> tre.vault 'Fetches credentials'
       tre_api -> tre.postgres 'Stores / retrieves data'
-      tre_ui -> execution 'Send configured job'
-      tre_ui -> egress 'Notifies results available'
-      tre_ui -> tre.minio 'Trigger file transfer'
+      tre_api -> execution 'Send configured job'
+      tre_api -> egress 'Notifies results available'
+      tre_api -> tre.minio 'Trigger file transfer'
   }
 }
 
