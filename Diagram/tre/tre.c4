@@ -1,13 +1,15 @@
 model {
   extend tre {
     // Components
-    tre_app = service 'TRE Application' 'Application responsible for picking up and dispatching jobs to agents'
+    tre_app = service 'TRE Agent' 'Application responsible for picking up and dispatching jobs to agents'
     camunda = component 'Camunda' 'Credential Handler'
     minio = component 'Minio' 'S3 Object Store'
     keycloak = component 'TRE Keycloak' 'Authenticates requests througout the layer'
+    postgres = component 'Postgres' 'Store project details, config'
+    protected_data = component 'Protected Data'
+    vault = component 'Vault'
 
     // Relationships
-    camunda -> execution 'Forwards configured job'
     execution -> minio 'Stores job result'
     minio -> data_owner 'Notifies'
     minio -> submission.minio 'Transfers'

@@ -5,7 +5,14 @@ model {
       tre_api = component 'TRE API'
 
       // Relationships
+      tre_admin -> tre_ui 'Administers'
       tre_ui -> submission.rabbitmq 'Picks up job'
-      tre_ui -> tre.camunda 'Configures job'
+      tre_ui -> tre.camunda 'Requests credentials'
+      tre.camunda -> tre.vault 'Sends credentials'
+      tre_ui -> tre.vault 'Fetches credentials'
+      tre_api -> tre.postgres 'Stores / retrieves data'
+      tre_ui -> execution 'Send configured job'
+      tre_ui -> egress 'Notifies results available'
+      tre_ui -> tre.minio 'Trigger file transfer'
   }
 }
