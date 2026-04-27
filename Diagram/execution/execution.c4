@@ -4,7 +4,7 @@ model {
     funnel = component "TES Engine" "TES compliant job engine" "Funnel, TESK"
 
     // Relationships
-    funnel -> tre.protected_data 'Queries protected data'
+    funnel -> protected_data 'Queries protected data'
   }
 }
 

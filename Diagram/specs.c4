@@ -10,7 +10,15 @@ specification {
       shape person
       color green
     }
-  }  
+  }
+
+  color orange rgba(250, 171, 67, 100%)
+  element database {
+    style {
+      shape storage
+      color orange
+    }
+  }
 
   color system-colour rgba(0, 100, 255, 100%)
   element system {
