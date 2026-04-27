@@ -5,13 +5,15 @@ model {
       description 'User facing application for job submission and result viewing'
       icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png
 
-      -> sub_api {title 'HTTP Requests'}
+      -> sub_api
     }
       
     sub_api = component {
       title 'Submission API'
       description 'Backend for submission processes, handles user side data management and requests job dispatch'
       icon https://docs.federated-analytics.ac.uk/_next/static/media/fedres_primary.4b79cf09.png
+
+      -> sub_ui
 
       -> submission.postgres 'Stores metadata'
       -> submission.minio 'Stores objects'

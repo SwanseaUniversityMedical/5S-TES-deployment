@@ -1,10 +1,13 @@
 model {
   extend execution {
-    // Components
-    funnel = component "TES Engine" "TES compliant job engine" "Funnel, TESK"
+    funnel = component {
+      title "TES Engine"
+      description "TES compliant job engine"
+      technology "e.g. Funnel, TESK"
 
-    // Relationships
-    funnel -> protected_data 'Queries protected data'
+      -> protected_data 'Queries protected data'
+      -> tre.minio 'Stores job result'
+    }
   }
 }
 

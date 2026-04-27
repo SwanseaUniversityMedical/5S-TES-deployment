@@ -1,17 +1,47 @@
 model {
   extend tre {
-    // Components
-    tre_app = service 'TRE Agent' 'Application responsible for picking up and dispatching jobs to agents'
-    camunda = component 'Camunda' 'Credential Handler' { icon https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/2025_Logo_Camunda_Black.png/960px-2025_Logo_Camunda_Black.png }
-    minio = component 'Minio' 'S3 Object Store' { icon https://dl.min.io/logo/Minio_logo_light/Minio_logo_light.png }
-    keycloak = component 'TRE Keycloak' 'Authenticates requests througout the layer' { icon https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png }
-    postgres = component 'Postgres' 'Store project details, config' { icon tech:postgresql }
-    vault = component 'Vault' 'Secret Manager' { icon tech:vault }
+    tre_app = service {
+      title 'TRE Agent'
+      description 'Application responsible for picking up and dispatching jobs to agents'
+    }
+    
+    camunda = component {
+      title 'Camunda'
+      description 'Credential Handler'
+      icon https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/2025_Logo_Camunda_Black.png/960px-2025_Logo_Camunda_Black.png
 
-    // Relationships
-    execution -> minio 'Stores job result'
-    minio -> data_owner 'Notifies'
-    minio -> submission.minio 'Transfers'
+      -> tre.vault 'Send credentials'
+    }
+
+    minio = component {
+      title 'Minio'
+      description 'S3 Object Store'
+      icon https://dl.min.io/logo/Minio_logo_light/Minio_logo_light.png
+
+      minio -> submission.minio 'Transfers result'
+      minio -> data_owner 'Notifies'
+      minio -> researcher 'Downloads result'
+    }
+
+    keycloak = component {
+      title 'TRE Keycloak'
+      description 'Authenticates requests througout the layer'
+      icon https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
+    }
+    
+    postgres = component {
+      title 'Postgres'
+      description 'Store project details, config'
+      icon tech:postgresql
+    }
+
+    vault = component {
+      title 'Vault'
+      description 'Secret Manager'
+      icon tech:vault
+
+      -> tre.tre_api 'Sends credentials'
+    }
   }
 }
 

@@ -1,12 +1,15 @@
 model {
   extend egress {
-    // Components
-    egress_app = service 'Egress Application' 'Application providing data owners with the ability to approve or reject data egress'
-    keycloak = component 'Keycloak' 'Authenticates requests througout the layer' { icon https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png }
-
-    // Relationships
-    data_owner -> egress_ui 'Views / Approves'
-    egress_ui -> tre.tre_ui ''
+    egress_app = service {
+      title 'Egress Application'
+      description 'Application providing data owners with the ability to approve or reject data egress'
+    }
+    
+    keycloak = component {
+      title 'Keycloak'
+      description 'Authenticates requests througout the layer'
+      icon https://upload.wikimedia.org/wikipedia/commons/2/29/Keycloak_Logo.png
+    }
   }
 }
 

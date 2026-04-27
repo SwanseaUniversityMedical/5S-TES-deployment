@@ -6,17 +6,21 @@ model {
     title 'Researcher'
     description 'Researcher who wishes to perform analyses on protected data'
 
-    -> submission.sub_ui {title 'Views in browser'}
+    -> submission.sub_ui 'Views in browser'
   }
   
   data_owner = internal_actor {
     title 'Data Owner'
     description 'Responsible party who can approve / reject data leaving the TRE'
+
+    -> egress.egress_ui 'Views / Approves'
   }
 
   tre_admin = internal_actor {
     title 'TRE Admin'
     description 'Superuser responsible for management of the TRE layer'
+
+    -> tre 'Administers'
   }
 
   // ----------------------------------------------------------------------------
@@ -42,7 +46,9 @@ model {
     description 'Allow approval / rejection of results before they leave the TRE'
   }
 
+  // ----------------------------------------------------------------------------
   // External Systems
+  
   protected_data = database {
     title 'Restricted Data'
     description 'The protected data being queried, directly readable only during tool execution, inside the protected environment'
