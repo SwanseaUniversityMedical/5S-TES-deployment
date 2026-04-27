@@ -10,8 +10,26 @@ specification {
       shape person
       color green
     }
+  }  
+
+  color system-colour rgba(0, 100, 255, 100%)
+  element system {
+    style {
+      color system-colour
+    }
   }
-  element system
-  element service
-  element component
+
+  color service-colour rgba(0, 100, 150, 100%)
+  element service {
+    style {
+      color service-colour
+    }
+  }
+
+  color component-colour rgba(0, 0, 0, 100%)
+  element component {
+    style {
+      color component-colour
+    }
+  }
 }
