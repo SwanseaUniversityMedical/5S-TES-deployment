@@ -1,43 +1,33 @@
 views {
   dynamic view logic {
     title 'Data flow through the 5S-TES'
+    description 'High-level overview; details intentionally omitted'
 
     // Submit job
     researcher -> submission.submission_app 'Submits job request'
+               -> submission.rabbitmq 'Job added to queue'
+               -> tre.tre_app 'Transfer job'
 
-    // Store inputs and create job
-    parallel {
-      submission.submission_app -> submission.rabbitmq 'Job added to queue'
-      submission.submission_app -> submission.minio 'Inputs stored'
-    }
+    // Get credentials
+    tre.tre_app <- tre.vault 'Fetch credentials'
 
-    // Pickup job
-    submission.rabbitmq <- tre.tre_app 'Polls for jobs'
-    submission.rabbitmq -> tre.tre_app 'Transfers job'
-
-    // Store inputs, fetch credentials, dispatch job
-    parallel {
-      tre.tre_app -> tre.camunda 'Request Credentials'
-      tre.camunda -> tre.tre_app 'Return Credentials'
-      tre.tre_app -> tre.minio 'Inputs stored'
-    }
 
     // Execute job
     tre.tre_app -> execution.funnel 'Submit job'
-    parallel {
-      execution.funnel -> tre.minio 'Return results'
-      execution.funnel -> tre.tre_app 'Return status'
-    }
+                -> protected_data 'Execute queries'
+                -> execution.funnel 'Return results'
+                -> execution.funnel 'Process results'
+                -> tre.minio 'Output results'
 
     // Present data for egress review
-    tre.tre_app -> egress.egress_ui 'Post result'
-    egress.egress_ui -> data_owner 'Display results for review'
-    data_owner -> egress.egress_ui 'Approve results'
+    tre.tre_app -> egress.egress_ui 'Transfer result details'
+                -> data_owner 'Notify results available'
+                -> egress.egress_ui 'Approve results'
 
     // Egress
     egress.egress_ui -> tre.minio 'Trigger transfer'
-    tre.minio -> submission.minio 'Transfers results'
-    submission.minio -> researcher 'View results'
+                     -> submission.minio 'Transfers results'
+                     -> researcher 'View results'
 
     // Add stack boundaries
     include submission, tre, egress, execution
