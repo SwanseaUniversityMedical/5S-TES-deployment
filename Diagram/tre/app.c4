@@ -31,6 +31,6 @@ model {
 views {
   view of tre.tre_app {
     title 'TRE App'
-    include *
+    include *, tre, tre.vault, tre.camunda
   }
 }
