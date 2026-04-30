@@ -89,7 +89,7 @@ services:
       - Features__DemoAllInOne=${DemoMode}
       - Features__EphemeralCredentials=true
       - KeyCloakDemoMode=${KeyCloakDemoMode}
-      - DemoModeDefaultP=password123
+      - DemoModeDefaultP=${DemoModePassword}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
