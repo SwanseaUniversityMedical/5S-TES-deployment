@@ -220,7 +220,7 @@ services:
       - LdapSettings__Host=openldap
       - LdapSettings__Port=389
       - LdapSettings__AdminDn=cn=admin,dc=camundaephemeral,dc=local
-      - LdapSettings__AdminPassword=admin
+      - LdapSettings__AdminPassword=${LDAPAdminPassword}
       - LdapSettings__BaseDn=dc=camundaephemeral,dc=local
       - LdapSettings__UserOu=ou=Users
       - LdapSettings__UseSSL=false
