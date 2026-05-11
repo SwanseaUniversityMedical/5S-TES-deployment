@@ -1,5 +1,4 @@
 services:
-
   # ------ Keycloak Identity Provider ------
   # ---------------------------------------------
 
@@ -22,7 +21,7 @@ services:
       KEYCLOAK_METRICS_ENABLED: true
       # Admin credentials
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
-      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KeycloakBootstrapAdminPassword}
     networks:
       - sub-net
     command: start-dev  --import-realm #--verbose
