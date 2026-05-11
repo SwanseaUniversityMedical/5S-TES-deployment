@@ -166,7 +166,7 @@ services:
       - TreAPISettings__Address=${TreApiPublicUrl}
       # Vault settings
       - VaultSettings__BaseUrl=http://vault:8200
-      - VaultSettings__Token=dev-only-token
+      - VaultSettings__Token=${VaultRootToken}
       - VaultSettings__TimeoutSeconds=30
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
@@ -226,7 +226,7 @@ services:
       - LdapSettings__UseSSL=false
       # Vault settings
       - VaultSettings__BaseUrl=http://vault:8200
-      - VaultSettings__Token=dev-only-token
+      - VaultSettings__Token=${VaultRootToken}
       - VaultSettings__TimeoutSeconds=30
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
