@@ -24,7 +24,7 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KeycloakBootstrapAdminPassword}
     networks:
       - sub-net
-    command: start-dev  --import-realm #--verbose
+    command: ["${KeycloakStartupCommand}", "--import-realm"]
     depends_on:
       postgresql:
         condition: service_healthy
