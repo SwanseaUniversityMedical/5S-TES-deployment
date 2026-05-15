@@ -24,6 +24,11 @@ services:
       - ${CONFIG_PATH}/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN}"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+      start_interval: 5s
 
   # ----- Adminer Database Management ------
   # ---------------------------------------------
