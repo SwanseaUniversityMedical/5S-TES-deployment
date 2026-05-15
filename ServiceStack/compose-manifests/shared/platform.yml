@@ -1,5 +1,4 @@
 services:
-
   # ------ PostgreSQL Database ------
   # ------------------------------------------
 
@@ -16,16 +15,15 @@ services:
     ports:
       - "5432:5432"
     volumes:
+      # ----- $CONFIG_PATH Configuration -----
 
-    # ----- $CONFIG_PATH Configuration -----
-
-    # Use CONFIG_PATH when using the image in the compose stack.
-    # - Update the CONFIG_PATH variable in the .env file to point to the directory.
+      # Use CONFIG_PATH when using the image in the compose stack.
+      # - Update the CONFIG_PATH variable in the .env file to point to the directory.
 
       - "postgresql_data:/var/lib/postgresql/data"
       - ${CONFIG_PATH}/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d keycloak"]
+      test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN}"]
 
   # ----- Adminer Database Management ------
   # ---------------------------------------------
@@ -50,7 +48,6 @@ services:
       interval: 10s
       retries: 10
 
-
   # ----- Seq Log Server ------
   # ----------------------------------
   seq:
@@ -66,8 +63,8 @@ services:
     environment:
       - ACCEPT_EULA=Y
 
-# ----- RabbitMQ Message Broker ------
-# -------------------------------------------
+  # ----- RabbitMQ Message Broker ------
+  # -------------------------------------------
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: "rabbitmq"
