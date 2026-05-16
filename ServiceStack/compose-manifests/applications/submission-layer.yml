@@ -67,6 +67,8 @@ services:
         condition: service_healthy
       minioSubmission:
         condition: service_healthy
+      vault:
+        condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
@@ -99,3 +101,13 @@ services:
       - SubmissionKeyCloakSettings__Realm=Dare-Control
       - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
+      # Vault settings
+      - VaultSettings__BaseUrl=${VaultSettings__BaseUrl}
+      - VaultSettings__Token=${VaultSettings__Token}
+      - VaultSettings__TimeoutSeconds=${VaultSettings__TimeoutSeconds}
+      - VaultSettings__SecretEngine=${VaultSettings__SecretEngine}
+      - VaultSettings__EnableRetry=${VaultSettings__EnableRetry}
+      - VaultSettings__MaxRetryAttempts=${VaultSettings__MaxRetryAttempts}
+      # Keycloak admin API settings
+      - KeycloakAdmin__Username=${KeycloakAdmin__Username}
+      - KeycloakAdmin__Password=${KeycloakAdmin__Password}
