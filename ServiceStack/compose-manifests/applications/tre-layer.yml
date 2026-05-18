@@ -92,7 +92,6 @@ services:
       - DemoModeDefaultP=${DemoModePassword}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
@@ -107,6 +106,10 @@ services:
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
+      # RABBITMQ settings
+      - RabbitMQ__HostAddress=rabbitmq
+      - RabbitMQ__Username=rabbitmq
+      - RabbitMQ__Password=${RabbitMQDefaultPassword}
       # TRE UI Keycloak settings
       - TreKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
       - TreKeyCloakSettings__MetadataAddress=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration

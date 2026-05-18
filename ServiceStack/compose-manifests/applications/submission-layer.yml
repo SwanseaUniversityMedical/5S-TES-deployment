@@ -74,11 +74,14 @@ services:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
       - SuppressAntiforgery=${SuppressAntiforgery}
+      # RABBITMQ settings
+      - RabbitMQ__HostAddress=rabbitmq
+      - RabbitMQ__Username=rabbitmq
+      - RabbitMQ__Password=${RabbitMQDefaultPassword}
       # Minio settings
       - MinioSettings__Url=http://minioSubmission:9000
       - MinioSettings__AdminConsole=http://minioSubmission:9001
