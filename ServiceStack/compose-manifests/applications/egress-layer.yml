@@ -89,4 +89,4 @@ services:
       - TreAPISettings__Address=http://treapi:8080
       # For local development
       # - TreAPISettings__Address=http://host.docker.internal:8072
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8100
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
