@@ -90,8 +90,8 @@ services:
       - Features__EphemeralCredentials=true
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=${DemoModePassword}
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
@@ -154,14 +154,11 @@ services:
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
       - MinioTRESettings__AdminConsole=http://minioTRE:9001
-      - MinioTRESettings__AWSRegion=us-east-1
       # MINIO SUBMISSION settings
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}
       - MinioSubSettings__SecretKey=${MinioRootPass}
       - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
-      - MinioSubSettings__BucketName=testbucket
-      - MinioSubSettings__AWSRegion=us-east-1
       # Credentials and DMN settings
       - CredentialAPISettings__StartWebhookUrl=http://connectors:8080/inbound/StartCredentials
       - CredentialAPISettings__RevokeWebhookUrl=http://connectors:8080/inbound/RevokeCredentials
@@ -234,5 +231,5 @@ services:
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
-      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};
-      - ConnectionStrings__TREPostgresConnection=Server=${TRE_DATA_SERVER};Port=${TRE_DATA_PORT};Database=${TRE_DATA_DATABASE};Include Error Detail=true;User Id=${TRE_DATA_USER};Password=${TRE_DATA_PASSWORD};
+      - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;User Id=${PGLOGIN};Password=${PGPASSWORD};
+      - ConnectionStrings__TREPostgresConnection=Server=${TRE_DATA_SERVER};Port=${TRE_DATA_PORT};Database=${TRE_DATA_DATABASE};User Id=${TRE_DATA_USER};Password=${TRE_DATA_PASSWORD};
