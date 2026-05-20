@@ -97,6 +97,7 @@ services:
       - AgentSettings__UseTESK=${UseTESK}
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
+      - JobSettings__healthCheckSchedule=${healthCheckSchedule}
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
@@ -164,6 +165,8 @@ services:
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
+      - VaultSettings__VaultConfigPath=config
+      - VaultSettings__VaultConfigReloadInterval=10
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
@@ -173,6 +176,8 @@ services:
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
+      # Onboarding settings
+      - TreOnboardingConfig__IsConfigurationImported=false
 
   # ----- TRE Agent - Camunda Worker -------
   # --------------------------------------------
