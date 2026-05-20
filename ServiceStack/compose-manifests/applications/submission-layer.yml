@@ -74,6 +74,7 @@ services:
       - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       - SuppressAntiforgery=${SuppressAntiforgery}
+      - SubmissionApiUrl="https://localhost:7163"
       # Minio settings
       - MinioSettings__Url=http://minioSubmission:9000
       - MinioSettings__AdminConsole=http://minioSubmission:9001
@@ -99,3 +100,13 @@ services:
       - SubmissionKeyCloakSettings__Realm=Dare-Control
       - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
+      # Vault Settings:
+      - VaultSettings__BaseUrl=http://vault:8200
+      - VaultSettings__Token=dev-only-token
+      - VaultSettings__SecretEngine=secret
+      - VaultSettings__TimeoutSeconds=30
+      - VaultSettings__EnableRetry=true
+      - VaultSettings__MaxRetryAttempts=3
+      # Keycloak Admin (for service account creation):
+      - KeycloakAdmin__Username=admin
+      - KeycloakAdmin__Password=admin
