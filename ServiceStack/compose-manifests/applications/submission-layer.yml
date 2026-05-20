@@ -107,6 +107,7 @@ services:
       - VaultSettings__TimeoutSeconds=30
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
+      - VaultSettings__VaultConfigReloadInterval=10
       # Keycloak Admin (for service account creation):
       - KeycloakAdmin__Username=admin
       - KeycloakAdmin__Password=admin
