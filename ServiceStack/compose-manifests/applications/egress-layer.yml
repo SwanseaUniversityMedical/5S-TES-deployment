@@ -54,8 +54,8 @@ services:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=${DemoModePassword}
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - RabbitMQ__HostAddress=rabbitmq-tre
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
+      - RabbitMQ__HostAddress=rabbitmq
       - Serilog__SeqServerUrl=http://seq:5341
       - TreKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
       - TreKeyCloakSettings__MetadataAddress=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
@@ -85,7 +85,8 @@ services:
       - MinioSettings__Url=http://minioTRE:9000
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
-      - MinioSettings__BucketName=testbucket
-      - MinioSettings__AdminConsole=http://minioIn:9001
+      - MinioSettings__AdminConsole=http://minioTRE:9001
       - TreAPISettings__Address=http://treapi:8080
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8100
+      # For local development
+      # - TreAPISettings__Address=http://host.docker.internal:8072
+      - DataEgressAPISettings__Address=http://DataEgressAPI:8080

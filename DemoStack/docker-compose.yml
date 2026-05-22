@@ -80,7 +80,6 @@ configs:
 
   orchestration-config:
     content: |
-      management.endpoints.configprops.show-values: always
       camunda:
         system:
           cpu-thread-count: "3"
@@ -88,9 +87,9 @@ configs:
         security:
           authentication:
             method: "basic"
-            unprotectedApi: true
+            unprotectedApi: true  # This is needed for internal Camunda - TRE-Camunda communication
           authorizations:
-            enabled: false
+            enabled: false  # This is needed for internal Camunda - TRE-Camunda communication
           initialization:
             users:
               - username: ${CamundaUsername}
