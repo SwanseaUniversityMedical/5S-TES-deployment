@@ -16,8 +16,11 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
       - DemoMode=${DemoMode}
+      - UIName__Name=${AppName}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - KeyCloakSettings__Proxy=false
       - DareAPISettings__Address=http://submissionAPI:8080
       - DareAPISettings_HelpAddress=http://submissionAPI:8080
@@ -72,16 +75,20 @@ services:
     environment:
       - DemoMode=${DemoMode}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
-      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;Include Error Detail=true;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
-      - RabbitMQ__HostAddress=rabbitmq
+      - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - Serilog__SeqServerUrl=http://seq:5341
+      - Serilog__MinimumLevel__Default=${SerilogLevel}
+      - Logging__LogLevel__Default=${SerilogLevel}
       - SuppressAntiforgery=${SuppressAntiforgery}
+      # RABBITMQ settings
+      - RabbitMQ__HostAddress=rabbitmq
+      - RabbitMQ__Username=rabbitmq
+      - RabbitMQ__Password=${RabbitMQDefaultPassword}
       # Minio settings
       - MinioSettings__Url=http://minioSubmission:9000
       - MinioSettings__AdminConsole=http://minioSubmission:9001
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
-      - MinioSettings__BucketName=testbucket
       # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -102,12 +109,12 @@ services:
       - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
       # Vault settings
-      - VaultSettings__BaseUrl=${VaultSettings__BaseUrl}
-      - VaultSettings__Token=${VaultSettings__Token}
-      - VaultSettings__TimeoutSeconds=${VaultSettings__TimeoutSeconds}
-      - VaultSettings__SecretEngine=${VaultSettings__SecretEngine}
-      - VaultSettings__EnableRetry=${VaultSettings__EnableRetry}
-      - VaultSettings__MaxRetryAttempts=${VaultSettings__MaxRetryAttempts}
+      - VaultSettings__BaseUrl=http://vault:8200
+      - VaultSettings__Token=${VaultRootToken}
+      - VaultSettings__TimeoutSeconds=30
+      - VaultSettings__SecretEngine=secret
+      - VaultSettings__EnableRetry=true
+      - VaultSettings__MaxRetryAttempts=3
       # Keycloak admin API settings
       - KeycloakAdmin__Username=${KeycloakAdmin__Username}
       - KeycloakAdmin__Password=${KeycloakAdmin__Password}
