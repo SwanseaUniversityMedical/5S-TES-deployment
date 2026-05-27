@@ -118,5 +118,6 @@ services:
       # Keycloak admin API settings
       - KeycloakAdmin__Username=${KeycloakAdmin__Username}
       - KeycloakAdmin__Password=${KeycloakAdmin__Password}
-      # TRE onboarding JSON (SubmissionURL — public API base URL for Agent)
+      # TRE onboarding JSON (public URLs reachable from remote TRE / Agent hosts)
       - SubmissionApiUrl=${SubmissionApiUrl}
+      - KeycloakFullURL=${KeycloakFullURL}
