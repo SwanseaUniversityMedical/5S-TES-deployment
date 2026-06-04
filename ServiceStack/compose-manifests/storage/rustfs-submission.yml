@@ -28,8 +28,8 @@ services:
       - RUSTFS_ACCESS_KEY=${TreMinioAdminUser}
       - RUSTFS_SECRET_KEY=${TreMinioAdminPassword}
       - RUSTFS_OBS_LOGGER_LEVEL=info
-      - RUSTFS_IDENTITY_OPENID_ENABLE=on
-      - RUSTFS_IDENTITY_OPENID_CONFIG_URL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - RUSTFS_IDENTITY_OPENID_ENABLE=true
+      - RUSTFS_IDENTITY_OPENID_CONFIG_URL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
       - RUSTFS_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
       - RUSTFS_IDENTITY_OPENID_OTHER_AUDIENCES=Dare-Control-UI,Dare-Control-API
       - RUSTFS_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
