@@ -68,7 +68,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minioSubmission:
+      rustfs_submission:
         condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
@@ -83,14 +83,14 @@ services:
       - RabbitMQ__Username=rabbitmq
       - RabbitMQ__Password=${RabbitMQDefaultPassword}
       # Minio settings
-      - MinioSettings__Url=http://minioSubmission:9000
-      - MinioSettings__AdminConsole=http://minioSubmission:9001
+      - MinioSettings__Url=http://rustfs_submission:9000
+      - MinioSettings__AdminConsole=http://rustfs_submission:9001
       - MinioSettings__AccessKey=${MinioRootUser}
       - MinioSettings__SecretKey=${MinioRootPass}
       # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
-      - SubmissionKeyCloakSettings__BypassProxy=minioSubmission,seq
+      - SubmissionKeyCloakSettings__BypassProxy=rustfs_submission,seq
       - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
       - SubmissionKeyCloakSettings__UseRedirectURL=false
       - SubmissionKeyCloakSettings__RedirectURL=${SubmissionKeyCloakClientUIRedirectURL}

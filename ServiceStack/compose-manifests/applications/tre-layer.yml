@@ -78,7 +78,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minioTRE:
+      rustfs_TRE:
         condition: service_healthy
       vault:
         condition: service_healthy
@@ -150,10 +150,10 @@ services:
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre,minioSubmission"
       # MINIO TRE settings
-      - MinioTRESettings__Url=http://minioTRE:9000
+      - MinioTRESettings__Url=http://rustfs_TRE:9002
       - MinioTRESettings__AccessKey=${TreMinioAdminUser}
       - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=http://minioTRE:9001
+      - MinioTRESettings__AdminConsole=http://rustfs_TRE:9003
       # MINIO SUBMISSION settings
       - MinioSubSettings__Url=${submissionMinioUrl}
       - MinioSubSettings__AccessKey=${MinioRootUser}

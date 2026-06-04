@@ -48,7 +48,7 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      minioTRE:
+      rustfs_TRE:
         condition: service_healthy
     environment:
       - DemoMode=${DemoMode}
@@ -82,10 +82,10 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
-      - MinioSettings__Url=http://minioTRE:9000
+      - MinioSettings__Url=http://rustfs_TRE:9002
       - MinioSettings__AccessKey=${TreMinioAdminUser}
       - MinioSettings__SecretKey=${TreMinioAdminPassword}
-      - MinioSettings__AdminConsole=http://minioTRE:9001
+      - MinioSettings__AdminConsole=http://rustfs_TRE:9003
       - TreAPISettings__Address=http://treapi:8080
       # For local development
       # - TreAPISettings__Address=http://host.docker.internal:8072
