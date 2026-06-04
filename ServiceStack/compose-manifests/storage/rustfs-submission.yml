@@ -12,7 +12,7 @@ services:
   rustfs_submission:
     security_opt:
       - "no-new-privileges:true"
-    image: rustfs/rustfs:latest
+    image: rustfs/rustfs:1.0.0-beta.7
     container_name: rustfs_submission
     ports:
       - "9000:9000" # S3 API port
@@ -31,12 +31,13 @@ services:
       - RUSTFS_IDENTITY_OPENID_ENABLE=on
       - RUSTFS_IDENTITY_OPENID_CONFIG_URL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
       - RUSTFS_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
+      - RUSTFS_IDENTITY_OPENID_OTHER_AUDIENCES=Dare-Control-UI,Dare-Control-API
       - RUSTFS_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
       - RUSTFS_IDENTITY_OPENID_SCOPES=openid
       - RUSTFS_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
-      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${submissionMinioAdminConsole}
+      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${submissionMinioAdminConsole}/rustfs/admin/v3/oidc/callback/default
       - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
-      - RUSTFS_IDENTITY_OPENID_HIDE_FROM_UI=false
+      - RUSTFS_IDENTITY_OPENID_CLAIM_NAME=policy
       # - RUSTFS_TLS_PATH=/opt/tls
     volumes:
       - rustfs_submission_data:/data/rustfs

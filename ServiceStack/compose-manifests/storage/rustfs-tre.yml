@@ -12,7 +12,7 @@ services:
   rustfs_TRE:
     security_opt:
       - "no-new-privileges:true"
-    image: rustfs/rustfs:latest
+    image: rustfs/rustfs:1.0.0-beta.7
     container_name: rustfs_TRE
     ports:
       - "9002:9002" # S3 API port
@@ -32,12 +32,13 @@ services:
       - RUSTFS_IDENTITY_OPENID_ENABLE=on
       - RUSTFS_IDENTITY_OPENID_CONFIG_URL=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
       - RUSTFS_IDENTITY_OPENID_CLIENT_ID=Dare-TRE-Minio
+      - RUSTFS_IDENTITY_OPENID_OTHER_AUDIENCES=Dare-TRE-UI,Dare-TRE-API
       - RUSTFS_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}
       - RUSTFS_IDENTITY_OPENID_SCOPES=openid
       - RUSTFS_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
-      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${MINIO_TRE_UI_URL}
+      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${MINIO_TRE_UI_URL}/rustfs/admin/v3/oidc/callback/default
       - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
-      - RUSTFS_IDENTITY_OPENID_HIDE_FROM_UI=false
+      - RUSTFS_IDENTITY_OPENID_CLAIM_NAME=policy
       # - RUSTFS_TLS_PATH=/opt/tls
     depends_on:
       rustfs_tre_perms:
