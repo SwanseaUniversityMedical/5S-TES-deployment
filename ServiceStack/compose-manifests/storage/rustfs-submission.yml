@@ -1,4 +1,14 @@
 services:
+  # grant the necessary permissions to RUSTFS volumes path
+  rustfs_submission_perms:
+    image: alpine
+    user: root
+    volumes:
+      - rustfs_submission_data:/data/rustfs
+    command: chown -R 10001:10001 /data/rustfs
+    networks:
+      - sub-net
+
   rustfs_submission:
     security_opt:
       - "no-new-privileges:true"
@@ -31,6 +41,9 @@ services:
       # Permission baseline:
       # - default RustFS runtime user is 10001:10001
       # - ensure host mounts are writable by that user, or run with host-matched user
+    depends_on:
+      rustfs_submission_perms:
+        condition: service_completed_successfully
     networks:
       - sub-net
     restart: unless-stopped

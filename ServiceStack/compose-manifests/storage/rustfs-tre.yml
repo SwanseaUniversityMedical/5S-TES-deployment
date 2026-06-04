@@ -1,4 +1,14 @@
 services:
+  # grant the necessary permissions to RUSTFS volumes path
+  rustfs_tre_perms:
+    image: alpine
+    user: root
+    volumes:
+      - rustfs_TRE_data:/data/rustfs
+    command: chown -R 10001:10001 /data/rustfs
+    networks:
+      - sub-net
+
   rustfs_TRE:
     security_opt:
       - "no-new-privileges:true"
@@ -18,8 +28,12 @@ services:
       - RUSTFS_ACCESS_KEY=${TreMinioAdminUser}
       - RUSTFS_SECRET_KEY=${TreMinioAdminPassword}
       - RUSTFS_OBS_LOGGER_LEVEL=info
+      - RUSTFS_REGION=us-east-1
       # - RUSTFS_TLS_PATH=/opt/tls
       # - RUSTFS_OBS_ENDPOINT=http://otel-collector:4318
+    depends_on:
+      rustfs_tre_perms:
+        condition: service_completed_successfully
     volumes:
       - rustfs_TRE_data:/data/rustfs
       # TLS configuration directory.
