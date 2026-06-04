@@ -28,8 +28,16 @@ services:
       - RUSTFS_ACCESS_KEY=${TreMinioAdminUser}
       - RUSTFS_SECRET_KEY=${TreMinioAdminPassword}
       - RUSTFS_OBS_LOGGER_LEVEL=info
+      - RUSTFS_IDENTITY_OPENID_ENABLE=on
+      - RUSTFS_IDENTITY_OPENID_CONFIG_URL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
+      - RUSTFS_IDENTITY_OPENID_CLIENT_ID=Dare-Control-Minio
+      - RUSTFS_IDENTITY_OPENID_CLIENT_SECRET=${MinioOpenidSecret}
+      - RUSTFS_IDENTITY_OPENID_SCOPES=openid
+      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
+      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${submissionMinioAdminConsole}
+      - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
+      - RUSTFS_IDENTITY_OPENID_HIDE_FROM_UI=false
       # - RUSTFS_TLS_PATH=/opt/tls
-      # - RUSTFS_OBS_ENDPOINT=http://otel-collector:4318
     volumes:
       - rustfs_submission_data:/data/rustfs
       # TLS configuration directory.

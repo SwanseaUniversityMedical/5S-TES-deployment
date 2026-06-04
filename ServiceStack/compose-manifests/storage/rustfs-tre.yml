@@ -29,8 +29,16 @@ services:
       - RUSTFS_SECRET_KEY=${TreMinioAdminPassword}
       - RUSTFS_OBS_LOGGER_LEVEL=info
       - RUSTFS_REGION=us-east-1
+      - RUSTFS_IDENTITY_OPENID_ENABLE=on
+      - RUSTFS_IDENTITY_OPENID_CONFIG_URL=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
+      - RUSTFS_IDENTITY_OPENID_CLIENT_ID=Dare-TRE-Minio
+      - RUSTFS_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}
+      - RUSTFS_IDENTITY_OPENID_SCOPES=openid
+      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
+      - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${MINIO_TRE_UI_URL}
+      - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
+      - RUSTFS_IDENTITY_OPENID_HIDE_FROM_UI=false
       # - RUSTFS_TLS_PATH=/opt/tls
-      # - RUSTFS_OBS_ENDPOINT=http://otel-collector:4318
     depends_on:
       rustfs_tre_perms:
         condition: service_completed_successfully
