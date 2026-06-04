@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Funnel + MinIO Installer"
+echo "Funnel + RustFS Installer"
 
 # ---- Detect Operating System ----
 
@@ -43,22 +43,22 @@ else
 fi
 
 
-# ---- Login to MinIO ----
+# ---- Login to RustFS ----
 
-echo "Configuring MinIO client..."
+echo "Configuring Rustfs client..."
 
-mc alias set tre-minio http://localhost:9002 minio minio123 || {
-    echo "ERROR: Unable to connect to MinIO."
-    echo "Make sure MinIO is running at http://localhost:9002"
+mc alias set tre-rustfs http://localhost:9002 minio minio123 || {
+    echo "ERROR: Unable to connect to RustFS."
+    echo "Make sure RustFS is running at http://localhost:9002"
     exit 1
 }
 
 
 # ---- Create Access Keys ----
 
-echo "Fetching MinIO Access Key..."
+echo "Fetching RustFS Access Key..."
 
-SA_JSON=$(mc admin user svcacct add tre-minio minio --json)
+SA_JSON=$(mc admin user svcacct add tre-rustfs minio --json)
 
 ACCESS_KEY=$(echo "$SA_JSON" | grep -o '"accessKey":"[^"]*"' | cut -d'"' -f4)
 SECRET_KEY=$(echo "$SA_JSON" | grep -o '"secretKey":"[^"]*"' | cut -d'"' -f4)
