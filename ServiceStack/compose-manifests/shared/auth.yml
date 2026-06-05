@@ -27,8 +27,9 @@ services:
       postgresql:
         condition: service_healthy
     ports:
-      - 8080:8080
-
+      - 8085:8080
+    extra_hosts:
+      - "keycloak.localtest.me=host-gateway"
     # ----- $CONFIG_PATH Configuration -----
 
     # Use CONFIG_PATH when using the image in the compose stack.
