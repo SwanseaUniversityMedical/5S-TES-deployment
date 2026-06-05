@@ -33,6 +33,8 @@ services:
       - MinioSettings__Url=${MINIO_TRE_UI_URL}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
+    extra_hosts:
+      - "keycloak.localtest.me=host-gateway"
 
   # ----- Data Egress - API -----
   # -------------------------------------
@@ -69,7 +71,7 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      # Data Egress Keycloak settings?
+      # Data Egress Keycloak settings
       - DataEgressKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__MetadataAddress=${TRE_KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TRE_KEYCLOAK_URL}/realms/Data-Egress
@@ -90,3 +92,5 @@ services:
       # For local development
       # - TreAPISettings__Address=http://host.docker.internal:8072
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
+    extra_hosts:
+      - "keycloak.localtest.me=host-gateway"
