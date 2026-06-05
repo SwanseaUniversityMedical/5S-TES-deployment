@@ -57,7 +57,7 @@ services:
       - KEYCLOAK_URL=${TRE_KEYCLOAK_URL}
       - KEYCLOAK_CLIENT_ID=Dare-TRE-UI
       - KEYCLOAK_CLIENT_SECRET=${TreKeyCloakSecret}
-      - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
+      - NEXT_PUBLIC_KEYCLOAK_URL=${TRE_KEYCLOAK_URL}
       - NEXT_PUBLIC_KEYCLOAK_REALM=Dare-TRE
       - NEXT_PUBLIC_HELPDESK_URL=https://ukserp.atlassian.net/servicedesk/customer/portal/3
       - AGENT_API_URL=http://treapi:8080
