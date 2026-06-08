@@ -42,7 +42,7 @@ services:
   # -------------------------------------
 
   DataEgressAPI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:3.0.4
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:3.0.3
     container_name: DataEgressAPI
     restart: always
     networks:
