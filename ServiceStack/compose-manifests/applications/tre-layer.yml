@@ -36,6 +36,7 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
 
@@ -61,6 +62,7 @@ services:
       - NEXT_PUBLIC_KEYCLOAK_REALM=Dare-TRE
       - NEXT_PUBLIC_HELPDESK_URL=https://ukserp.atlassian.net/servicedesk/customer/portal/3
       - AGENT_API_URL=http://treapi:8080
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
 
@@ -184,6 +186,7 @@ services:
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
 

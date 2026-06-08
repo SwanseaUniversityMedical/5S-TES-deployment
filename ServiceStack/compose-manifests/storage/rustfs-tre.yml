@@ -57,5 +57,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"

@@ -42,6 +42,7 @@ services:
       - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
       - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
       - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
 
@@ -108,5 +109,6 @@ services:
       - SubmissionKeyCloakSettings__Realm=Dare-Control
       - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"

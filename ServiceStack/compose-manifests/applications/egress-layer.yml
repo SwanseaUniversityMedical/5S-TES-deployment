@@ -33,6 +33,7 @@ services:
       - MinioSettings__Url=${MINIO_TRE_UI_URL}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
 
@@ -92,5 +93,6 @@ services:
       # For local development
       # - TreAPISettings__Address=http://host.docker.internal:8072
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
+    #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
