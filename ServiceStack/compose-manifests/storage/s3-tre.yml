@@ -4,7 +4,7 @@ services:
     image: alpine
     user: root
     volumes:
-      - rustfs_TRE_data:/data/rustfs
+      - s3_TRE_data:/data/rustfs
     command: chown -R 10001:10001 /data/rustfs
     networks:
       - sub-net
@@ -37,11 +37,8 @@ services:
       - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${TRES3ConsoleUrl}/rustfs/admin/v3/oidc/callback/default
       - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
       - RUSTFS_IDENTITY_OPENID_CLAIM_NAME=policy
-    depends_on:
-      rustfs_tre_perms:
-        condition: service_completed_successfully
     volumes:
-      - rustfs_TRE_data:/data/rustfs
+      - s3_TRE_data:/data/rustfs
     networks:
       - sub-net
     restart: unless-stopped
@@ -60,3 +57,8 @@ services:
     #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
+    depends_on:
+      rustfs_tre_perms:
+        condition: service_completed_successfully
+      keycloak:
+        condition: service_healthy

@@ -4,7 +4,7 @@ services:
     image: alpine
     user: root
     volumes:
-      - rustfs_submission_data:/data/rustfs
+      - s3_submission_data:/data/rustfs
     command: chown -R 10001:10001 /data/rustfs
     networks:
       - sub-net
@@ -23,8 +23,8 @@ services:
       - RUSTFS_CONSOLE_ADDRESS=0.0.0.0:9001
       - RUSTFS_CONSOLE_ENABLE=true
       - RUSTFS_CONSOLE_CORS_ALLOWED_ORIGINS=*
-      - RUSTFS_ACCESS_KEY=${TRES3RootUser}
-      - RUSTFS_SECRET_KEY=${TRES3RootPass}
+      - RUSTFS_ACCESS_KEY=${SubmissionS3RootUser}
+      - RUSTFS_SECRET_KEY=${SubmissionS3RootPass}
       - RUSTFS_OBS_LOGGER_LEVEL=info
       - RUSTFS_IDENTITY_OPENID_ENABLE=true
       - RUSTFS_IDENTITY_OPENID_CONFIG_URL=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
@@ -37,10 +37,7 @@ services:
       - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
       - RUSTFS_IDENTITY_OPENID_CLAIM_NAME=policy
     volumes:
-      - rustfs_submission_data:/data/rustfs
-    depends_on:
-      rustfs_submission_perms:
-        condition: service_completed_successfully
+      - s3_submission_data:/data/rustfs
     networks:
       - sub-net
     restart: unless-stopped
@@ -59,3 +56,8 @@ services:
     #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me=host-gateway"
+    depends_on:
+      rustfs_submission_perms:
+        condition: service_completed_successfully
+      keycloak:
+        condition: service_healthy
