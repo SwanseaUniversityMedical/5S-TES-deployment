@@ -30,7 +30,7 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
-      - S3Settings__Url=${MINIO_TRE_UI_URL}
+      - S3Settings__Url=${TRES3ConsoleUrl}
       - S3Settings__BucketPath=/rustfs/console/browser/?bucket=
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
@@ -87,8 +87,8 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       - MinioSettings__Url=http://rustfs_TRE:9002
-      - MinioSettings__AccessKey=${TreMinioAdminUser}
-      - MinioSettings__SecretKey=${TreMinioAdminPassword}
+      - MinioSettings__AccessKey=${TRES3RootUser}
+      - MinioSettings__SecretKey=${TRES3RootPass}
       - MinioSettings__AdminConsole=http://rustfs_TRE:9003
       - TreAPISettings__Address=http://treapi:8080
       # For local development

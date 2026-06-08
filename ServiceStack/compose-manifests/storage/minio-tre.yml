@@ -11,12 +11,12 @@ services:
     restart: always
     command: server /data --console-address ":9001"
     environment:
-      - MINIO_ROOT_USER=${TreMinioAdminUser}
-      - MINIO_ROOT_PASSWORD=${TreMinioAdminPassword}
-      - MINIO_BROWSER_REDIRECT_URL=${MINIO_TRE_UI_URL}
+      - MINIO_ROOT_USER=${TRES3RootUser}
+      - MINIO_ROOT_PASSWORD=${TRES3RootPass}
+      - MINIO_BROWSER_REDIRECT_URL=${TRES3ConsoleUrl}
       - MINIO_IDENTITY_OPENID_CONFIG_URL=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
       - MINIO_IDENTITY_OPENID_CLIENT_ID=Dare-TRE-S3
-      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${MinioTreOpenidSecret}
+      - MINIO_IDENTITY_OPENID_CLIENT_SECRET=${TRES3OpenidSecret}
       - MINIO_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
       - MINIO_IDENTITY_OPENID_SCOPES=openid
       - MINIO_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off

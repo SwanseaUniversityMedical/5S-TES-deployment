@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Funnel + RustFS Installer"
+echo "Funnel + S3 Installer"
 
 # ---- Detect Operating System ----
 
@@ -43,22 +43,22 @@ else
 fi
 
 
-# ---- Login to RustFS ----
+# ---- Login to S3 TRE ----
 
-echo "Configuring Rustfs client..."
+echo "Configuring S3 client..."
 
-mc alias set tre-rustfs http://localhost:9002 minio minio123 || {
-    echo "ERROR: Unable to connect to RustFS."
-    echo "Make sure RustFS is running at http://localhost:9002"
+mc alias set tre-s3 http://localhost:9002 s3-tre s3-tre-pass || {
+    echo "ERROR: Unable to connect to S3 TRE."
+    echo "Make sure S3 TRE is running at http://localhost:9002"
     exit 1
 }
 
 
 # ---- Create Access Keys ----
 
-echo "Fetching RustFS Access Key..."
+echo "Fetching S3 TRE Access Key..."
 
-SA_JSON=$(mc admin user svcacct add tre-rustfs minio --json)
+SA_JSON=$(mc admin user svcacct add tre-s3 s3-tre --json)
 
 ACCESS_KEY=$(echo "$SA_JSON" | grep -o '"accessKey":"[^"]*"' | cut -d'"' -f4)
 SECRET_KEY=$(echo "$SA_JSON" | grep -o '"secretKey":"[^"]*"' | cut -d'"' -f4)

@@ -29,7 +29,7 @@ services:
       - httpsRedirect=${httpsRedirect}
       - SuppressAntiforgery=${SuppressAntiforgery}
       - URLSettingsFrontEnd__QueryImageSQL=${URLSettingsFrontEndQueryImageSQL}
-      - URLSettingsFrontEnd__S3BaseUrl=${submissionMinioAdminConsole}
+      - URLSettingsFrontEnd__S3BaseUrl=${SubmissionS3ConsoleUrl}
       - URLSettingsFrontEnd__S3BucketPath=/rustfs/console/browser/?bucket=
       # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
@@ -89,8 +89,8 @@ services:
       # Minio settings
       - MinioSettings__Url=http://rustfs_submission:9000
       - MinioSettings__AdminConsole=http://rustfs_submission:9001
-      - MinioSettings__AccessKey=${MinioRootUser}
-      - MinioSettings__SecretKey=${MinioRootPass}
+      - MinioSettings__AccessKey=${SubmissionS3RootUser}
+      - MinioSettings__SecretKey=${SubmissionS3RootPass}
       # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
