@@ -3,7 +3,7 @@ services:
   # -------------------------------------
 
   DataEgressUI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:3.0.3
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:3.0.4
     container_name: DataEgressUI
     restart: always
     networks:
@@ -30,7 +30,8 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
-      - MinioSettings__Url=${MINIO_TRE_UI_URL}
+      - S3Settings__Url=${MINIO_TRE_UI_URL}
+      - S3Settings__BucketPath=/rustfs/console/browser/?bucket=
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
     #  To resolve keycloak hostname for local development
@@ -41,7 +42,7 @@ services:
   # -------------------------------------
 
   DataEgressAPI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:3.0.3
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:3.0.4
     container_name: DataEgressAPI
     restart: always
     networks:
