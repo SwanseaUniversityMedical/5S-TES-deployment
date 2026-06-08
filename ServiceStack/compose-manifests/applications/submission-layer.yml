@@ -29,7 +29,8 @@ services:
       - httpsRedirect=${httpsRedirect}
       - SuppressAntiforgery=${SuppressAntiforgery}
       - URLSettingsFrontEnd__QueryImageSQL=${URLSettingsFrontEndQueryImageSQL}
-      - URLSettingsFrontEnd__MinioUrl=${submissionMinioAdminConsole}
+      - URLSettingsFrontEnd__S3BaseUrl=${submissionMinioAdminConsole}
+      - URLSettingsFrontEnd__S3BucketPath=/rustfs/console/browser/?bucket=
       # Submission Keycloak settings
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
