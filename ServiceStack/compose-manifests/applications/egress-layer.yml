@@ -13,7 +13,7 @@ services:
     depends_on:
       - DataEgressAPI
     environment:
-      - DemoMode=${DemoMode}
+      - DemoMode=${SeedDemoData}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       # Data Egress Keycloak settings
@@ -51,7 +51,7 @@ services:
       minioTRE:
         condition: service_healthy
     environment:
-      - DemoMode=${DemoMode}
+      - DemoMode=${SeedDemoData}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=${DemoModePassword}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
