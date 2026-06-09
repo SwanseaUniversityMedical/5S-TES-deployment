@@ -34,6 +34,9 @@ echo ".env updated successfully."
 
 
 # ---- Restart Docker Compose ----
+echo "Restarting Docker Compose..."
+
+docker compose down
 
 if docker compose up -d; then
     echo "Docker Compose completed successfully."
