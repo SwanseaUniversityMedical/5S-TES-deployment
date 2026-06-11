@@ -15,7 +15,6 @@ services:
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
-      - DemoMode=${DemoMode}
       - UIName__Name=${AppName}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
@@ -75,7 +74,7 @@ services:
       rustfs_submission:
         condition: service_healthy
     environment:
-      - DemoMode=${DemoMode}
+      - Features__SeedDemoData=${SeedDemoData}
       - KeyCloakDemoMode=${KeyCloakDemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - Serilog__SeqServerUrl=http://seq:5341
