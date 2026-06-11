@@ -19,7 +19,7 @@ services:
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
       - TreKeyCloakSettings__AccountManagementURL=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/account
@@ -87,7 +87,7 @@ services:
       # General settings
       - Features__SeedDemoData=${SeedDemoData}
       - Features__EphemeralCredentials=true
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=${DemoModePassword}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;

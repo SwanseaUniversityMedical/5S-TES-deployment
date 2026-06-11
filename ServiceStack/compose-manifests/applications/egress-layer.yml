@@ -14,7 +14,7 @@ services:
       - DataEgressAPI
     environment:
       - DemoMode=${SeedDemoData}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       # Data Egress Keycloak settings
       - DataEgressKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
@@ -52,7 +52,7 @@ services:
         condition: service_healthy
     environment:
       - DemoMode=${SeedDemoData}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=${DemoModePassword}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DATA-Egress;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - RabbitMQ__HostAddress=rabbitmq
