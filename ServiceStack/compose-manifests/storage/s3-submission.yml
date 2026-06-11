@@ -34,7 +34,7 @@ services:
       - RUSTFS_IDENTITY_OPENID_SCOPES=openid
       - RUSTFS_IDENTITY_OPENID_REDIRECT_URI_DYNAMIC=off
       - RUSTFS_IDENTITY_OPENID_REDIRECT_URI=${SubmissionS3ConsoleUrl}/rustfs/admin/v3/oidc/callback/default
-      - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=Login with KeyCloak
+      - RUSTFS_IDENTITY_OPENID_DISPLAY_NAME=KeyCloak
       - RUSTFS_IDENTITY_OPENID_CLAIM_NAME=policy
     volumes:
       - s3_submission_data:/data/rustfs
