@@ -15,9 +15,8 @@ services:
     volumes:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
-      - DemoMode=${DemoMode}
       - UIName__Name=${AppName}
-      - KeycloakDemoMode=${KeyCloakDemoMode}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
@@ -73,8 +72,8 @@ services:
       vault:
         condition: service_healthy
     environment:
-      - DemoMode=${DemoMode}
-      - KeycloakDemoMode=${KeyCloakDemoMode}
+      - Features__SeedDemoData=${SeedDemoData}
+      - KeyCloakDemoMode=${KeyCloakDemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
