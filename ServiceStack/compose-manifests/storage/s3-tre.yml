@@ -56,7 +56,7 @@ services:
       start_period: 40s
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"
     depends_on:
       rustfs_tre_perms:
         condition: service_completed_successfully

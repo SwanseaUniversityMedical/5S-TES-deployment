@@ -37,7 +37,7 @@ services:
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"
 
   # ------ TRE Agent - Web (NextJS app) -------
   # -----------------------------------
@@ -63,7 +63,7 @@ services:
       - AGENT_API_URL=http://treapi:8080
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"
 
   # ------ TRE Agent - API -------
   # -----------------------------------
@@ -187,7 +187,7 @@ services:
       - EncryptionSettings__Key=${EncryptionSettingsKey}
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"
 
   # ----- TRE Agent - Camunda Worker -------
   # --------------------------------------------

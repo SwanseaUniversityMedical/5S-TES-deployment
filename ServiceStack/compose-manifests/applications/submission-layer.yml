@@ -44,7 +44,7 @@ services:
       - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"
 
   # ----- Submission API -----
   # ----------------------------------
@@ -111,4 +111,4 @@ services:
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"

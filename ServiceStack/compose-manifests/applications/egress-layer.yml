@@ -36,7 +36,7 @@ services:
       - httpsRedirect=${httpsRedirect}
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"
 
   # ----- Data Egress - API -----
   # -------------------------------------
@@ -96,4 +96,4 @@ services:
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
     #  To resolve keycloak hostname for local development
     extra_hosts:
-      - "keycloak.localtest.me=host-gateway"
+      - "keycloak.localtest.me:host-gateway"
