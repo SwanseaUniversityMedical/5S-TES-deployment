@@ -12,7 +12,7 @@ services:
   rustfs_TRE:
     security_opt:
       - "no-new-privileges:true"
-    image: rustfs/rustfs:1.0.0-beta.7
+    image: rustfs/rustfs:1.0.0-beta.8
     container_name: rustfs_TRE
     ports:
       - "9002:9002" # S3 API port
