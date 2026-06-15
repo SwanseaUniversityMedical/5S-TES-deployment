@@ -3,7 +3,7 @@ services:
   # -------------------------------------
 
   DataEgressUI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:3.0.3
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-ui:3.0.4
     container_name: DataEgressUI
     restart: always
     networks:
@@ -30,15 +30,19 @@ services:
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
-      - MinioSettings__Url=${MINIO_TRE_UI_URL}
+      - S3Settings__Url=${TRES3ConsoleUrl}
+      - S3Settings__BucketPath=/rustfs/console/browser/?bucket=
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
+    #  To resolve keycloak hostname for local development
+    extra_hosts:
+      - "keycloak.localtest.me:host-gateway"
 
   # ----- Data Egress - API -----
   # -------------------------------------
 
   DataEgressAPI:
-    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:3.0.3
+    image: harbor.ukserp.ac.uk:443/dare-trefx/control-egress-api:3.0.4
     container_name: DataEgressAPI
     restart: always
     networks:
@@ -48,7 +52,7 @@ services:
     depends_on:
       postgresql:
         condition: service_healthy
-      minioTRE:
+      rustfs_TRE:
         condition: service_healthy
     environment:
       - DemoMode=${SeedDemoData}
@@ -69,7 +73,7 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
-      # Data Egress Keycloak settings?
+      # Data Egress Keycloak settings
       - DataEgressKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__MetadataAddress=${TRE_KEYCLOAK_URL}/realms/Data-Egress/.well-known/openid-configuration
       - DataEgressKeyCloakSettings__BaseUrl=${TRE_KEYCLOAK_URL}/realms/Data-Egress
@@ -82,11 +86,14 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
-      - MinioSettings__Url=http://minioTRE:9000
-      - MinioSettings__AccessKey=${TreMinioAdminUser}
-      - MinioSettings__SecretKey=${TreMinioAdminPassword}
-      - MinioSettings__AdminConsole=http://minioTRE:9001
+      - MinioSettings__Url=http://rustfs_TRE:9002
+      - MinioSettings__AccessKey=${TRES3RootUser}
+      - MinioSettings__SecretKey=${TRES3RootPass}
+      - MinioSettings__AdminConsole=http://rustfs_TRE:9003
       - TreAPISettings__Address=http://treapi:8080
       # For local development
       # - TreAPISettings__Address=http://host.docker.internal:8072
       - DataEgressAPISettings__Address=http://DataEgressAPI:8080
+    #  To resolve keycloak hostname for local development
+    extra_hosts:
+      - "keycloak.localtest.me:host-gateway"

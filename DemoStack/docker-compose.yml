@@ -23,9 +23,9 @@ include:
   # - ../ServiceStack/compose-manifests/shared/omop-lite.yml
 
   # ----- Storage Services -----
-  # - (MinIO - Submission & TRE)
-  - ../ServiceStack/compose-manifests/storage/minio-submission.yml
-  - ../ServiceStack/compose-manifests/storage/minio-tre.yml
+  # (RustFS S3 - Submission & TRE)
+  - ../ServiceStack/compose-manifests/storage/s3-tre.yml
+  - ../ServiceStack/compose-manifests/storage/s3-submission.yml
 
 # ----- Volumes -----
 
@@ -34,9 +34,9 @@ volumes:
     driver: local
   postgresql_kc:
     driver: local
-  minioSubmission_data:
+  s3_submission_data:
     driver: local
-  minioTRE_data:
+  s3_TRE_data:
     driver: local
   seq_data:
     driver: local
