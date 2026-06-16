@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Funnel + MinIO Installer"
+echo "Funnel + S3 Installer"
 
 # ---- Detect Operating System ----
 
@@ -43,22 +43,22 @@ else
 fi
 
 
-# ---- Login to MinIO ----
+# ---- Login to S3 TRE ----
 
-echo "Configuring MinIO client..."
+echo "Configuring S3 client..."
 
-mc alias set tre-minio http://localhost:9002 minio minio123 || {
-    echo "ERROR: Unable to connect to MinIO."
-    echo "Make sure MinIO is running at http://localhost:9002"
+mc alias set tre-s3 http://localhost:9002 s3-tre s3-tre-pass || {
+    echo "ERROR: Unable to connect to S3 TRE."
+    echo "Make sure S3 TRE is running at http://localhost:9002"
     exit 1
 }
 
 
 # ---- Create Access Keys ----
 
-echo "Fetching MinIO Access Key..."
+echo "Fetching S3 TRE Access Key..."
 
-SA_JSON=$(mc admin user svcacct add tre-minio minio --json)
+SA_JSON=$(mc admin user svcacct add tre-s3 s3-tre --json)
 
 ACCESS_KEY=$(echo "$SA_JSON" | grep -o '"accessKey":"[^"]*"' | cut -d'"' -f4)
 SECRET_KEY=$(echo "$SA_JSON" | grep -o '"secretKey":"[^"]*"' | cut -d'"' -f4)
@@ -69,13 +69,21 @@ SECRET_KEY=$(echo "$SA_JSON" | grep -o '"secretKey":"[^"]*"' | cut -d'"' -f4)
 
 echo "Checking for Funnel installation..."
 
-export PATH="$HOME/.local/bin:$PATH"
+FUNNEL_VERSION="v0.11.12"
+FUNNEL_DEST="$HOME/.local/bin"
 
-if ! command -v funnel &>/dev/null; then
-    echo "Installing Funnel..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohsu-comp-bio/funnel/refs/heads/develop/install.sh)" -- v0.11.7
+export PATH="$FUNNEL_DEST:$PATH"
+
+CURRENT_FUNNEL_VERSION=""
+if command -v funnel &>/dev/null; then
+    CURRENT_FUNNEL_VERSION="$(funnel version 2>/dev/null | awk '/version:/ {print "v"$2; exit}')"
+fi
+
+if [[ "$CURRENT_FUNNEL_VERSION" != "$FUNNEL_VERSION" ]]; then
+    echo "Installing Funnel $FUNNEL_VERSION..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/calypr/funnel/develop/install.sh)" -- "$FUNNEL_VERSION" "$FUNNEL_DEST"
 else
-    echo "Funnel is already installed."
+    echo "Funnel $FUNNEL_VERSION is already installed."
 fi
 
 
@@ -91,6 +99,7 @@ GenericS3:
     Endpoint: "localhost:9002"
     Key: "$ACCESS_KEY"
     Secret: "$SECRET_KEY"
+    Region: "us-east-1"
 
 Worker:
   WorkDir: "$FUNNEL_WORK_DIR"

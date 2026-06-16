@@ -35,6 +35,9 @@ services:
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - TreKeyCloakSettings__BypassProxy="treAPI,seq-tre"
+    #  To resolve keycloak hostname for local development
+    extra_hosts:
+      - "keycloak.localtest.me:host-gateway"
 
   # ------ TRE Agent - Web (NextJS app) -------
   # -----------------------------------
@@ -54,10 +57,13 @@ services:
       - KEYCLOAK_URL=${TRE_KEYCLOAK_URL}
       - KEYCLOAK_CLIENT_ID=Dare-TRE-UI
       - KEYCLOAK_CLIENT_SECRET=${TreKeyCloakSecret}
-      - NEXT_PUBLIC_KEYCLOAK_URL=${NEXT_PUBLIC_KEYCLOAK_URL}
+      - NEXT_PUBLIC_KEYCLOAK_URL=${TRE_KEYCLOAK_URL}
       - NEXT_PUBLIC_KEYCLOAK_REALM=Dare-TRE
       - NEXT_PUBLIC_HELPDESK_URL=https://ukserp.atlassian.net/servicedesk/customer/portal/3
       - AGENT_API_URL=http://treapi:8080
+    #  To resolve keycloak hostname for local development
+    extra_hosts:
+      - "keycloak.localtest.me:host-gateway"
 
   # ------ TRE Agent - API -------
   # -----------------------------------
@@ -77,7 +83,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-      minioTRE:
+      rustfs_TRE:
         condition: service_healthy
       vault:
         condition: service_healthy
@@ -150,15 +156,15 @@ services:
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - SubmissionKeyCloakSettings__BypassProxy="treAPI,seq-tre,minioSubmission"
       # MINIO TRE settings
-      - MinioTRESettings__Url=http://minioTRE:9000
-      - MinioTRESettings__AccessKey=${TreMinioAdminUser}
-      - MinioTRESettings__SecretKey=${TreMinioAdminPassword}
-      - MinioTRESettings__AdminConsole=http://minioTRE:9001
+      - MinioTRESettings__Url=http://rustfs_TRE:9002
+      - MinioTRESettings__AccessKey=${TRES3RootUser}
+      - MinioTRESettings__SecretKey=${TRES3RootPass}
+      - MinioTRESettings__AdminConsole=http://rustfs_TRE:9003
       # MINIO SUBMISSION settings
-      - MinioSubSettings__Url=${submissionMinioUrl}
-      - MinioSubSettings__AccessKey=${MinioRootUser}
-      - MinioSubSettings__SecretKey=${MinioRootPass}
-      - MinioSubSettings__AdminConsole=${submissionMinioAdminConsole}
+      - MinioSubSettings__Url=${SubmissionS3ApiUrl}
+      - MinioSubSettings__AccessKey=${SubmissionS3RootUser}
+      - MinioSubSettings__SecretKey=${SubmissionS3RootPass}
+      - MinioSubSettings__AdminConsole=${SubmissionS3ConsoleUrl}
       # Credentials and DMN settings
       - CredentialAPISettings__StartWebhookUrl=http://connectors:8080/inbound/StartCredentials
       - CredentialAPISettings__RevokeWebhookUrl=http://connectors:8080/inbound/RevokeCredentials
@@ -184,6 +190,9 @@ services:
       - EncryptionSettings__Key=${EncryptionSettingsKey}
       # Onboarding settings
       - TreOnboardingConfig__IsConfigurationImported=false
+    #  To resolve keycloak hostname for local development
+    extra_hosts:
+      - "keycloak.localtest.me:host-gateway"
 
   # ----- TRE Agent - Camunda Worker -------
   # --------------------------------------------
