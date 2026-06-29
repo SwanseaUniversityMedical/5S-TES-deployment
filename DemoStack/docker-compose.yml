@@ -52,6 +52,8 @@ volumes:
     driver: local
   elastic:
     driver: local
+  kibana:
+    driver: local
   vault_data:
     driver: local
   vault_logs:
@@ -69,31 +71,3 @@ networks:
   sub-net:
     driver: bridge
 
-configs:
-  orchestration-config:
-    content: |
-      camunda:
-        system:
-          cpu-thread-count: "3"
-          io-thread-count: "3"
-        security:
-          authentication:
-            method: "basic"
-            unprotectedApi: true  # This is needed for internal Camunda - TRE-Camunda communication
-          authorizations:
-            enabled: false  # This is needed for internal Camunda - TRE-Camunda communication
-          initialization:
-            users:
-              - username: ${CamundaUsername}
-                password: ${CamundaPassword}
-                name: "Camunda User"
-                email: "camunda@camunda.com"
-            defaultRoles.admin.users:
-              - ${CamundaUsername}
-        database.index.numberOfReplicas: 0 # Single node elasticsearch so we disable replication
-        data:
-          secondary-storage:
-            type: elasticsearch
-            elasticsearch:
-              cluster-name: elasticsearch
-              url: "http://elasticsearch:9200"
