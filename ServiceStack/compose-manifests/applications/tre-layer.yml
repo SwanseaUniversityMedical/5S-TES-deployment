@@ -109,6 +109,7 @@ services:
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
       - JobSettings__healthCheckSchedule=${healthCheckSchedule}
+      - JobSettings__DaysBeforeHealthLogDeletion=${daysBeforeHealthLogDeletion}
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
