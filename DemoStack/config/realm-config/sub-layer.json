@@ -992,7 +992,8 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "2e60b956-16bc-4dea-8b49-118a8baac5e5",
       "redirectUris": [
-        "http://localhost:5034/*"
+        "http://localhost:5034/*",
+        "http://tre.localtest.me:8989/*"
       ],
       "webOrigins": [
         "+"
@@ -1166,7 +1167,8 @@
       "secret": "1218304e-bf92-4706-83f6-912e0b04ecb9",
       "redirectUris": [
         "http://localhost:7220/*",
-        "http://localhost:8888/*"
+        "http://localhost:8888/*",
+        "http://submission.localtest.me:8888/*"
       ],
       "webOrigins": [
         "+"
@@ -1285,7 +1287,8 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "https://localhost:7220/*"
+        "https://localhost:7220/*",
+        "http://submission.localtest.me:8888/*"
       ],
       "webOrigins": [
         "/*"
