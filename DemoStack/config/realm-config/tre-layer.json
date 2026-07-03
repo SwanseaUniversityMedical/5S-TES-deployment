@@ -890,7 +890,6 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "e9021a57-3f4f-4254-ba27-2cdbb99a2cb5",
       "redirectUris": [
-        "http://localhost:5034/*",
         "http://tre.localtest.me:8989/*"
       ],
       "webOrigins": [
