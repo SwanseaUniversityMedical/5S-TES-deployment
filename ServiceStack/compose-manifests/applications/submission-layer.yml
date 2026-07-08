@@ -123,7 +123,6 @@ services:
       - KeycloakAdmin__Password=${KeycloakAdmin__Password}
       # TRE onboarding JSON (public URLs reachable from remote TRE / Agent hosts)
       - SubmissionApiUrl=${SubmissionApiUrl}
-      - KeycloakFullURL=${KeycloakFullURL}
     #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me:host-gateway"
