@@ -52,8 +52,6 @@ volumes:
     driver: local
   elastic:
     driver: local
-  kibana:
-    driver: local
   vault_data:
     driver: local
   vault_logs:
