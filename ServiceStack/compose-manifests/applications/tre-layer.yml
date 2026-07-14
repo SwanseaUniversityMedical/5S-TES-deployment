@@ -100,8 +100,8 @@ services:
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
-      - DareAPISettings__Address=${SubmissionAPIAddressURL}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
+      - ApiEndpoints__SubmissionApiUrl=${SubmissionAPIAddressURL}
+      - ApiEndpoints__EgressApiUrl=http://DataEgressAPI:8080
       - Hangfire__EnableExternalHangfire=${EnableExternalHangfire}
       - Hangfire__Username=${HangfireUser}
       - Hangfire__Password=${HangfirePassword}
@@ -170,7 +170,7 @@ services:
       - CredentialAPISettings__StartWebhookUrl=http://connectors:8080/inbound/StartCredentials
       - CredentialAPISettings__RevokeWebhookUrl=http://connectors:8080/inbound/RevokeCredentials
       - DmnPath__Path=/app/ProcessModels
-      - TreAPISettings__Address=${TreApiPublicUrl}
+      - ApiEndpoints__TreApiUrl=${TreApiPublicUrl}
       # Vault settings
       - VaultSettings__BaseUrl=http://vault:8200
       - VaultSettings__Token=${VaultRootToken}
