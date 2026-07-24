@@ -1,5 +1,5 @@
 # 5S-TES Environment
-Dev and Demo Environment for Five Safes - TES Project.
+Deployment Samples for [Five Safes TES](https://github.com/SwanseaUniversityMedical/5s-Tes).
 User and Developer Guides can be found in the [documentation](https://docs.federated-analytics.ac.uk/).
 
 
@@ -7,13 +7,15 @@ User and Developer Guides can be found in the [documentation](https://docs.feder
 
 ```bash
 .
-├── AllInOne/      # Demonstration instance of the stack
-├── ansible/       # Ansible script to install funnel
-├── DemoStack/     # Demonstration instance of the stack (for dev and demonstration purposes)
-├── Submission/    # Deploy an instance of the Submission Layer
-├── TRE/           # Deploy an instance of the TRE Agent
-├── Diagram/       # Architecture or system diagrams
-└── README.md      # This is a readme file.
+├── DemoStack/       # Demonstration instance of the stack (for dev and demonstration purposes)
+├── DeploymentStack/ # Deployment files for Submission and TRE layers
+
+├── ServiceStack/.   # Deployment files for all Services used by Submission and TRE
+├── Diagram/         # Architecture or system diagrams
+├── ansible/         # Ansible script to install funnel
+└── kubernetes/      # Kubernetes installation for Submission Layer
+└── README.md        # README.md
+├── LICENCE.md       # LICENCE
 
 ```
 ## DemoStack
@@ -21,20 +23,17 @@ A Simple Demonstrator instance of the complete stack, intended to be run locally
 ```bash
 .
 ├── config/
-│   ├── ldap-init/
-│   │   └── init.ldif           # LDAP initialisation file
-│   ├── realm-config/
-│   │   ├── sub-layer.json      # Keycloak Submission realm config
-│   │   ├── tre-layer.json      # Keycloak TRE realm config
-│   │   └── egress-layer.json   # Keycloak Egress realm config
-│   ├── vault-config/           # Vault configuration files
-│   └── init.sql                # SQL script for DB initialisation
-├── scripts/
-│    ├── funnel.sh              # Script to automate funnel setup
-│    └── setup.sh               # Script to automate demo stack setup
-├── .env                        # Environment variables
-├── starter.sh                  # Script to re-start the demo stack with updated vars
-└──docker-compose.yml           # All-in-One demonstrator docker compose
+│   ├── funnel-config.yml   # Funnel configuration file
+│   ├── funnel-work-dir     # Working directory for funnel
+│   ├── init.sql            # SQL script for DB initialisation
+│   ├── ldap-init           # LDAP initialisation files
+│   └── realm-config        # Keycloak realm config for Submission, TRE and Egress
+├── docker-compose.yml      # Demonstrator docker compose
+├── .env                    # Environment variables
+└── scripts
+    ├── funnel.sh           # Script to automate funnel setup
+    ├── starter.sh          # Script to automate demo stack setup
+    └── submission-ready.sh # Script to automate submission setup
 ```
 
 ### To add New Services to the DemoStack
@@ -83,8 +82,8 @@ DeploymentStack/Submission/
 The docker compose includes:
 - Submission UI & Submission API
 - Keycloak (Submission realm defined in `config/realm-config/sub-layer.json`)
-- PostgreSQL | RabbitMQ | Seq | Nginx
-- Submission MinIO
+- PostgreSQL | RabbitMQ | Seq | Nginx 
+- Submission RustFS
 
 ## TRE
 ```bash
@@ -105,5 +104,6 @@ The docker compose includes:
 - TRE Agent UI & TRE Agent API
 - Egress UI & Egress API
 - Keycloak (TRE & Egress realms defined in `config/realm-config/`)
+- Credential Services: Camunda | Connectors | Vault | OpenLDAP | LDAP Init | phpLDAPadmin | Elastic Search
 - PostgreSQL | RabbitMQ | Seq | Nginx
-- TRE Agent MinIO
+- TRE Agent RustFS
