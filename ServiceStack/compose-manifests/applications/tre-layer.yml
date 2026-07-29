@@ -68,7 +68,7 @@ services:
   # ------ TRE Agent - API -------
   # -----------------------------------
   tre-api:
-    image: harbor.federated-analytics.ac.uk/5s-tes/agent-api:pr-129-ea56fb7
+    image: harbor.federated-analytics.ac.uk/5s-tes/agent-api:${DEPLOYMENT_VERSION}
     container_name: treapi
     restart: always
     networks:
@@ -198,7 +198,7 @@ services:
   # --------------------------------------------
 
   TRE-Camunda:
-    image: harbor.federated-analytics.ac.uk/5s-tes/credentials-camunda:pr-129-ea56fb7
+    image: harbor.federated-analytics.ac.uk/5s-tes/credentials-camunda:${DEPLOYMENT_VERSION}
     container_name: TRE-Camunda
     restart: always
     networks:
