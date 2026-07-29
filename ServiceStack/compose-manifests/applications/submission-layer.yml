@@ -16,7 +16,7 @@ services:
       - data-protection:/root/.aspnet/DataProtection-Keys
     environment:
       - UIName__Name=${AppName}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
@@ -73,9 +73,11 @@ services:
         condition: service_healthy
       rustfs_submission:
         condition: service_healthy
+      vault:
+        condition: service_healthy
     environment:
       - Features__SeedDemoData=${SeedDemoData}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Control;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
@@ -109,6 +111,18 @@ services:
       - SubmissionKeyCloakSettings__Realm=Dare-Control
       - SubmissionKeyCloakSettings__AutoTrustKeycloakCert=${SubmissionAutoTrustKeycloakCert}
       - SubmissionKeyCloakSettings__ValidIssuer=${SubmissionValidIssuer}
+      # Vault settings
+      - VaultSettings__BaseUrl=http://vault:8200
+      - VaultSettings__Token=${VaultRootToken}
+      - VaultSettings__TimeoutSeconds=30
+      - VaultSettings__SecretEngine=secret
+      - VaultSettings__EnableRetry=true
+      - VaultSettings__MaxRetryAttempts=3
+      # Keycloak admin API settings
+      - KeycloakAdmin__Username=${KeycloakAdmin__Username}
+      - KeycloakAdmin__Password=${KeycloakAdmin__Password}
+      # TRE onboarding JSON (public URLs reachable from remote TRE / Agent hosts)
+      - SubmissionApiUrl=${SubmissionApiUrl}
     #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me:host-gateway"

@@ -19,7 +19,7 @@ services:
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - sslcookies=${sslcookies}
       - httpsRedirect=${httpsRedirect}
       - TreKeyCloakSettings__AccountManagementURL=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/account
@@ -93,21 +93,23 @@ services:
       # General settings
       - Features__SeedDemoData=${SeedDemoData}
       - Features__EphemeralCredentials=true
-      - KeyCloakDemoMode=${KeyCloakDemoMode}
+      - KeycloakDemoMode=${KeyCloakDemoMode}
       - DemoModeDefaultP=${DemoModePassword}
       - ConnectionStrings__DefaultConnection=Server=postgres;Port=5432;Database=DARE-Tre;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - ConnectionStrings__CredentialsConnection=Server=postgres;Port=5432;Database=TRE_Credentials;User Id=${PGLOGIN};Password=${PGPASSWORD};TrustServerCertificate=True;
       - Serilog__SeqServerUrl=http://seq:5341
       - Serilog__MinimumLevel__Default=${SerilogLevel}
       - Logging__LogLevel__Default=${SerilogLevel}
-      - DareAPISettings__Address=${SubmissionAPIAddressURL}
-      - DataEgressAPISettings__Address=http://DataEgressAPI:8080
+      - ApiEndpoints__SubmissionApiUrl=${SubmissionAPIAddressURL}
+      - ApiEndpoints__EgressApiUrl=http://DataEgressAPI:8080
       - Hangfire__EnableExternalHangfire=${EnableExternalHangfire}
       - Hangfire__Username=${HangfireUser}
       - Hangfire__Password=${HangfirePassword}
       - AgentSettings__UseTESK=${UseTESK}
       - JobSettings__scanSchedule=${scanSchedule}
       - JobSettings__syncSchedule=${syncSchedule}
+      - JobSettings__healthCheckSchedule=${healthCheckSchedule}
+      - JobSettings__DaysBeforeHealthLogDeletion=${daysBeforeHealthLogDeletion}
       - AgentSettings__TESKAPIURL=${TesAPIUrl}
       - AgentSettings__TESKOutputBucketPrefix=${TesOutputBucketPrefix}
       - TreName=${TreName}
@@ -167,7 +169,7 @@ services:
       # Credentials and DMN settings
 
       - DmnPath__Path=/app/ProcessModels
-      - TreAPISettings__Address=${TreApiPublicUrl}
+      - ApiEndpoints__TreApiUrl=${TreApiPublicUrl}
       # Vault settings
       - VaultSettings__BaseUrl=http://vault:8200
       - VaultSettings__Token=${VaultRootToken}
@@ -175,6 +177,8 @@ services:
       - VaultSettings__SecretEngine=secret
       - VaultSettings__EnableRetry=true
       - VaultSettings__MaxRetryAttempts=3
+      - VaultSettings__VaultConfigPath=config
+      - VaultSettings__VaultConfigReloadInterval=10
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=zeebe:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
@@ -184,6 +188,8 @@ services:
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # Encryption settings
       - EncryptionSettings__Key=${EncryptionSettingsKey}
+      # Onboarding settings
+      - TreOnboardingConfig__IsConfigurationImported=false
     #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me:host-gateway"
