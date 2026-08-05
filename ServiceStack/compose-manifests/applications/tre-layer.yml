@@ -143,15 +143,13 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
-      # Submission API Keycloak settings
+      # Submission API Keycloak settings (old sync settings, to be removed)
       - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
       - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
       - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
       - SubmissionKeyCloakSettings__ClientId=Dare-Control-API
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
       - SubmissionKeyCloakSettings__ValidAudiences=Dare-Control-UI,Dare-Control-API,Dare-Control-Minio
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
-      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__UseRedirectURL=false
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
