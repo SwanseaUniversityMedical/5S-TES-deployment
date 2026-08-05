@@ -29,8 +29,6 @@ services:
       - TreKeyCloakSettings__ClientId=Dare-TRE-UI
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - TreKeyCloakSettings__UseRedirectURL=false
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -124,8 +122,6 @@ services:
       - TreKeyCloakSettings__ClientId=Dare-TRE-UI
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - TreKeyCloakSettings__UseRedirectURL=false
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
