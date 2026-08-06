@@ -139,7 +139,7 @@ services:
       - DataEgressKeyCloakSettings__Proxy=${useproxy}
       - DataEgressKeyCloakSettings__ProxyAddresURL=${proxyurl}
       - DataEgressKeyCloakSettings__BypassProxy="DataEgressUI,treAPI,seq-tre"
-      # Submission API Keycloak settings (old sync settings, to be removed)
+      # Submission API Keycloak settings
       - SubmissionKeyCloakSettings__Authority=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
       - SubmissionKeyCloakSettings__MetadataAddress=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control/.well-known/openid-configuration
       - SubmissionKeyCloakSettings__BaseUrl=${SUBMISSION_KEYCLOAK_URL}/realms/Dare-Control
