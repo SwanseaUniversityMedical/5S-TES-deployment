@@ -107,3 +107,29 @@ The docker compose includes:
 - Credential Services: Camunda | Connectors | Vault | OpenLDAP | LDAP Init | phpLDAPadmin | Elastic Search
 - PostgreSQL | RabbitMQ | Seq | Nginx
 - TRE Agent RustFS
+
+## Getting a Vault Token (Submission / TRE DeploymentStacks)
+
+Both `DeploymentStack/Submission` and `DeploymentStack/TRE` run HashiCorp Vault in **config file mode** (`VaultStartupCommand="vault server -config=/vault/config/config.json"`), not dev mode. This means Vault starts **uninitialized and sealed** — it will not generate a root token automatically, and its healthcheck (and anything depending on it, e.g. `submissionAPI`) will not pass until it is initialized and unsealed manually.
+
+1. Start the stack as normal (`docker compose up -d`). The `vault` container will come up but report `health: starting` / unhealthy — this is expected at this point.
+2. Initialize Vault (only needed once per Vault data volume):
+   ```bash
+   docker exec vault vault operator init -key-shares=1 -key-threshold=1
+   ```
+   This prints a single **unseal key** and a **root token**. Save both somewhere safe (e.g. a password manager) — they are not shown again, and losing the unseal key permanently locks out any secrets stored in Vault's data volume.
+   - `-key-shares=1 -key-threshold=1` is used here for simplicity on a single local instance. For a real production deployment, use Vault's defaults (5 shares / 3 threshold) or your organisation's key-management process instead.
+3. Unseal Vault with the key from step 2:
+   ```bash
+   docker exec vault vault operator unseal <unseal_key>
+   ```
+4. Put the root token from step 2 into the stack's `.env` file:
+   ```
+   VaultRootToken=<root_token>
+   ```
+5. Recreate the dependent services so they pick up the token:
+   ```bash
+   docker compose up -d
+   ```
+
+**Note:** Because this is file storage (not dev mode), Vault re-seals every time the container restarts. After any restart, repeat step 3 (`vault operator unseal <unseal_key>`) before dependent services will become healthy — no need to repeat step 2 or generate a new token.

@@ -29,8 +29,6 @@ services:
       - TreKeyCloakSettings__ClientId=Dare-TRE-UI
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - TreKeyCloakSettings__UseRedirectURL=false
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -124,8 +122,6 @@ services:
       - TreKeyCloakSettings__ClientId=Dare-TRE-UI
       - TreKeyCloakSettings__ClientSecret=${TreKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
-      - TreKeyCloakSettings__RedirectURL=${TreKeyCloakClientUIRedirectURL}
       - TreKeyCloakSettings__UseRedirectURL=false
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -150,8 +146,6 @@ services:
       - SubmissionKeyCloakSettings__ClientId=Dare-Control-API
       - SubmissionKeyCloakSettings__ClientSecret=${SubmissionAPIKeyCloakSecret}
       - SubmissionKeyCloakSettings__ValidAudiences=Dare-Control-UI,Dare-Control-API,Dare-Control-Minio
-      - SubmissionKeyCloakSettings__TokenExpiredAddress=${SubmissionAPIKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
-      - SubmissionKeyCloakSettings__RedirectURL=${SubmissionAPIKeyCloakClientUIRedirectURL}
       - SubmissionKeyCloakSettings__UseRedirectURL=false
       - SubmissionKeyCloakSettings__Proxy=${useproxy}
       - SubmissionKeyCloakSettings__ProxyAddresURL=${proxyurl}
@@ -163,9 +157,6 @@ services:
       - MinioTRESettings__AdminConsole=http://rustfs_TRE:9003
       # MINIO SUBMISSION settings
       - MinioSubSettings__Url=${SubmissionS3ApiUrl}
-      - MinioSubSettings__AccessKey=${SubmissionS3RootUser}
-      - MinioSubSettings__SecretKey=${SubmissionS3RootPass}
-      - MinioSubSettings__AdminConsole=${SubmissionS3ConsoleUrl}
       # Credentials and DMN settings
 
       - DmnPath__Path=/app/ProcessModels

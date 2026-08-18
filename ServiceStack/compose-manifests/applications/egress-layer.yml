@@ -67,8 +67,6 @@ services:
       - TreKeyCloakSettings__ClientId=Dare-TRE-API
       - TreKeyCloakSettings__ClientSecret=${TreAPIKeyCloakSecret}
       - TreKeyCloakSettings__ValidAudiences=Dare-TRE-API,Dare-TRE-UI
-      - TreKeyCloakSettings__TokenExpiredAddress=${TreAPIKeyCloakClientUIRedirectURL}/Account/LoginAfterTokenExpired
-      - TreKeyCloakSettings__RedirectURL=${TreAPIKeyCloakClientUIRedirectURL}
       - TreKeyCloakSettings__UseRedirectURL=false
       - TreKeyCloakSettings__Proxy=${useproxy}
       - TreKeyCloakSettings__ProxyAddresURL=${proxyurl}
