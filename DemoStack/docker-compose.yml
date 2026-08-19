@@ -13,7 +13,7 @@ include:
   # ----- Shared Services -----
   # - Platform Service: (PostgreSQL, Adminer, Serilog, RabbitMQ)
   # - Auth Service: (Keycloak)
-  # - Credentials Service: (Camunda, Connectors, Vault, OpenLDAP, LDAP Init, phpLDAPadmin, Elastic Search)
+  # - Credentials Service: (Camunda, Vault, OpenLDAP, LDAP Init, phpLDAPadmin, Elastic Search)
 
   - ../ServiceStack/compose-manifests/shared/platform.yml
   - ../ServiceStack/compose-manifests/shared/auth.yml
@@ -69,39 +69,3 @@ networks:
   sub-net:
     driver: bridge
 
-configs:
-  connectors-config:
-    content: |
-      camunda:
-        client:
-          mode: self-managed
-          grpc-address: http://orchestration:26500
-          rest-address: http://orchestration:8080
-
-  orchestration-config:
-    content: |
-      camunda:
-        system:
-          cpu-thread-count: "3"
-          io-thread-count: "3"
-        security:
-          authentication:
-            method: "basic"
-            unprotectedApi: true  # This is needed for internal Camunda - TRE-Camunda communication
-          authorizations:
-            enabled: false  # This is needed for internal Camunda - TRE-Camunda communication
-          initialization:
-            users:
-              - username: ${CamundaUsername}
-                password: ${CamundaPassword}
-                name: "Camunda User"
-                email: "camunda@camunda.com"
-            defaultRoles.admin.users:
-              - ${CamundaUsername}
-        database.index.numberOfReplicas: 0 # Single node elasticsearch so we disable replication
-        data:
-          secondary-storage:
-            type: elasticsearch
-            elasticsearch:
-              cluster-name: elasticsearch
-              url: "http://elasticsearch:9200"

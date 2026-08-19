@@ -85,7 +85,7 @@ services:
         condition: service_healthy
       vault:
         condition: service_healthy
-      orchestration:
+      zeebe:
         condition: service_healthy
     environment:
       # General settings
@@ -158,8 +158,7 @@ services:
       # MINIO SUBMISSION settings
       - MinioSubSettings__Url=${SubmissionS3ApiUrl}
       # Credentials and DMN settings
-      - CredentialAPISettings__StartWebhookUrl=http://connectors:8080/inbound/StartCredentials
-      - CredentialAPISettings__RevokeWebhookUrl=http://connectors:8080/inbound/RevokeCredentials
+
       - DmnPath__Path=/app/ProcessModels
       - ApiEndpoints__TreApiUrl=${TreApiPublicUrl}
       # Vault settings
@@ -172,7 +171,7 @@ services:
       - VaultSettings__VaultConfigPath=config
       - VaultSettings__VaultConfigReloadInterval=10
       # Zeebe settings
-      - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
+      - ZeebeBootstrap__Client__GatewayAddress=zeebe:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
@@ -196,7 +195,7 @@ services:
     networks:
       - sub-net
     depends_on:
-      orchestration:
+      zeebe:
         condition: service_healthy
       openldap:
         condition: service_healthy
@@ -215,7 +214,7 @@ services:
       - Logging__LogLevel__Default=${SerilogLevel}
       - DmnPath__Path=/app/ProcessModels
       # Zeebe Bootstrap settings
-      - ZeebeBootstrap__Client__GatewayAddress=orchestration:26500
+      - ZeebeBootstrap__Client__GatewayAddress=zeebe:26500
       - ZeebeBootstrap__Worker__MaxJobsActive=5
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
