@@ -78,7 +78,7 @@ services:
       - 5672:5672
       - 127.0.0.1:15672:15672
     environment:
-      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=${RabbitMQDefaultPassword}
     volumes:
       - rabbitdata:/var/lib/rabbitmq/
