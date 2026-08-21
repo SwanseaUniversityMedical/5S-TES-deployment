@@ -85,7 +85,7 @@ services:
       - SuppressAntiforgery=${SuppressAntiforgery}
       # RABBITMQ settings
       - RabbitMQ__HostAddress=rabbitmq
-      - RabbitMQ__Username=rabbitmq
+      - RabbitMQ__Username=guest
       - RabbitMQ__Password=${RabbitMQDefaultPassword}
       # Minio settings
       - MinioSettings__Url=http://rustfs_submission:9000

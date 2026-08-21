@@ -113,7 +113,7 @@ services:
       - TreName=${TreName}
       # RABBITMQ settings
       - RabbitMQ__HostAddress=rabbitmq
-      - RabbitMQ__Username=rabbitmq
+      - RabbitMQ__Username=guest
       - RabbitMQ__Password=${RabbitMQDefaultPassword}
       # TRE UI Keycloak settings
       - TreKeyCloakSettings__Authority=${TRE_KEYCLOAK_URL}/realms/Dare-TRE/.well-known/openid-configuration
