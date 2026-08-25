@@ -56,6 +56,7 @@ services:
     #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me:host-gateway"
+      - "s3-api.localtest.me:host-gateway"
     depends_on:
       rustfs_submission_perms:
         condition: service_completed_successfully
