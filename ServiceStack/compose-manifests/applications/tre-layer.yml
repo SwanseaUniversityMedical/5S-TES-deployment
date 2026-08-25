@@ -183,7 +183,7 @@ services:
     #  To resolve keycloak hostname for local development
     extra_hosts:
       - "keycloak.localtest.me:host-gateway"
-      - "s3-api.localtest.me:host-gateway"
+      - "sub-s3-api.localtest.me:host-gateway"
 
   # ----- TRE Agent - Camunda Worker -------
   # --------------------------------------------
