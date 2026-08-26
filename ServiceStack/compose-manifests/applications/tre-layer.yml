@@ -171,6 +171,7 @@ services:
       - VaultSettings__VaultConfigReloadInterval=10
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=zeebe:26500
+      - ZeebeBootstrap__Client__TransportEncryption=true
       - ZeebeBootstrap__Worker__MaxJobsActive=5
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
@@ -214,6 +215,7 @@ services:
       - DmnPath__Path=/app/ProcessModels
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=zeebe:26500
+      - ZeebeBootstrap__Client__TransportEncryption=true
       - ZeebeBootstrap__Worker__MaxJobsActive=5
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
@@ -221,12 +223,12 @@ services:
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # LDAP settings
       - LdapSettings__Host=openldap
-      - LdapSettings__Port=389
+      - LdapSettings__Port=636
       - LdapSettings__AdminDn=cn=admin,dc=camundaephemeral,dc=local
       - LdapSettings__AdminPassword=${LDAPAdminPassword}
       - LdapSettings__BaseDn=dc=camundaephemeral,dc=local
       - LdapSettings__UserOu=ou=Users
-      - LdapSettings__UseSSL=false
+      - LdapSettings__UseSSL=true
       # Vault settings
       - VaultSettings__BaseUrl=http://vault:8200
       - VaultSettings__Token=${VaultRootToken}

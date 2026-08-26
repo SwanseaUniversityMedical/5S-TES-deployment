@@ -28,6 +28,8 @@ volumes:
     driver: local
   postgresql_kc:
     driver: local
+  postgres_certs:
+    driver: local
   s3_TRE_data:
     driver: local
   seq_data:
