@@ -44,6 +44,8 @@ volumes:
     driver: local
   zeebe:
     driver: local
+  zeebe_certs:
+    driver: local
   elastic:
     driver: local
   vault_data:
