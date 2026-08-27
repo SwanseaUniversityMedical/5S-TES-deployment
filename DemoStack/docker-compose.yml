@@ -34,6 +34,8 @@ volumes:
     driver: local
   postgresql_kc:
     driver: local
+  postgres_certs:
+    driver: local
   s3_submission_data:
     driver: local
   s3_TRE_data:
@@ -49,6 +51,8 @@ volumes:
   data-protection:
     driver: local
   zeebe:
+    driver: local
+  zeebe_certs:
     driver: local
   elastic:
     driver: local
