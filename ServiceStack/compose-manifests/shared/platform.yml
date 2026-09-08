@@ -6,11 +6,6 @@ services:
     image: postgres:17
     container_name: postgres
     restart: always
-    command: >
-      postgres
-      -c ssl=on
-      -c ssl_cert_file=/etc/postgresql-certs/server.crt
-      -c ssl_key_file=/etc/postgresql-certs/server.key
     environment:
       - POSTGRES_USER=${PGLOGIN}
       - POSTGRES_PASSWORD=${PGPASSWORD}
@@ -27,7 +22,6 @@ services:
 
       - "postgresql_data:/var/lib/postgresql/data"
       - ${CONFIG_PATH}/init.sql:/docker-entrypoint-initdb.d/init.sql
-      - postgres_certs:/etc/postgresql-certs:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -q -U ${PGLOGIN} -d postgres"]
       interval: 10s
@@ -35,26 +29,6 @@ services:
       retries: 5
       start_period: 10s
       start_interval: 5s
-    depends_on:
-      postgres-cert-init:
-        condition: service_completed_successfully
-
-  postgres-cert-init:
-    image: alpine/openssl
-    container_name: postgres-cert-init
-    entrypoint:
-      - sh
-      - -c
-      - |
-        if [ ! -f /certs/server.crt ]; then
-          openssl req -new -x509 -days 3650 -nodes -subj "/CN=postgres" -out /certs/server.crt -keyout /certs/server.key
-          chown 999:999 /certs/server.crt /certs/server.key
-          chmod 600 /certs/server.key
-        fi
-    volumes:
-      - postgres_certs:/certs
-    networks:
-      - sub-net
 
   # ----- Adminer Database Management ------
   # ---------------------------------------------

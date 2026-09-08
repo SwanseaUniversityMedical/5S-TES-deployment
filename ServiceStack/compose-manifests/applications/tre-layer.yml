@@ -76,7 +76,6 @@ services:
     # This is the volume for the process models to make the changes in the DMN table persistent
     volumes:
       - tre_process_models:/app/ProcessModels
-      - zeebe_certs:/app/certs:ro
     depends_on:
       postgresql:
         condition: service_healthy
@@ -172,8 +171,6 @@ services:
       - VaultSettings__VaultConfigReloadInterval=10
       # Zeebe settings
       - ZeebeBootstrap__Client__GatewayAddress=zeebe:26500
-      - ZeebeBootstrap__Client__TransportEncryption=true
-      - ZeebeBootstrap__Client__RootCertificatePath=/app/certs/server.crt
       - ZeebeBootstrap__Worker__MaxJobsActive=5
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
@@ -207,7 +204,6 @@ services:
         condition: service_healthy
     volumes:
       - tre_process_models:/app/ProcessModels
-      - zeebe_certs:/app/certs:ro
     environment:
       - Logging__LogLevel__Default=Information
       - Logging__LogLevel__Microsoft.AspNetCore=Warning
@@ -218,8 +214,6 @@ services:
       - DmnPath__Path=/app/ProcessModels
       # Zeebe Bootstrap settings
       - ZeebeBootstrap__Client__GatewayAddress=zeebe:26500
-      - ZeebeBootstrap__Client__TransportEncryption=true
-      - ZeebeBootstrap__Client__RootCertificatePath=/app/certs/server.crt
       - ZeebeBootstrap__Worker__MaxJobsActive=5
       - ZeebeBootstrap__Worker__TimeoutInMilliseconds=5000
       - ZeebeBootstrap__Worker__PollIntervalInMilliseconds=1000
@@ -227,12 +221,12 @@ services:
       - ZeebeBootstrap__Worker__RetryTimeoutInMilliseconds=5000
       # LDAP settings
       - LdapSettings__Host=openldap
-      - LdapSettings__Port=636
+      - LdapSettings__Port=389
       - LdapSettings__AdminDn=cn=admin,dc=camundaephemeral,dc=local
       - LdapSettings__AdminPassword=${LDAPAdminPassword}
       - LdapSettings__BaseDn=dc=camundaephemeral,dc=local
       - LdapSettings__UserOu=ou=Users
-      - LdapSettings__UseSSL=true
+      - LdapSettings__UseSSL=false
       # Vault settings
       - VaultSettings__BaseUrl=http://vault:8200
       - VaultSettings__Token=${VaultRootToken}
